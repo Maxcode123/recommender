@@ -2,7 +2,7 @@
 
 YYSTYPE yylval;
 
-int scan(char *fname, char *fname2) {
+int prescan(char *fname, char *fname2) {
     
     int i;
     FILE *write;
