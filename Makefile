@@ -1,14 +1,16 @@
 CC=gcc
 OBJ=obj
 SRC=src
+SCANNER=$(SRC)/parser/scanner
+PRESCANNER=$(SCANNER)/prescanner
 
-src/lex.yy.c: $(SRC)/scanner/csv.lex
+$(SCANNER)/lex.yy.c: $(SCANNER)/csv.lex
 	lex -o $@ $<
 
 scanner: obj/lexdriver.o obj/lex.yy.o
 	$(CC) $^ -o $@
 
-src/scanner/prescanner/prelex.yy.c: $(SRC)/scanner/prescanner/precsv.lex
+$(PRESCANNER)/prelex.yy.c: $(PRESCANNER)/precsv.lex
 	lex -o $@ $<
 
 prescanner: obj/lexdriver.o obj/prelex.yy.o
@@ -17,11 +19,11 @@ prescanner: obj/lexdriver.o obj/prelex.yy.o
 $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) -c $< -o $@
 
-$(OBJ)/%.o: $(SRC)/scanner/%.c
+$(OBJ)/%.o: $(SCANNER)/%.c
 	$(CC) -c $< -o $@
 
-$(OBJ)/%.o: $(SRC)/scanner/prescanner/%.c
+$(OBJ)/%.o: $(PRESCANNER)/%.c
 	$(CC) -c $< -o $@
 
 clean:
-	rm -rf obj/* test/bin/* scanner prescanner src/scanner/lex.yy.c src/scanner/prescanner/prelex.yy.c
+	rm -rf obj/* test/bin/* scanner prescanner src/parser/scanner/lex.yy.c src/parser/scanner/prescanner/prelex.yy.c

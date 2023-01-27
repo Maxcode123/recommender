@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "tokens.h"
+#include "../tokens.h"
 
 YYSTYPE yylval;
 
@@ -9,7 +9,7 @@ extern FILE *yyin;
 
 int yylex(void); /* prototype for the lexing function */
 
-int prescan(char *fname, char *fname2) {
+int main(char *fname, char *fname2) {
     
     int i;
     FILE *write;
