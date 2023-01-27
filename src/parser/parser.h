@@ -4,8 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "utils/list.h"
-
+#include "scanner/tokens.h"
 
 
 enum Month {
@@ -46,6 +45,10 @@ Date date(int, enum Month, int);
 // Rating constructor.
 Rating rating(char*, char *, int, Date);
 
+extern FILE *yyin;
+
+int yylex(void); /* prototype for the lexing function */
+
 // Parses file with given filename and returns an array of Rating(s).
-void parsef(char*);
+Rating *parsef(char*);
 

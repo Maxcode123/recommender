@@ -43,36 +43,8 @@ char* getfield(char* line, int num)
     return NULL;
 }
 
-void parsef(char *fname) {
-    FILE *fp;
-    if ((fp = fopen(fname, "r")) == NULL) {
-        printf("Cannot open file.\n");
-        exit(1);
-    }
-    printf("opened file\n");
-    char *u = malloc(sizeof(char)*100);
-    char *r = malloc(sizeof(char)*5);
-    char *h = malloc(sizeof(char)*5);
-    char *t = malloc(sizeof(char)*5);
-    char *d = malloc(sizeof(char)*50);
-    char *tl = malloc(sizeof(char)*100);
-    char *rv = malloc(sizeof(char)*2000);
 
-    char line[1024];
-    while (fgets(line, 1024, fp))
-    {
-        char* tmp = strdup(line);
-        if (tmp[0] != '"') {
-            continue;
-        }
-        char *username = getfield(tmp, 1);
-        if (username[1] == 13 || username[1] == '\0' || username[1] == '"') continue;
-        printf("username is %s", username);
-        char *rating = getfield(tmp, 2);
-        printf(", rating is %s", rating);
-        printf(" 1st char is %d\n", rating[1]);
-        // NOTE strtok clobbers tmp
-        free(tmp);
-    }
+Rating *parsef(char *fname) {
+    
 }
 

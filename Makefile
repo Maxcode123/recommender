@@ -26,4 +26,4 @@ $(OBJ)/%.o: $(PRESCANNER)/%.c
 	$(CC) -c $< -o $@
 
 clean:
-	rm -rf obj/* test/bin/* scanner prescanner src/parser/scanner/lex.yy.c src/parser/scanner/prescanner/prelex.yy.c
+	rm -rf obj/* test/bin/* scanner prescanner src/parser/scanner/lex.yy.c src/parser/scanner/prescanner/prelex.yy.c data/preprocessed

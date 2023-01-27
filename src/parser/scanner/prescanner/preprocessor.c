@@ -13,7 +13,6 @@ void main() {
             strcat(read, buff);
             strcat(write, buff);
             prescan(read, write);
-            // printf("from %s to %s\n", read, write);
         }
         closedir(d);
     }
