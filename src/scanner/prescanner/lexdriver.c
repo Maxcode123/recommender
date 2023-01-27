@@ -9,18 +9,11 @@ extern FILE *yyin;
 
 int yylex(void); /* prototype for the lexing function */
 
-int main(int argc, char **argv) {
-    if (argc != 3) {
-        fprintf(stderr, "usage: ./a.out read_filename write_filename\n");
-        exit(1);
-    }
+int prescan(char *fname, char *fname2) {
     
-    char *fname, *fname2;
     int i;
     FILE *write;
 
-    fname = argv[1];
-    fname2 = argv[2];
     if (!(yyin = fopen(fname, "r"))) {
         fprintf(stderr, "cannot open read file\n");
         exit(1);
