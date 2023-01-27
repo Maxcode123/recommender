@@ -64,17 +64,21 @@ Rating *parsef(char *fname) {
 }
 
 int parseint(char *v) {
-    // int *i = malloc(sizeof(*i));
     int i;
     sscanf(v, "\"%d\"", &i);
     return i;
 }
 
 Date parsedate(char * dt) {
-    // int *d = malloc(sizeof(*d));
-    // int *y = malloc(sizeof(*y));
     char *m = malloc(sizeof(*m)*11);
     int d, y;
     sscanf(dt, "\"%d %s %d\"", &d, m, &y);
     return date(d, month(m), y);
+}
+
+void printrt(Rating r) {
+    printf(
+        "username: %s, rating: %d, date: %d %d %d, movie: %s\n",
+        r->username, r->value, r->date->day, r->date->month, r->date->year, r->movie
+        );
 }

@@ -8,7 +8,7 @@
 
 
 enum Month {
-    JANUARY,
+    JANUARY = 1,
     FEBRUARY,
     MARCH,
     APRIL,
@@ -56,3 +56,6 @@ Date parsedate(char*);
 
 // Parses file with given filename and returns an array of Rating(s).
 Rating *parsef(char*);
+
+// Prints rating in nice format.
+void printrt(Rating);

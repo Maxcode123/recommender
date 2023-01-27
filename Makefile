@@ -14,6 +14,9 @@ all: obj/lex.yy.o obj/parser.o test/main.c
 debug: all
 	$(DB) test/bin/main
 
+debug-file: all
+	$(DB) --args test/bin/main data/preprocessed/Troy\ 2004.csv
+
 $(SCANNER)/lex.yy.c: $(SCANNER)/scanner.lex
 	lex -o $@ $<
 
