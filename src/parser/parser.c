@@ -32,18 +32,6 @@ Rating rating(char *u, char *m, int v, Date d) {
     return r;
 }
 
-char* getfield(char* line, int num)
-{
-    char* tok;
-    for (tok = strtok(line, ","); tok && *tok; tok = strtok(NULL, ",\n"))
-    {
-        if (!--num)
-            return tok;
-    }
-    return NULL;
-}
-
-
 Rating *parsef(char *fname) {
     
 }

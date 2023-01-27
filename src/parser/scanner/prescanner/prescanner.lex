@@ -11,7 +11,6 @@ char *String(char *s) {
     return p;
 }
 
-extern int pos;
 int _pos=1;
 
 int yywrap(void)
@@ -25,7 +24,6 @@ int yywrap(void)
 username \".*\"
 num \"[0-9]+\"
 date \"[0-9]+[ ][A-Za-z]+[ ][0-9]+\"
-
 
 %%
 {username}","{num}","{num}","{date} {yylval.sval = String(yytext); return 1;}

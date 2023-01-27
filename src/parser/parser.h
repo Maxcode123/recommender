@@ -35,7 +35,6 @@ typedef struct _Rating {
     Date date;
 } *Rating;
 
-
 // Maps month string to enum.
 enum Month month(char*);
 
@@ -43,7 +42,7 @@ enum Month month(char*);
 Date date(int, enum Month, int);
 
 // Rating constructor.
-Rating rating(char*, char *, int, Date);
+Rating rating(char*, char*, int, Date);
 
 extern FILE *yyin;
 
@@ -51,4 +50,3 @@ int yylex(void); /* prototype for the lexing function */
 
 // Parses file with given filename and returns an array of Rating(s).
 Rating *parsef(char*);
-
