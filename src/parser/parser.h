@@ -48,5 +48,11 @@ extern FILE *yyin;
 
 int yylex(void); /* prototype for the lexing function */
 
+// Parses string into int.
+int parseint(char*);
+
+// Parses date string into Date.
+Date parsedate(char*);
+
 // Parses file with given filename and returns an array of Rating(s).
 Rating *parsef(char*);

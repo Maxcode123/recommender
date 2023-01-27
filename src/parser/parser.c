@@ -1,5 +1,7 @@
 #include "parser.h"
 
+YYSTYPE yylval;
+
 enum Month month(char *m) {
     if (strcmp(m, "January") == 0) return JANUARY;
     if (strcmp(m, "February") == 0) return FEBRUARY;
@@ -33,6 +35,46 @@ Rating rating(char *u, char *m, int v, Date d) {
 }
 
 Rating *parsef(char *fname) {
-    
+    if (!(yyin = fopen(fname, "r"))) {
+        fprintf(stderr, "cannot open read file\n");
+        exit(1);
+    }
+    int num = 0, t, i = 0;
+    int value; char * username;
+    Rating *rs = malloc(sizeof(*rs)*1000);
+    while (t = yylex()) {
+        switch (t) {
+            case USERNAME: 
+                if (strcmp(yylval.sval, "\"Null\"") == 0) {
+                    value = 0;
+                    num++;
+                    break;
+                }
+                username = yylval.sval;
+                break;
+            case NUM:
+                if (!num) value = parseint(yylval.sval); num++; break;
+            case DATE:
+                num = 0;
+                rs[i++] = rating(username, fname, value, parsedate(yylval.sval));
+                break;
+        }
+    }
+    return rs;
 }
 
+int parseint(char *v) {
+    // int *i = malloc(sizeof(*i));
+    int i;
+    sscanf(v, "\"%d\"", &i);
+    return i;
+}
+
+Date parsedate(char * dt) {
+    // int *d = malloc(sizeof(*d));
+    // int *y = malloc(sizeof(*y));
+    char *m = malloc(sizeof(*m)*11);
+    int d, y;
+    sscanf(dt, "\"%d %s %d\"", &d, m, &y);
+    return date(d, month(m), y);
+}
