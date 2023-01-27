@@ -1,5 +1,7 @@
 #include "lexdriver.h"
 
+YYSTYPE yylval;
+
 int scan(char *fname, char *fname2) {
     
     int i;

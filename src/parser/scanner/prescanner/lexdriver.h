@@ -5,7 +5,7 @@
 
 #include "../tokens.h"
 
-YYSTYPE yylval;
+
 
 extern FILE *yyin;
 

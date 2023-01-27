@@ -13,7 +13,7 @@ scanner: obj/lexdriver.o obj/lex.yy.o
 $(PRESCANNER)/prelex.yy.c: $(PRESCANNER)/precsv.lex
 	lex -o $@ $<
 
-prescanner: obj/lexdriver.o obj/prelex.yy.o
+prescanner: obj/lexdriver.o obj/prelex.yy.o obj/preprocessor.o
 	$(CC) $^ -o $@
 
 $(OBJ)/%.o: $(SRC)/%.c
