@@ -1,19 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include "lexdriver.h"
 
-#include "../tokens.h"
-
-YYSTYPE yylval;
-
-extern FILE *yyin;
-
-int yylex(void); /* prototype for the lexing function */
-
-int main(int argc, char **argv) {
+int scan(char *fname, char *fname2) {
     
-    char *fname, *fname2;
-    fname = argv[1];
-    fname2 = argv[2];
     int i;
     FILE *write;
 
