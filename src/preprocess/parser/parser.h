@@ -5,6 +5,7 @@
 #include <string.h>
 
 #include "scanner/tokens.h"
+#include "../../utils/list.h"
 
 
 enum Month {
@@ -54,8 +55,8 @@ int parseint(char*);
 // Parses date string into Date.
 Date parsedate(char*);
 
-// Parses file with given filename and returns an array of Rating(s).
-Rating *parsef(char*);
+// Parses file with given filename and inserts Ratings in given List.
+void parsef(char*, List*);
 
 // Prints rating in nice format.
 void printrt(Rating);

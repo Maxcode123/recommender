@@ -9,8 +9,11 @@ SCANNER=$(PARSER)/scanner
 PRESCANNER=$(SCANNER)/prescanner
 
 
-all: obj/lex.yy.o obj/parser.o test/main.c
+all: obj/lex.yy.o obj/parser.o obj/list.o test/main.c
 	$(CC) $^ -o test/bin/main
+
+run-file: all
+	test/bin/main data/preprocessed/Troy\ 2004.csv
 
 debug: all
 	$(DB) test/bin/main
@@ -33,6 +36,9 @@ prescanner: obj/lexdriver.o obj/prelex.yy.o obj/preprocessor.o
 $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(ARGS) -c $< -o $@
 
+$(OBJ)/%.o: $(SRC)/utils/%.c
+	$(CC) $(ARGS) -c $< -o $@
+
 $(OBJ)/%.o: $(PARSER)/%.c
 	$(CC) $(ARGS) -c $< -o $@
 
@@ -42,5 +48,8 @@ $(OBJ)/%.o: $(SCANNER)/%.c
 $(OBJ)/%.o: $(PRESCANNER)/%.c
 	$(CC) $(ARGS) -c $< -o $@
 
+clean-preprocessed:
+	rm -r data/preprocessed/*
+
 clean:
-	rm -rf obj/* test/bin/* scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c data/preprocessed/*
+	rm -rf obj/* test/bin/* scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c
