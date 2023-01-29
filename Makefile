@@ -3,8 +3,7 @@ ARGS=-g
 DB=gdb
 OBJ=obj
 SRC=src
-PREPROCESS=$(SRC)/preprocess
-PARSER=$(PREPROCESS)/parser
+PARSER=$(SRC)/parser
 SCANNER=$(PARSER)/scanner
 PRESCANNER=$(SCANNER)/prescanner
 
@@ -20,6 +19,9 @@ debug-file: all
 
 $(SCANNER)/lex.yy.c: $(SCANNER)/scanner.lex
 	lex -o $@ $<
+
+scanner: obj/lex.yy.o obj/parser.o 
+	$(CC) $^ -o $@
 
 $(PRESCANNER)/prelex.yy.c: $(PRESCANNER)/prescanner.lex
 	lex -o $@ $<
@@ -43,4 +45,4 @@ $(OBJ)/%.o: $(PRESCANNER)/%.c
 	$(CC) $(ARGS) -c $< -o $@
 
 clean:
-	rm -rf obj/* test/bin/* scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c data/preprocessed/*
+	rm -rf obj/* test/bin/* scanner prescanner src/parser/scanner/lex.yy.c src/parser/scanner/prescanner/prelex.yy.c data/preprocessed/*

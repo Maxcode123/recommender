@@ -39,11 +39,11 @@ Rating *parsef(char *fname) {
         fprintf(stderr, "cannot open read file\n");
         exit(1);
     }
-    int num = 0, tok, i = 0;
+    int num = 0, t, i = 0;
     int value; char * username;
     Rating *rs = malloc(sizeof(*rs)*1000);
-    while (tok = yylex()) {
-        switch (tok) {
+    while (t = yylex()) {
+        switch (t) {
             case USERNAME: 
                 if (strcmp(yylval.sval, "\"Null\"") == 0) {
                     value = 0;
