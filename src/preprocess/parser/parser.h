@@ -3,9 +3,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <dirent.h>
 
 #include "scanner/tokens.h"
 #include "../../utils/list.h"
+#include "../../utils/map.h"
 
 
 enum Month {
@@ -60,3 +62,9 @@ void parsef(char*, List*);
 
 // Prints rating in nice format.
 void printrt(Rating);
+
+// Parses all files and insert ratings in given List.
+void parseall(List*);
+
+// Create map of username to user's Rating list.
+void mapusers(Map, List);
