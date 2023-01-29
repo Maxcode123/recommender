@@ -2,6 +2,7 @@ CC=gcc
 ARGS=-g
 DB=gdb
 OBJ=obj
+TEST=test
 SRC=src
 PREPROCESS=$(SRC)/preprocess
 PARSER=$(PREPROCESS)/parser
@@ -9,7 +10,13 @@ SCANNER=$(PARSER)/scanner
 PRESCANNER=$(SCANNER)/prescanner
 
 
-all: obj/lex.yy.o obj/parser.o obj/list.o test/main.c
+test-map: $(TEST)/bin/testmap
+	$<
+
+$(TEST)/bin/testmap: $(TEST)/testmap.c $(OBJ)/list.o $(OBJ)/map.o
+	$(CC) $^ -o $@ -lcriterion
+
+all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o test/main.c
 	$(CC) $^ -o test/bin/main
 
 run-file: all
