@@ -69,7 +69,9 @@ void parsef(char *fname, List *h) {
                 if (!num) value = parseint(yylval.sval); num++; break;
             case DATE:
                 num = 0;
-                r = rating(username, fname, value, parsedate(yylval.sval));
+                char *movie = malloc(sizeof(*movie)*200);
+                strcpy(movie, fname);
+                r = rating(username, movie, value, parsedate(yylval.sval));
                 lst_add(node("", r), h);
                 break;
         }
@@ -99,3 +101,21 @@ void parseall(List *rlst) {
     }
 }
 
+void mapusers(Map usermap, List rlst) {
+    Node n = rlst;
+    MapItem i;
+    Rating r;
+    int c = 0;
+    while (n != NULL) {
+        r = (Rating)n->i;
+        printf("%d ", ++c);
+        printrt(r);
+        if (i = map_get(usermap, r->username)) lst_add(node(r->movie, r), (List*)&i);
+        else {
+            List h = lst_list();
+            lst_add(node(r->movie, r), &h);
+            map_put(usermap, r->username, h);
+        }
+        n = n->next;
+    }
+}
