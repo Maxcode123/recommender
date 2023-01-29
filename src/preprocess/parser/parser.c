@@ -34,14 +34,14 @@ Rating rating(char *u, char *m, int v, Date d) {
     return r;
 }
 
-void parsef(char *fname, List *h) {
+Rating *parsef(char *fname) {
     if (!(yyin = fopen(fname, "r"))) {
         fprintf(stderr, "cannot open read file\n");
         exit(1);
     }
     int num = 0, tok, i = 0;
     int value; char * username;
-    Rating r;
+    Rating *rs = malloc(sizeof(*rs)*1000);
     while (tok = yylex()) {
         switch (tok) {
             case USERNAME: 
@@ -56,11 +56,11 @@ void parsef(char *fname, List *h) {
                 if (!num) value = parseint(yylval.sval); num++; break;
             case DATE:
                 num = 0;
-                r = rating(username, fname, value, parsedate(yylval.sval));
-                lst_add(node("", r), h);
+                rs[i++] = rating(username, fname, value, parsedate(yylval.sval));
                 break;
         }
     }
+    return rs;
 }
 
 int parseint(char *v) {
