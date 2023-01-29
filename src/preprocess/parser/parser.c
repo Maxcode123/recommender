@@ -34,25 +34,12 @@ Rating rating(char *u, char *m, int v, Date d) {
     return r;
 }
 
-int parseint(char *v) {
-    int i;
-    sscanf(v, "\"%d\"", &i);
-    return i;
-}
-
-Date parsedate(char * dt) {
-    char *m = malloc(sizeof(*m)*11);
-    int d, y;
-    sscanf(dt, "\"%d %s %d\"", &d, m, &y);
-    return date(d, month(m), y);
-}
-
 void parsef(char *fname, List *h) {
     if (!(yyin = fopen(fname, "r"))) {
         fprintf(stderr, "cannot open read file\n");
         exit(1);
     }
-    int num = 0, tok;
+    int num = 0, tok, i = 0;
     int value; char * username;
     Rating r;
     while (tok = yylex()) {
@@ -76,26 +63,22 @@ void parsef(char *fname, List *h) {
     }
 }
 
+int parseint(char *v) {
+    int i;
+    sscanf(v, "\"%d\"", &i);
+    return i;
+}
+
+Date parsedate(char * dt) {
+    char *m = malloc(sizeof(*m)*11);
+    int d, y;
+    sscanf(dt, "\"%d %s %d\"", &d, m, &y);
+    return date(d, month(m), y);
+}
+
 void printrt(Rating r) {
     printf(
         "username: %s, rating: %d, date: %d %d %d, movie: %s\n",
         r->username, r->value, r->date->day, r->date->month, r->date->year, r->movie
         );
 }
-
-void parseall(List *rlst) {
-    DIR *d;
-    struct dirent *dir;
-    if (d = opendir("data/preprocessed")) {
-        char buff[100];
-        while ((dir = readdir(d)) != NULL) {
-            strcpy(buff, dir->d_name);
-            if (strcmp(buff, "..") == 0 || strcmp(buff, ".") == 0) continue;
-            char fname[117] = "data/preprocessed/";
-            strcat(fname, buff);
-            parsef(fname, rlst);
-        }
-        closedir(d);
-    }
-}
-
