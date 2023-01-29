@@ -63,8 +63,11 @@ void parsef(char*, List*);
 // Prints rating in nice format.
 void printrt(Rating);
 
-// Parses all files and insert ratings in given List.
+// Parses all files and inserts ratings in given List.
 void parseall(List*);
 
-// Create map of username to user's Rating list.
+// Creates map of username to user's Rating list.
 void mapusers(Map, List);
+
+// Creates map of movies to movie's Rating list.
+void mapmovies(Map, List);

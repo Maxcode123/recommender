@@ -105,16 +105,29 @@ void mapusers(Map usermap, List rlst) {
     Node n = rlst;
     MapItem i;
     Rating r;
-    int c = 0;
     while (n != NULL) {
         r = (Rating)n->i;
-        printf("%d ", ++c);
-        printrt(r);
         if (i = map_get(usermap, r->username)) lst_add(node(r->movie, r), (List*)&i);
         else {
             List h = lst_list();
             lst_add(node(r->movie, r), &h);
             map_put(usermap, r->username, h);
+        }
+        n = n->next;
+    }
+}
+
+void mapmovies(Map moviemap, List rlst) {
+    Node n = rlst;
+    MapItem i;
+    Rating r;
+    while (n != NULL) {
+        r = (Rating)n->i;
+        if (i = map_get(moviemap, r->movie)) lst_add(node(r->username, r), (List*)&i);
+        else {
+            List h = lst_list();
+            lst_add(node(r->username, r), &h);
+            map_put(moviemap, r->movie, h);
         }
         n = n->next;
     }
