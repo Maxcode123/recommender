@@ -22,6 +22,9 @@ all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o test/main.c
 run-file: all
 	test/bin/main data/preprocessed/Troy\ 2004.csv
 
+histogram: $(OBJ)/histogram.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/lex.yy.o
+	$(CC) $^ -o histogram
+
 debug: all
 	$(DB) test/bin/main
 
@@ -46,6 +49,9 @@ $(OBJ)/%.o: $(SRC)/%.c
 $(OBJ)/%.o: $(SRC)/utils/%.c
 	$(CC) $(ARGS) -c $< -o $@
 
+$(OBJ)/%.o: $(PREPROCESS)/%.c
+	$(CC) $(ARGS) -c $< -o $@
+
 $(OBJ)/%.o: $(PARSER)/%.c
 	$(CC) $(ARGS) -c $< -o $@
 
@@ -59,4 +65,4 @@ clean-preprocessed:
 	rm -r data/preprocessed/*
 
 clean:
-	rm -rf obj/* test/bin/* scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c
+	rm -rf obj/* test/bin/* histogram scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c

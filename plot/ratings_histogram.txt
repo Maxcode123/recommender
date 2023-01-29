@@ -1,0 +1,15 @@
+reset
+set terminal jpeg
+set output "plot/ratings.jpg"
+
+set grid ytics linestyle 0
+set style fill solid 0.20 border
+set style data histogram
+set boxwidth 1.8 relative
+show boxwidth
+
+set title "Ratings Histogram"
+set xlabel "Rating"
+set ylabel "Frequency"
+
+plot "plot/ratings.txt" using 2:xtic(1) title ""
