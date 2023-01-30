@@ -23,7 +23,11 @@ run-file: all
 	test/bin/main data/preprocessed/Troy\ 2004.csv
 
 histogram: $(OBJ)/histogram.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/lex.yy.o
-	$(CC) $^ -o histogram
+	$(CC) $^ -o $@
+	./$@
+
+plot-histogram: plot/ratings_histogram.txt
+	gnuplot $<
 
 debug: all
 	$(DB) test/bin/main

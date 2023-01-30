@@ -26,9 +26,16 @@ void main() {
 
     printf("All ratings: %d\n", lst_len(rlst));
 
-    printf("0-2 : %d\n", lst_len(rating0_2));
-    printf("2-4 : %d\n", lst_len(rating2_4));
-    printf("4-6 : %d\n", lst_len(rating4_6));
-    printf("6-8 : %d\n", lst_len(rating6_8));
-    printf("8-10: %d\n", lst_len(rating8_10));
+    FILE *write;
+
+    if (!(write = fopen("plot/ratings.txt", "w"))) {
+        fprintf(stderr, "cannot open histogram write file\n");
+        exit(1);
+    }
+
+    fprintf(write, "\"0-2\" %d\n", lst_len(rating0_2));
+    fprintf(write, "\"2-4\" %d\n", lst_len(rating2_4));
+    fprintf(write, "\"4-6\" %d\n", lst_len(rating4_6));
+    fprintf(write, "\"6-8\" %d\n", lst_len(rating6_8));
+    fprintf(write, "\"8-10\" %d\n", lst_len(rating8_10));
 }
