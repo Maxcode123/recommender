@@ -28,5 +28,6 @@ date \"[0-9]+[ ][A-Za-z]+[ ][0-9]+\"
 %%
 {username}","{num}","{num}","{date} {yylval.sval = String(yytext); return 1;}
 
-" "	{continue;}
+"\n" {}
+" "	{}
 . {}
