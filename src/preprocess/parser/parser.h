@@ -44,6 +44,12 @@ enum Month month(char*);
 // Date constructor.
 Date date(int, enum Month, int);
 
+// Returns true if 1st argument is bigger than the second.
+bool date_gt(Date, Date);
+
+// Returns true if arguments are equal.
+bool date_eq(Date, Date);
+
 // Rating constructor.
 Rating rating(char*, char*, int, Date);
 
