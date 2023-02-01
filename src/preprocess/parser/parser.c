@@ -15,9 +15,12 @@ enum Month month(char *m) {
     if (strcmp(m, "October") == 0) return OCTOBER;
     if (strcmp(m, "November") == 0) return NOVEMBER;
     if (strcmp(m, "December") == 0) return DECEMBER;
+    frintf(stderr, "Invalid month: %s\n", m);
 }
 
 Date date(int d, enum Month m, int y) {
+    if (y < 0) fprintf(stderr, "Invalid year for Date object: %d\n", y);
+    if (d < 0 || d > 31) fprintf(stderr, "Invalid day for Date object: %d\n");
     Date dt = malloc(sizeof(*dt));
     dt->day = d;
     dt->month = m;
@@ -25,7 +28,22 @@ Date date(int d, enum Month m, int y) {
     return dt;
 }
 
+bool date_gt(Date d1, Date d2) {
+    if (d1->year > d2->year) return true;
+    else if (d1->year == d2->year) {
+        if (d1->month > d2->month) return true;
+        else if (d1->month == d2->month) return (d1->day > d2->day);
+        return false;
+    }
+    return false;
+}
+
+bool date_eq(Date d1, Date d2) {
+    return d1->year == d2->year && d1->month == d2->month && d1->day == d2->day;
+}
+
 Rating rating(char *u, char *m, int v, Date d) {
+    if (v < 0 || v > 10) fprintf(stderr, "Invalid rating value for Rating object: %d\n", v);
     Rating r = malloc(sizeof(*r));
     r->username = u;
     r->movie = m;
