@@ -15,7 +15,7 @@ enum Month month(char *m) {
     if (strcmp(m, "October") == 0) return OCTOBER;
     if (strcmp(m, "November") == 0) return NOVEMBER;
     if (strcmp(m, "December") == 0) return DECEMBER;
-    frintf(stderr, "Invalid month: %s\n", m);
+    fprintf(stderr, "Invalid month: %s\n", m);
 }
 
 Date date(int d, enum Month m, int y) {
@@ -40,6 +40,15 @@ bool date_gt(Date d1, Date d2) {
 
 bool date_eq(Date d1, Date d2) {
     return d1->year == d2->year && d1->month == d2->month && d1->day == d2->day;
+}
+
+int date_diff(Date d1, Date d2) {
+    
+}
+
+bool date_leap(int y) {
+    if (((y % 4 == 0) && (y % 100!= 0)) || (y % 400 == 0)) return true;
+    return false;
 }
 
 Rating rating(char *u, char *m, int v, Date d) {

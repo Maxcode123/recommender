@@ -54,31 +54,34 @@ void allratings() {
     fprintf(write, "\"8-10\" %d\n", lst_len(rating8_10));
 }
 
-void ratings(Map usermap){
-    // Clusters: 0-10, 10-20, 20-30, 30-40, 40+
+void ratingshst(Map usermap, char* fname){
     int r[] = {0, 0, 0, 0, 0};
     List n = usermap->lst;
     int len;
     while (n != NULL) {
         len = lst_len((List)n->i);
-        if (len > 0 && len <= 2) r[0]++;
-        else if (len > 2 && len <= 4) r[1]++;
-        else if (len > 4 && len <= 6) r[2]++;
-        else if (len > 6 && len <= 8) r[3]++;
-        else if (len > 8) r[4]++;
+        if (N_RATINGS_CLUSTER_1(r)) r[0]++;
+        else if (N_RATINGS_CLUSTER_2(r)) r[1]++;
+        else if (N_RATINGS_CLUSTER_3(r)) r[2]++;
+        else if (N_RATINGS_CLUSTER_4(r)) r[3]++;
+        else if (N_RATINGS_CLUSTER_5(r)) r[4]++;
         n = n->next;
     }
 
     FILE *write;
 
-    if (!(write = fopen("plot/ratings_per_user.txt", "w"))) {
+    if (!(write = fopen(fname, "w"))) {
         fprintf(stderr, "cannot open ratings histogram write file\n");
         exit(1);
     }
 
-    fprintf(write, "\"1-2\" %d\n", r[0]);
-    fprintf(write, "\"3-4\" %d\n", r[1]);
-    fprintf(write, "\"5-6\" %d\n", r[2]);
-    fprintf(write, "\"7-8\" %d\n", r[3]);
-    fprintf(write, "\"8+\" %d\n", r[4]);
+    fprintf(write, "\"1-49\" %d\n", r[0]);
+    fprintf(write, "\"50-99\" %d\n", r[1]);
+    fprintf(write, "\"100-149\" %d\n", r[2]);
+    fprintf(write, "\"150-200\" %d\n", r[3]);
+    fprintf(write, "\"200+\" %d\n", r[4]);
+}
+
+void dateshst(Map usermap, char* fname) {
+
 }
