@@ -9,12 +9,7 @@ PARSER=$(PREPROCESS)/parser
 SCANNER=$(PARSER)/scanner
 PRESCANNER=$(SCANNER)/prescanner
 
-
-test-map: $(TEST)/bin/testmap
-	$<
-
-$(TEST)/bin/testmap: $(TEST)/testmap.c $(OBJ)/list.o $(OBJ)/map.o
-	$(CC) $^ -o $@ -lcriterion
+include tests.mk
 
 all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o test/main.c
 	$(CC) $^ -o test/bin/main
