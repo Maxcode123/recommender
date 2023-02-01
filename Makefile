@@ -26,7 +26,7 @@ histogram: $(OBJ)/histogram.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/
 	$(CC) $^ -o $@
 	./$@
 
-plot-histogram: plot/ratings_histogram.txt
+plot-histogram: plot/ratings_per_user_histogram.txt
 	gnuplot $<
 
 debug: all
