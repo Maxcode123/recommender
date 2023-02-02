@@ -10,6 +10,13 @@
 # define N_RATINGS_CLUSTER_4(r) r >= 150 && r <= 200
 # define N_RATINGS_CLUSTER_5(r) r > 200
 
+/* Clusters for days between first and last rating of user; used in dates 
+histogram. */
+# define N_DAYS_CLUSTER_1(d) d > 0 && d < 365
+# define N_DAYS_CLUSTER_2(d) d >= 365 && d < 2 * 365
+# define N_DAYS_CLUSTER_3(d) d >= 2 * 365 && d < 3 * 365
+# define N_DAYS_CLUSTER_4(d) d >= 3 * 365
+
 /* Parses all files and writes to file data to plot frequency histograms for
 number of ratings per user and date interval of ratings per user. */
 void main();

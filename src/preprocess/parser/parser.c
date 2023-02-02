@@ -44,6 +44,7 @@ bool date_eq(Date d1, Date d2) {
 
 signed int date_diff(Date d1, Date d2) {
     if (date_gt(d1, d2)) return -date_diff(d2, d1);
+    if (date_eq(d1, d2)) return 0;
     return date_since(d2) - date_since(d1);
 }
 

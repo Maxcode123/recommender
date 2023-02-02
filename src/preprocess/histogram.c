@@ -83,5 +83,36 @@ void ratingshst(Map usermap, char* fname){
 }
 
 void dateshst(Map usermap, char* fname) {
+    int days[] = {0, 0, 0, 0};
+    List n = usermap->lst;
+    Node tmp1 = n;
+    while (tmp1 != NULL) {
+        List r = (List)n->i;
+        Date min = ((Rating)r->i)->date, max = ((Rating)r->i)->date;
+        Node tmp2 = r;
+        while (tmp2 != NULL) {
+            Date d = ((Rating)tmp2->i)->date;
+            if (!date_gt(d, min)) min = d;
+            if (date_gt(d, max)) max = d;
+            tmp2 = tmp2->next;
+        }
+        int diff = date_diff(min, max);
+        if (N_DAYS_CLUSTER_1(diff)) days[0]++;
+        else if (N_DAYS_CLUSTER_2(diff)) days[1]++;
+        else if (N_DAYS_CLUSTER_3(diff)) days[2]++;
+        else if (N_DAYS_CLUSTER_4(diff)) days[3]++;
+        tmp1 = tmp1->next;
+    }
+    
+    FILE *write;
 
+    if (!(write = fopen(fname, "w"))) {
+        fprintf(stderr, "cannot open ratings histogram write file\n");
+        exit(1);
+    }
+
+    fprintf(write, "\"1-364 (1yr)\" %d\n", days[0]);
+    fprintf(write, "\"365-729 (1-2yr)\" %d\n", days[1]);
+    fprintf(write, "\"730-1094 (2-3yr)\" %d\n", days[2]);
+    fprintf(write, "\"1095+ (3yr+)\" %d\n", days[3]);
 }
