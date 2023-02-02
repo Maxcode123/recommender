@@ -12,5 +12,5 @@ $(TEST)/bin/testmap: $(TEST)/testmap.c $(OBJ)/list.o $(OBJ)/map.o
 test-date: $(TEST)/bin/testdate
 	$<
 
-$(TEST)/bin/testdate: $(TEST)/testdate.c $(OBJ)/parser.o $(OBJ)/lex.yy.o $(OBJ)/list.o $(OBJ)/map.o
+$(TEST)/bin/testdate: $(TEST)/testdate.c $(OBJ)/date.o
 	$(COMPILE)
