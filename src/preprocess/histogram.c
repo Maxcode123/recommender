@@ -54,7 +54,7 @@ void allratings() {
     fprintf(write, "\"8-10\" %d\n", lst_len(rating8_10));
 }
 
-void ratingshst(Map usermap, char* fname){
+void ratingshst(Map usermap, char* fname) {
     int r[] = {0, 0, 0, 0, 0};
     List n = usermap->lst;
     int len;
@@ -107,7 +107,7 @@ void dateshst(Map usermap, char* fname) {
     FILE *write;
 
     if (!(write = fopen(fname, "w"))) {
-        fprintf(stderr, "cannot open ratings histogram write file\n");
+        fprintf(stderr, "cannot open dates histogram write file\n");
         exit(1);
     }
 

@@ -2,7 +2,6 @@ CC=gcc
 ARGS=-g
 DB=gdb
 OBJ=obj
-TEST=test
 SRC=src
 PREPROCESS=$(SRC)/preprocess
 PARSER=$(PREPROCESS)/parser
