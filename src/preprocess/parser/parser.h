@@ -25,9 +25,8 @@ enum Month {
     DECEMBER
 };
 
-/* indexed by enum Month, so monthdays[JANUARY] == 31; monthdays[FEBRUARY] is
-invalid (-1) because it is calculated dynamically based on leap years. */ 
-static int monthdays[] = {0, 31, -1, 31, 30, 31, 30, 31, 30, 30, 30, 31};
+/* indexed by enum Month, so monthdays[JANUARY] == 31; */ 
+static int monthdays[] = {0, 31, 28, 31, 30, 31, 30, 31, 30, 30, 30, 31};
 
 typedef struct _Date {
     int day;
@@ -59,6 +58,12 @@ signed int date_diff(Date, Date);
 
 // Returns true if given year is a leap year.
 bool date_leap(int);
+
+// Returns the number of leap years from AD to given date.
+int date_leaps(Date);
+
+// Returns the number of days since AD for given date.
+long int date_since(Date);
 
 // Rating constructor.
 Rating rating(char*, char*, int, Date);

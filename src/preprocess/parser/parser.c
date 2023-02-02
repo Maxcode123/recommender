@@ -42,13 +42,26 @@ bool date_eq(Date d1, Date d2) {
     return d1->year == d2->year && d1->month == d2->month && d1->day == d2->day;
 }
 
-int date_diff(Date d1, Date d2) {
-    
+signed int date_diff(Date d1, Date d2) {
+    if (date_gt(d1, d2)) return -date_diff(d2, d1);
+    return date_since(d2) - date_since(d1);
 }
 
 bool date_leap(int y) {
     if (((y % 4 == 0) && (y % 100!= 0)) || (y % 400 == 0)) return true;
     return false;
+}
+
+int date_leaps(Date d) {
+    int n = d->year;
+    if (d->month <= 2) n--;
+    return n/4 - n/100 + n/400; // Number of leap years
+}
+
+long int date_since(Date d) {
+    long int n1 = d->year * 365 + d->day;
+    for (int i = 1; i < d->month; i++) n1 += monthdays[i];
+    return n1 + date_leaps(d); 
 }
 
 Rating rating(char *u, char *m, int v, Date d) {
