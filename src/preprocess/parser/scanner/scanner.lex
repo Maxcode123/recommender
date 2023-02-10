@@ -22,7 +22,7 @@ int yywrap(void)
 
 %}
 
-num \"[0-9]+\"
+num \"[0-9]{1,2}\"
 username \"[a-zA-Z0-9]([a-zA-Z0-9]|\-|\_|[.]|[ ]|@)*\"
 date \"[0-9]+[ ][A-Za-z]+[ ][0-9]+\"
 
@@ -32,5 +32,7 @@ date \"[0-9]+[ ][A-Za-z]+[ ][0-9]+\"
 {date} {yylval.sval = String(yytext); return DATE;}
 {username} {yylval.sval = String(yytext); return USERNAME;}
 
-. {}
+. {return -1;}
+" " {return -1;}
+"\n" {return -1;}
 
