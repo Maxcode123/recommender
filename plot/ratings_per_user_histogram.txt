@@ -1,0 +1,15 @@
+reset
+set terminal jpeg
+set output "plot/ratings_per_user.jpg"
+
+set grid ytics linestyle 0
+set style fill solid 0.20 border
+set style data histogram
+set boxwidth 1.8 relative
+show boxwidth
+
+set title "Ratings per user histogram"
+set xlabel "Number of ratings per user"
+set ylabel "Frequency"
+
+plot "plot/ratings_per_user.txt" using 2:xtic(1) title ""

@@ -2,5 +2,5 @@ obj/*
 test/bin/*
 data/preprocessed/*
 data/raw/*
-src/parser/scanner/*yy.c
-src/parser/scanner/prescanner/*yy.c
+src/preprocess/parser/scanner/*yy.c
+src/preprocess/parser/scanner/prescanner/*yy.c

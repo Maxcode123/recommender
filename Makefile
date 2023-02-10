@@ -3,13 +3,23 @@ ARGS=-g
 DB=gdb
 OBJ=obj
 SRC=src
-PARSER=$(SRC)/parser
+PREPROCESS=$(SRC)/preprocess
+PARSER=$(PREPROCESS)/parser
 SCANNER=$(PARSER)/scanner
 PRESCANNER=$(SCANNER)/prescanner
 
 
-all: obj/lex.yy.o obj/parser.o test/main.c
+test-map: $(TEST)/bin/testmap
+	$<
+
+$(TEST)/bin/testmap: $(TEST)/testmap.c $(OBJ)/list.o $(OBJ)/map.o
+	$(CC) $^ -o $@ -lcriterion
+
+all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o test/main.c
 	$(CC) $^ -o test/bin/main
+
+run-file: all
+	test/bin/main data/preprocessed/Troy\ 2004.csv
 
 debug: all
 	$(DB) test/bin/main
@@ -19,9 +29,6 @@ debug-file: all
 
 $(SCANNER)/lex.yy.c: $(SCANNER)/scanner.lex
 	lex -o $@ $<
-
-scanner: obj/lex.yy.o obj/parser.o 
-	$(CC) $^ -o $@
 
 $(PRESCANNER)/prelex.yy.c: $(PRESCANNER)/prescanner.lex
 	lex -o $@ $<
@@ -35,6 +42,12 @@ prescanner: obj/lexdriver.o obj/prelex.yy.o obj/preprocessor.o
 $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(ARGS) -c $< -o $@
 
+$(OBJ)/%.o: $(SRC)/utils/%.c
+	$(CC) $(ARGS) -c $< -o $@
+
+$(OBJ)/%.o: $(PREPROCESS)/%.c
+	$(CC) $(ARGS) -c $< -o $@
+
 $(OBJ)/%.o: $(PARSER)/%.c
 	$(CC) $(ARGS) -c $< -o $@
 
@@ -44,5 +57,8 @@ $(OBJ)/%.o: $(SCANNER)/%.c
 $(OBJ)/%.o: $(PRESCANNER)/%.c
 	$(CC) $(ARGS) -c $< -o $@
 
+clean-preprocessed:
+	rm -r data/preprocessed/*
+
 clean:
-	rm -rf obj/* test/bin/* scanner prescanner src/parser/scanner/lex.yy.c src/parser/scanner/prescanner/prelex.yy.c data/preprocessed/*
+	rm -rf obj/* test/bin/* histogram scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c
