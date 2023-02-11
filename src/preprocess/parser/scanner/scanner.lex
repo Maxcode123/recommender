@@ -22,9 +22,10 @@ int yywrap(void)
 
 %}
 
-num \"[0-9]{1,2}\"
+month "January"|"February"|"March"|"April"|"May"|"June"|"July"|"August"|"September"|"October"|"November"|"December"
+num \"([0-9]|[1][0])\"
 username \"[a-zA-Z0-9]([a-zA-Z0-9]|\-|\_|[.]|[ ]|@)*\"
-date \"[0-9]+[ ][A-Za-z]+[ ][0-9]+\"
+date \"[0-9]+[ ]{month}[ ][0-9]+\"
 
 
 %%

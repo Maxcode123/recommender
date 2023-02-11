@@ -41,10 +41,14 @@ void parsef(char *fname, List *h) {
                     num++;
                     break;
                 }
-                username = yylval.sval;
-                break;
+                if (num == 0) {
+                    username = yylval.sval;
+                    break;
+                }
             case NUM:
-                if (!num) value = parseint(yylval.sval); num++; break;
+                if (num == 0) value = parseint(yylval.sval);
+                num++;
+                break;
             case DATE:
                 num = 0;
                 char *movie = malloc(sizeof(*movie)*200);
