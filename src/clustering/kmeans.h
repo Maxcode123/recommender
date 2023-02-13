@@ -1,13 +1,18 @@
 #pragma once
 
+#include <stdlib.h>
+#include <time.h>
+#include <stdbool.h>
+#include <math.h>
+
 #include "../utils/vector.h"
 #include "../utils/map.h"
 
 static Vector *centroids; // Array of centroids
-static Map clusters; // Mapping of cluster to array of vectors.
+static int *clusters; // Array of cluster numbers, indexed by array of vectors.
 
 // Returns mapping of cluster to array of vectors.
-Map getclusters();
+int *getclusters();
 
 // repeat-assignment flag
 static bool flag;
@@ -16,18 +21,21 @@ static bool flag;
 vector, each column represents a centroid. */
 static double **dists;
 
+// True if centroids have been initialized, i.e. memory has been allocated.
+static bool _initcentroids = false;
+
 // Initializes centroids, chooses random vectors as initial centroids.
-void initcentroids(Vector*);
+void initcentroids(Vector*, int, int);
 
 // Calculates the distance between two vectors.
 double calcdistance(Vector, Vector);
 
 /* Assigns each vector to a cluster according to distance matrix, 
 makes flag = false if no new assignment is performed. */
-void assignvct();
+void assignvct(int, int);
 
 // Calculates centroids from the vectors of each cluster.
-void calccentroids();
+void calccentroids(Vector*, int, int);
 
 /* Applies k-means clustering to given array of vectors. Second argument is the
 number of clusters, third argument is the length of the vector array. */ 
