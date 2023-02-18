@@ -32,6 +32,7 @@ double calcdistance(Vector R1, Vector R2) {
     for (int i = 0; i < R1->size; i++) {
         if (R1->values[i] && R2->values[i]) sum += pow(R1->values[i] - R2->values[i], 2);
     }
+    sum = sqrt(sum);
     return sum;
 }
 
