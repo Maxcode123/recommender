@@ -1,24 +1,42 @@
 #pragma once
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint-gcc.h>
 
-#define HASH_TABLE_SIZE 5
+typedef struct _Entry {
+    void *key;
+    void *value;
+} *Entry;
 
-typedef struct Entry Entry;
+typedef struct _HashTable {
+    struct _Entry *entries;
+    int max_size;
+    int valid_records; //todo: is it necessary?
+} *HashTable;
 
-typedef struct HashTable HashTable;
+// djb2 hash algorithm
+unsigned long ht_hash(unsigned char *key);
 
-extern unsigned long hash_hashset(unsigned char *key);
+//Initialize the ht by suze
+HashTable ht_init(int size);
 
-extern void init_hashset(HashTable *table);
+//Insert new record to ht
+void ht_insert(HashTable table, char *key, void *value);
 
-extern void insert_hashtable(HashTable *table, char *key, void *value);
+//Gets the record by "key"
+void *ht_search(HashTable table, char *key);
 
-extern void *search_hashtable(HashTable *table, char *key);
+//Print the ht
+void ht_print(HashTable table);
 
-extern void print_hashtable(HashTable *table);
+//Deletes a record of ht.
+// Success: 1
+// Fail: 0
+int ht_delete(HashTable table, char *key);
 
-extern int delete_hashtable(HashTable *table, char *key);
+//Gets the size of the valid records
+int ht_valid_size(HashTable table);
+
 

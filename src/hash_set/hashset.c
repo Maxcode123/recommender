@@ -1,61 +1,60 @@
 #include "hashset.h"
 
-typedef struct Entry {
-    char *key;
-    void *value;
-} Entry;
-
-typedef struct HashTable {
-    Entry *entries;
-    int size;
-} HashTable;
-
-/* djb2 hash algorithm */
-unsigned long hash_hashset(unsigned char *key) {
+unsigned long ht_hash(unsigned char *key) {
     unsigned long hash = 5381;
     int c;
     while ((c = *key++)) {
         hash = ((hash << 5) + hash) + c;
     }
-    return hash % HASH_TABLE_SIZE;
+    return hash % 50;
 }
 
-void init_hashset(HashTable *table) {
-    table->entries = malloc(HASH_TABLE_SIZE * sizeof(Entry));
-    table->size = HASH_TABLE_SIZE;
-    for (int i = 0; i < HASH_TABLE_SIZE; i++) {
-        table->entries[i].key = NULL;
-        table->entries[i].value = 0;
+HashTable ht_init(int size) {
+    HashTable hash_table = (HashTable) malloc(sizeof(struct _HashTable));
+    hash_table->entries = (Entry) malloc(sizeof(struct _Entry) * size);
+    hash_table->max_size = size;
+    hash_table->valid_records = 0;
+
+    for (int i = 0; i < size; i++) {
+        hash_table->entries[i].key = NULL;
+        hash_table->entries[i].value = NULL;
     }
+
+    return hash_table;
 }
 
-void insert_hashtable(HashTable *table, char *key, void *value) {
-    unsigned long hash = hash_hashset((unsigned char *) key) % table->size;
+
+void ht_insert(HashTable table, char *key, void *value) {
+    unsigned long hash = ht_hash((unsigned char *) key) % table->max_size;
     while (table->entries[hash].key != NULL && strcmp(table->entries[hash].key, key) != 0) {
-        hash = (hash + 1) % table->size;
+        hash = (hash + 1) % table->max_size;
     }
+    //todo: n(n) problem
+//    if(search_hashtable(table,key)){
+//        table->valid_records++;
+//    }
     table->entries[hash].key = key;
     table->entries[hash].value = value;
 }
 
-void *search_hashtable(HashTable *table, char *key) {
-    unsigned long index = hash_hashset((unsigned char *) key);
+void *ht_search(HashTable table, char *key) {
+    unsigned long index = ht_hash((unsigned char *) key);
     while (table->entries[index].key != NULL && strcmp(table->entries[index].key, key) != 0) {
-        index = (index + 1) % table->size;
+        index = (index + 1) % table->max_size;
     }
     if (table->entries[index].key != NULL) {
         printf("----------------------------------\n");
-        printf("Search --> Key: [%2s]  Found --> Value: [%2s]\n",key,table->entries[index].value);
+        printf("Search --> Key: [%2s]  Found --> Value: [%2s]\n", key, table->entries[index].value);
         printf("----------------------------------\n");
         return table->entries[index].value;
     }
-    printf("Key:[%2s] does not exists.\n",key);
+    printf("Key:[%2s] does not exists.\n", key);
     return NULL;
 }
 
 
-void print_hashtable(HashTable *table) {
-    for (int i = 0; i < table->size; i++) {
+void ht_print(HashTable table) {
+    for (int i = 0; i < table->max_size; i++) {
         if (table->entries[i].key != NULL) {
             printf("key: %s, value: %2s\n", table->entries[i].key, (uint8_t *) table->entries[i].value);
         }
@@ -63,33 +62,44 @@ void print_hashtable(HashTable *table) {
 }
 
 
-int delete_hashtable(HashTable *table, char *key) {
-    unsigned long index = hash_hashset((unsigned char *) key);
+int ht_delete(HashTable table, char *key) {
+    unsigned long index = ht_hash((unsigned char *) key);
     while (table->entries[index].key != NULL && strcmp(table->entries[index].key, key) != 0) {
-        index = (index + 1) % table->size;
+        index = (index + 1) % table->max_size;
     }
     if (table->entries[index].key != NULL) {
         table->entries[index].key = NULL;
         table->entries[index].value = NULL;
+        //todo: n(n) problem
+//    if(search_hashtable(table,key)){
+//        table->valid_records++;
+//    }
         return 1;
     }
     return 0;
 }
 
 
+//todo: not working properly yet
+int ht_valid_size(HashTable table) {
+    return table->valid_records;
+}
+
+
 /* minor tests */
-//int main() {
-//    HashTable h1;
-//    init_hashset(&h1);
-//    insert_hashtable(&h1, "kwn",  "Test123");
-//    insert_hashtable(&h1, "kwn",  "Not Valid");
-//    insert_hashtable(&h1, "kwn",  "Valid");
-//    insert_hashtable(&h1, "max", "2500 + 2500");
-//    insert_hashtable(&h1, "andreou", "Lets gooo");
-//    print_hashtable(&h1);
-//    search_hashtable(&h1,"kwn");
-//    delete_hashtable(&h1,"kwn");
-//    search_hashtable(&h1,"kwn");
-//    return 0;
-//
-//}
+int main() {
+    HashTable ht = ht_init(100);
+    ht_insert(ht, "kwn", "Test123");
+    ht_insert(ht, "kwn", "Not Valid");
+    ht_insert(ht, "kwn", "Valid");
+    ht_insert(ht, "max", "2500 + 2500");
+    ht_insert(ht, "andreou", "Lets gooo");
+    ht_print(ht);
+    ht_search(ht, "kwn");
+//    printf("size of hashmap: %d\n", ht_get_valid_records(ht));
+    ht_delete(ht, "kwn");
+//    printf("size of hashmap: %d\n", ht_get_valid_records(ht));
+    ht_search(ht, "kwn");
+    return 0;
+
+}
