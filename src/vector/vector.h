@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 typedef struct _Vector {
-    void **items;
+    int *items;
     int capacity;
     int size;
 } *Vector;
@@ -14,8 +14,8 @@ typedef struct _Vector {
 Vector vector_create(int capacity);
 void vector_destroy(Vector vec);
 void *vector_get(Vector vec, int index);
-void vector_set(Vector vec, int index, void *value);
-void vector_push(Vector vec, void *value);
+void vector_set(Vector vec, int index, const int *value);
+void vector_push(Vector vec, const int *value);
 void *vector_pop(Vector vec);
 int vector_size(Vector vec);
 int vector_capacity(Vector vec);

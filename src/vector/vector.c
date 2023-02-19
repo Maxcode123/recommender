@@ -8,7 +8,7 @@ Vector vector_create(int capacity) {
     }
     vec->capacity = capacity;
     vec->size = 0;
-    vec->items = malloc(capacity * sizeof(void *));
+    vec->items = malloc(capacity * sizeof(int *));
     if(vec->items == NULL){
         free(vec);
         fprintf(stderr, "Error: Out of memory.\n");
@@ -18,10 +18,6 @@ Vector vector_create(int capacity) {
 }
 
 void vector_destroy(Vector vec) {
-    //todo: review it please
-    for (int i = 0; i < vec->size; i++) {
-        free(vec->items[i]);
-    }
     free(vec->items);
     free(vec);
 }
@@ -30,21 +26,21 @@ void *vector_get(Vector vec, int index) {
     if (index < 0 || index >= vec->size) {
         return NULL;
     }
-    return vec->items[index];
+    return (int *) vec->items[index];
 }
 
-void vector_set(Vector vec, int index, void *value) {
+void vector_set(Vector vec, int index, const int *value) {
     if (index < 0 || index >= vec->size) {
         return;
     }
-    vec->items[index] = value;
+    vec->items[index] = *value;
 }
 
-void vector_push(Vector vec, void *value) {
+void vector_push(Vector vec, const int *value) {
     if (vec->size >= vec->capacity) {
         vector_resize(vec, vec->capacity * 2);
     }
-    vec->items[vec->size] = value;
+    vec->items[vec->size] = *value;
     vec->size++;
 }
 
@@ -53,7 +49,7 @@ void *vector_pop(Vector vec) {
         return NULL;
     }
     vec->size--;
-    return vec->items[vec->size];
+    return (int *) vec->items[vec->size];
 }
 
 int vector_size(Vector vec) {
@@ -65,12 +61,12 @@ int vector_capacity(Vector vec) {
 }
 
 void vector_resize(Vector vec, int new_capacity) {
-    void **new_items = malloc(new_capacity * sizeof(void *));
+    void **new_items = malloc(new_capacity * sizeof(int *));
     if (new_items == NULL) {
         fprintf(stderr, "Error: Out of memory.\n");
         exit(EXIT_FAILURE);
     }
-    memcpy(new_items, vec->items, vec->size * sizeof(void *));
+    memcpy(new_items, vec->items, vec->size * sizeof(int *));
     free(vec->items);
     vec->items = new_items;
     vec->capacity = new_capacity;
@@ -110,16 +106,16 @@ int vector_tests() {
 
     printf("Vector capacity: %d, size: %d, elements: ", vec->capacity, vec->size);
     for (int i = 0; i < vec->size; i++) {
-        printf("%d ", *(int *) vec->items[i]);
+        printf("%d ", (int *) vec->items[i]);
     }
     printf("\n");
 
     printf("V:capacity -> %d\n",vector_capacity(vec));
     printf("V:capacity -> %d\n",vector_size(vec));
-    printf("%d\n",*(int*)vector_get(vec,1));
+    printf("%d\n",(int*)vector_get(vec,1));
     int x_5000 = 5000;
     vector_set(vec,1,&x_5000);
-    printf("%d\n",*(int*)vector_get(vec,1));
+    printf("%d\n",(int*)vector_get(vec,1));
 
     vector_pop(vec); //500
     vector_pop(vec); //500
@@ -128,7 +124,7 @@ int vector_tests() {
 
     printf("Vector capacity: %d, size: %d, elements: ", vec->capacity, vec->size);
     for (int i = 0; i < vec->size; i++) {
-        printf("%d ", *(int *) vec->items[i]);
+        printf("%d ", (int *) vec->items[i]);
     }
     printf("\n");
 
