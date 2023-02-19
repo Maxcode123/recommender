@@ -87,6 +87,21 @@ Vector vector_init_by_array(int capacity, int *array) {
     return vec;
 }
 
+Vector vector_init_by_value(int capacity, int value) {
+    Vector vec = vector_create(capacity);
+    for (int i = 0; i < capacity; i++) {
+        int *val = malloc(sizeof(int));
+        if (val == NULL) {
+            // Out of memory error
+            fprintf(stderr, "Error: Out of memory.\n");
+            exit(EXIT_FAILURE);
+        }
+        *val = value;
+        vector_push(vec, val);
+    }
+    return vec;
+}
+
 
 int vector_tests() {
     int arr[] = {1,2,3,4,5};

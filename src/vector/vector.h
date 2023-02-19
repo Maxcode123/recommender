@@ -20,6 +20,8 @@ void *vector_pop(Vector vec);
 int vector_size(Vector vec);
 int vector_capacity(Vector vec);
 void vector_resize(Vector vec, int new_capacity);
+Vector vector_init_by_array(int capacity, int *array);
+Vector vector_init_by_value(int capacity, int value);
 
 //Vector init(int size, int *array) // constructor
 //
