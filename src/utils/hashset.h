@@ -37,6 +37,6 @@ void ht_print(HashTable table);
 int ht_delete(HashTable table, char *key);
 
 //Gets the size of the valid records
-int ht_valid_size(HashTable table);
+int ht_size(HashTable table);
 
 

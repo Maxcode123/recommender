@@ -33,6 +33,7 @@ void ht_insert(HashTable table, char *key, void *value) {
 //    if(search_hashtable(table,key)){
 //        table->valid_records++;
 //    }
+    if (table->entries[hash].key == NULL) table->valid_records++;
     table->entries[hash].key = key;
     table->entries[hash].value = value;
 }
@@ -43,12 +44,8 @@ void *ht_search(HashTable table, char *key) {
         index = (index + 1) % table->max_size;
     }
     if (table->entries[index].key != NULL) {
-        printf("----------------------------------\n");
-        printf("Search --> Key: [%2s]  Found --> Value: [%2s]\n", key, table->entries[index].value);
-        printf("----------------------------------\n");
         return table->entries[index].value;
     }
-    printf("Key:[%2s] does not exists.\n", key);
     return NULL;
 }
 
@@ -70,6 +67,7 @@ int ht_delete(HashTable table, char *key) {
     if (table->entries[index].key != NULL) {
         table->entries[index].key = NULL;
         table->entries[index].value = NULL;
+        table->valid_records--;
         //todo: n(n) problem
 //    if(search_hashtable(table,key)){
 //        table->valid_records++;
@@ -80,26 +78,6 @@ int ht_delete(HashTable table, char *key) {
 }
 
 
-//todo: not working properly yet
-int ht_valid_size(HashTable table) {
+int ht_size(HashTable table) {
     return table->valid_records;
-}
-
-
-/* minor tests */
-int main() {
-    HashTable ht = ht_init(100);
-    ht_insert(ht, "kwn", "Test123");
-    ht_insert(ht, "kwn", "Not Valid");
-    ht_insert(ht, "kwn", "Valid");
-    ht_insert(ht, "max", "2500 + 2500");
-    ht_insert(ht, "andreou", "Lets gooo");
-    ht_print(ht);
-    ht_search(ht, "kwn");
-//    printf("size of hashmap: %d\n", ht_get_valid_records(ht));
-    ht_delete(ht, "kwn");
-//    printf("size of hashmap: %d\n", ht_get_valid_records(ht));
-    ht_search(ht, "kwn");
-    return 0;
-
 }

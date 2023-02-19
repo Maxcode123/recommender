@@ -9,6 +9,7 @@
 #include "../../utils/list.h"
 #include "../../utils/map.h"
 #include "../../utils/date.h"
+#include "../../utils/hashset.h"
 
 
 typedef struct _Rating {
@@ -38,7 +39,7 @@ void printrt(Rating);
 void parseall(List*);
 
 // Creates map of username to user's Rating list.
-void mapusers(Map, List);
+void mapusers(HashTable, List);
 
 // Creates map of movies to movie's Rating list.
-void mapmovies(Map, List);
+void mapmovies(HashTable, List);

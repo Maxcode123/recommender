@@ -83,33 +83,33 @@ void parseall(List *rlst) {
     }
 }
 
-void mapusers(Map usermap, List rlst) {
+void mapusers(HashTable usermap, List rlst) {
     Node n = rlst;
     MapItem i;
     Rating r;
     while (n != NULL) {
         r = (Rating)n->i;
-        if (i = map_get(usermap, r->username)) lst_add(node(r->movie, r), (List*)&i);
+        if (i = ht_search(usermap, r->username)) lst_add(node(r->movie, r), (List*)&i);
         else {
             List h = lst_list();
             lst_add(node(r->movie, r), &h);
-            map_put(usermap, r->username, h);
+            ht_insert(usermap, r->username, h);
         }
         n = n->next;
     }
 }
 
-void mapmovies(Map moviemap, List rlst) {
+void mapmovies(HashTable moviemap, List rlst) {
     Node n = rlst;
     MapItem i;
     Rating r;
     while (n != NULL) {
         r = (Rating)n->i;
-        if (i = map_get(moviemap, r->movie)) lst_add(node(r->username, r), (List*)&i);
+        if (i = ht_search(moviemap, r->movie)) lst_add(node(r->username, r), (List*)&i);
         else {
             List h = lst_list();
             lst_add(node(r->username, r), &h);
-            map_put(moviemap, r->movie, h);
+            ht_insert(moviemap, r->movie, h);
         }
         n = n->next;
     }
