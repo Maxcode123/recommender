@@ -12,6 +12,12 @@ PRESCANNER=$(SCANNER)/prescanner
 all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/date.o test/main.c
 	$(CC) $^ -o test/bin/main
 
+histogram: $(OBJ)/histogram.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/hashset.o $(OBJ)/date.o $(OBJ)/lex.yy.o
+	$(CC) $^ -o $@
+
+plot-histogram: plot/ratings_per_user_histogram.txt
+	gnuplot $<
+
 run-file: all
 	test/bin/main data/preprocessed/Troy\ 2004.csv
 

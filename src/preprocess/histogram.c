@@ -6,12 +6,12 @@ void main() {
 
     printf("all ratings: %d\n", lst_len(rlst));
 
-    Map usermap = map();
+    HashTable usermap = ht_init(900000);
     mapusers(usermap, rlst);
 
-    printf("unique users: %d\n", map_len(usermap));
+    printf("unique users: %d\n", ht_size(usermap));
 
-    ratings(usermap);
+    ratingshst(usermap, "/home/max/Repos/recommender/plot/ratings_per_user.txt");
 }
 
 void allratings() {
@@ -54,18 +54,16 @@ void allratings() {
     fprintf(write, "\"8-10\" %d\n", lst_len(rating8_10));
 }
 
-void ratingshst(Map usermap, char* fname) {
+void ratingshst(HashTable usermap, char* fname) {
     int r[] = {0, 0, 0, 0, 0};
-    List n = usermap->lst;
     int len;
-    while (n != NULL) {
-        len = lst_len((List)n->i);
-        if (N_RATINGS_CLUSTER_1(r)) r[0]++;
-        else if (N_RATINGS_CLUSTER_2(r)) r[1]++;
-        else if (N_RATINGS_CLUSTER_3(r)) r[2]++;
-        else if (N_RATINGS_CLUSTER_4(r)) r[3]++;
-        else if (N_RATINGS_CLUSTER_5(r)) r[4]++;
-        n = n->next;
+    for (int i = 0; i < ht_size(usermap); i++) {
+        len = lst_len((List)usermap->entries->value);
+        if (N_RATINGS_CLUSTER_1(len)) r[0]++;
+        else if (N_RATINGS_CLUSTER_2(len)) r[1]++;
+        else if (N_RATINGS_CLUSTER_3(len)) r[2]++;
+        else if (N_RATINGS_CLUSTER_4(len)) r[3]++;
+        else if (N_RATINGS_CLUSTER_5(len)) r[4]++;
     }
 
     FILE *write;
