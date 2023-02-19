@@ -102,6 +102,45 @@ Vector vector_init_by_value(int capacity, int value) {
     return vec;
 }
 
+Vector vector_add(Vector r1, Vector r2) {
+    if (r1->size != r2->size) {
+        printf("Error: Vectors are not of the same size.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Vector result = vector_create(r1->size);
+    for (int i = 0; i < r1->size; i++) {
+        int x = r1->items[i] + r2->items[i];
+        vector_push(result, &x);
+    }
+    return result;
+}
+
+Vector vector_subtract(Vector r1, Vector r2) {
+    if (r1->size != r2->size) {
+        fprintf(stderr, "Error: Vectors are not of the same size.\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Vector result = vector_create(r1->size);
+    for (int i = 0; i < r1->size; i++) {
+        int x = r1->items[i] - r2->items[i];
+        vector_push(result, &x);
+    }
+    return result;
+}
+
+void vector_print(const Vector vec) {
+    printf("[");
+    for (int i = 0; i < vec->size; i++) {
+        printf("%d", vec->items[i]);
+        if (i < vec->size - 1) {
+            printf(", ");
+        }
+    }
+    printf("]\n");
+}
+
 
 int vector_tests() {
     int arr[] = {1,2,3,4,5};
@@ -145,5 +184,14 @@ int vector_tests() {
 
 
 //    vector_destroy(vec);
+    return 0;
+}
+
+int vector_sub_add_tests() {
+    Vector v1 = vector_init_by_value(10, 5);
+    Vector v2 = vector_init_by_value(10, 1);
+    Vector v3 = vector_add(v1, v2);
+    vector_print(vector_add(v1, v2));
+    vector_print(vector_subtract(v3, v1));
     return 0;
 }
