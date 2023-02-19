@@ -5,23 +5,32 @@
 #include <string.h>
 #include <stdio.h>
 
-typedef struct vector {
-    void *data;
-    int size;
+typedef struct _Vector {
+    void **items;
     int capacity;
-} *vector_t;
+    int size;
+} *Vector;
 
-// Creates and returns a new vector with an initial capacity.
-vector_t vector_create(int capacity);
-// Frees the memory used by a vector object, including its data array.
-void vector_free(vector_t vec);
-// Adds a new element to the end of a vector and expands its capacity if necessary.
-// Returns 1 on success and 0 on failure.
-int vector_push_back(vector_t vec, void *value);
-// Returns a pointer to the element at the given index in the vector's data array.
-void *vector_at(vector_t vec, int index);
-// Returns the number of elements in the vector.
-int vector_size(vector_t vec);
-// Returns the current capacity of the vector's data array.
-int vector_capacity(vector_t vec);
+Vector vector_create(int capacity);
+void vector_destroy(Vector vec);
+void *vector_get(Vector vec, int index);
+void vector_set(Vector vec, int index, void *value);
+void vector_push(Vector vec, void *value);
+void *vector_pop(Vector vec);
+int vector_size(Vector vec);
+int vector_capacity(Vector vec);
+void vector_resize(Vector vec, int new_capacity);
 
+//Vector init(int size, int *array) // constructor
+//
+//Vector init_zeros(int size) // Creates vector of zeros
+//
+//Vector init_ones(int size) // Creates vector of ones
+//
+//void add(Vector r1, Vector r2, Vector result) // Adds r1 to r2 and puts it in result
+//
+//void subtract(Vector r1, Vector r2, Vector result) // Subtracts r2 from r1 and puts it in result
+//
+//void scale(Vector r, double factor) // Scales vector by factor (multiplies all values by factor)
+//
+//double norm(Vector r) // Returns the norm of the vector (Square root of sum of squared values)
