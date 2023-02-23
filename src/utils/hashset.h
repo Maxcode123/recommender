@@ -17,7 +17,7 @@ typedef struct _HashTable {
 } *HashTable;
 
 // djb2 hash algorithm
-unsigned long ht_hash(unsigned char *key);
+unsigned long ht_hash(unsigned char *key, int max_size);
 
 //Initialize the ht by suze
 HashTable ht_init(int size);

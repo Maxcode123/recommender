@@ -2,6 +2,7 @@
 
 #include "parser/parser.h"
 #include "../utils/list.h"
+#include "../utils/hashset.h"
 
 // Clusters for number of ratings; used in ratings histogram.
 # define N_RATINGS_CLUSTER_1(r) r > 0 && r < 50
@@ -22,7 +23,7 @@ number of ratings per user and date interval of ratings per user. */
 void main();
 
 // Writes data for number of ratings per user to file with given filename.
-void ratingshst(Map, char*);
+void ratingshst(HashTable, char*);
 
 /* Writes data for number of users that made ratings within certain time 
 intervals to file with given filename */

@@ -11,7 +11,7 @@ void main() {
 
     printf("unique users: %d\n", ht_size(usermap));
 
-    ratingshst(usermap, "/home/max/Repos/recommender/plot/ratings_per_user.txt");
+    // ratingshst(usermap, "/home/max/Repos/recommender/plot/ratings_per_user.txt");
 }
 
 void allratings() {
