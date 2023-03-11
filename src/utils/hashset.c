@@ -29,10 +29,6 @@ void ht_insert(HashTable table, char *key, void *value) {
     while (table->entries[hash].key != NULL && strcmp(table->entries[hash].key, key) != 0) {
         hash = (hash + 1) % table->max_size;
     }
-    //todo: n(n) problem
-//    if(search_hashtable(table,key)){
-//        table->valid_records++;
-//    }
     if (table->entries[hash].key == NULL) table->valid_records++;
     table->entries[hash].key = key;
     table->entries[hash].value = value;
