@@ -4,12 +4,6 @@
 #include "../utils/list.h"
 #include "../utils/hashset.h"
 
-// Bins for number of ratings; used in ratings histogram.
-# define N_RATINGS_CLUSTER_1(r) r > 0 && r < 20
-# define N_RATINGS_CLUSTER_2(r) r >= 20 && r < 40
-# define N_RATINGS_CLUSTER_3(r) r >= 40 && r < 60
-# define N_RATINGS_CLUSTER_4(r) r >= 60 && r <= 80
-# define N_RATINGS_CLUSTER_5(r) r > 80
 
 /* Bins for days between first and last rating of user; used in dates 
 histogram. */
@@ -21,6 +15,27 @@ histogram. */
 /* Parses all files and writes to file data to plot frequency histograms for
 number of ratings per user and date interval of ratings per user. */
 void main();
+
+// Rating histogram bin boundaries.
+int _c1, _c2, _c3, _c4, _c5;
+
+// Define rating histogram bin boundaries.
+void defbins(int, int, int, int, int);
+
+// Returns true if given value is within ratings bin 1.
+bool rbin1(int);
+
+// Returns true if given value is within ratings bin 2.
+bool rbin2(int);
+
+// Returns true if given value is within ratings bin 3.
+bool rbin3(int);
+
+// Returns true if given value is within ratings bin 4.
+bool rbin4(int);
+
+// Returns true if given value is within ratings bin 5.
+bool rbin5(int);
 
 // Writes data for number of ratings per user to file with given filename.
 void ratingshst(HashTable, char*);

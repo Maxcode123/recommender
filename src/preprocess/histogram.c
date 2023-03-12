@@ -4,14 +4,39 @@ void main() {
     List rlst = lst_list();
     parseall(&rlst);
 
-    printf("all ratings: %d\n", lst_len(rlst));
-
     HashTable usermap = ht_init(900000);
     mapusers(usermap, rlst);
 
-    printf("unique users: %d\n", ht_size(usermap));
-
+    defbins(0, 5, 10, 15, 20);
     ratingshst(usermap, "/home/max/Repos/recommender/plot/ratings_per_user.txt");
+}
+
+void defbins(int c1, int c2, int c3, int c4, int c5) {
+    _c1 = c1;
+    _c2 = c2;
+    _c3 = c3;
+    _c4 = c4;
+    _c5 = c5;
+}
+
+bool rbin1(int r) {
+    return (r > _c1 && r < _c2);
+}
+
+bool rbin2(int r) {
+    return (r >= _c2 && r < _c3);
+}
+
+bool rbin3(int r) {
+    return (r >= _c3 && r < _c4);
+}
+
+bool rbin4(int r) {
+    return (r >= _c4 && r <= _c5);
+}
+
+bool rbin5(int r) {
+    return (r > _c5);
 }
 
 void allratings() {
@@ -59,11 +84,11 @@ void ratingshst(HashTable usermap, char* fname) {
     int len;
     for (int i = 0; i < ht_size(usermap); i++) {
         len = lst_len((List)(usermap->entries[i].value));
-        if (N_RATINGS_CLUSTER_1(len)) r[0]++;
-        else if (N_RATINGS_CLUSTER_2(len)) r[1]++;
-        else if (N_RATINGS_CLUSTER_3(len)) r[2]++;
-        else if (N_RATINGS_CLUSTER_4(len)) r[3]++;
-        else if (N_RATINGS_CLUSTER_5(len)) r[4]++;
+        if (rbin1(len)) r[0]++;
+        else if (rbin2(len)) r[1]++;
+        else if (rbin3(len)) r[2]++;
+        else if (rbin4(len)) r[3]++;
+        else if (rbin5(len)) r[4]++;
     }
 
     FILE *write;
@@ -73,11 +98,11 @@ void ratingshst(HashTable usermap, char* fname) {
         exit(1);
     }
 
-    fprintf(write, "\"1-49\" %d\n", r[0]);
-    fprintf(write, "\"50-99\" %d\n", r[1]);
-    fprintf(write, "\"100-149\" %d\n", r[2]);
-    fprintf(write, "\"150-200\" %d\n", r[3]);
-    fprintf(write, "\"200+\" %d\n", r[4]);
+    fprintf(write, "\"%d-%d\" %d\n",_c1 + 1, _c2 - 1, r[0]);
+    fprintf(write, "\"%d-%d\" %d\n",_c2, _c3 - 1, r[1]);
+    fprintf(write, "\"%d-%d\" %d\n",_c3, _c4 - 1, r[2]);
+    fprintf(write, "\"%d-%d\" %d\n",_c4, _c5, r[3]);
+    fprintf(write, "\"%d+\" %d\n",_c5, r[4]);
 }
 
 void dateshst(Map usermap, char* fname) {
