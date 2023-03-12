@@ -10,6 +10,10 @@ void main(int argc, char **argv) {
     mapusers(usermap, rlst);
 
     List fltr = filter(usermap, rlst);
-    printf("Filtered unique users: %d\n", ht_size(usermap));
-    printf("Filtered Ratings: %d\n", lst_len(fltr));
+    HashTable moviemap = ht_init(1500);
+    mapmovies(moviemap, fltr);
+
+    printf("Number of filtered Ratings: %d\n", lst_len(fltr));
+    printf("Number of filtered unique users: %d\n", ht_size(usermap));
+    printf("Number of filtered movies: %d\n", ht_size(moviemap));
 }

@@ -62,4 +62,4 @@ clean-preprocessed:
 	rm -r data/preprocessed/*
 
 clean:
-	rm -rf obj/* test/bin/* ratings-histogram unique scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c
+	rm -rf obj/* test/bin/* filtered ratings-histogram unique scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c
