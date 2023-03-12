@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdint-gcc.h>
 
 typedef struct _Entry {
     void *key;
@@ -27,9 +26,6 @@ void ht_insert(HashTable table, char *key, void *value);
 
 //Gets the record by "key"
 void *ht_search(HashTable table, char *key);
-
-//Print the ht
-void ht_print(HashTable table);
 
 //Deletes a record of ht.
 // Success: 1

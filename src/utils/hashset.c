@@ -46,15 +46,6 @@ void *ht_search(HashTable table, char *key) {
 }
 
 
-void ht_print(HashTable table) {
-    for (int i = 0; i < table->max_size; i++) {
-        if (table->entries[i].key != NULL) {
-            printf("key: %s, value: %2s\n", table->entries[i].key, (uint8_t *) table->entries[i].value);
-        }
-    }
-}
-
-
 int ht_delete(HashTable table, char *key) {
     unsigned long index = ht_hash((unsigned char *) key, table->max_size);
     while (table->entries[index].key != NULL && strcmp(table->entries[index].key, key) != 0) {
