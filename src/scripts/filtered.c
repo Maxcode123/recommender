@@ -9,6 +9,7 @@ void main(int argc, char **argv) {
     HashTable usermap = ht_init(900000);
     mapusers(usermap, rlst);
 
-    filter(usermap);
+    List fltr = filter(usermap, rlst);
     printf("Filtered unique users: %d\n", ht_size(usermap));
+    printf("Filtered Ratings: %d\n", lst_len(fltr));
 }

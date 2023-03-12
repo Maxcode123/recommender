@@ -7,7 +7,7 @@
 # define RMIN 5
 # define RMAX 50
 
-/* Filters 1st map based on minimum and maximum allowed number of ratings per
-user. */
-void filter(HashTable);
+/* Filters map based on minimum and maximum allowed number of ratings per
+user. Returns list with filtered records.*/
+List filter(HashTable, List);
 
