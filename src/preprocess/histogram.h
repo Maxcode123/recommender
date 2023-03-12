@@ -12,9 +12,6 @@ histogram. */
 # define N_DAYS_CLUSTER_3(d) d >= 2 * 365 && d < 3 * 365
 # define N_DAYS_CLUSTER_4(d) d >= 3 * 365
 
-/* Parses all files and writes to file data to plot frequency histograms for
-number of ratings per user and date interval of ratings per user. */
-void main();
 
 // Rating histogram bin boundaries.
 int _c1, _c2, _c3, _c4, _c5;

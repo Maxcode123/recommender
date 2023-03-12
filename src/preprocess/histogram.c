@@ -1,15 +1,5 @@
 #include "histogram.h"
 
-void main() {
-    List rlst = lst_list();
-    parseall(&rlst);
-
-    HashTable usermap = ht_init(900000);
-    mapusers(usermap, rlst);
-
-    defbins(0, 5, 10, 15, 20);
-    ratingshst(usermap, "/home/max/Repos/recommender/plot/ratings_per_user.txt");
-}
 
 void defbins(int c1, int c2, int c3, int c4, int c5) {
     _c1 = c1;
