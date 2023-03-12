@@ -14,6 +14,6 @@ void main(int argc, char **argv) {
 
     // List fltr = filter(usermap, rlst);
 
-    defdbins(5, 10, 20, 30);
+    defdbins(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]));
     dateshst(usermap, "/home/max/Repos/recommender/plot/dates.txt");
 }

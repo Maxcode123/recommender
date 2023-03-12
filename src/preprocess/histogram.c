@@ -94,14 +94,16 @@ void allratings() {
 void ratingshst(HashTable usermap, char* fname) {
     int r[] = {0, 0, 0, 0, 0};
     int len;
-    for (int i = 0; i < ht_size(usermap); i++) {
-        len = lst_len((List)(usermap->entries[i].value));
+    Iterator it = ht_it(usermap);
+    while (ht_next(it)) {
+        len = lst_len((List)(it->value));
         if (rbin1(len)) r[0]++;
         else if (rbin2(len)) r[1]++;
         else if (rbin3(len)) r[2]++;
         else if (rbin4(len)) r[3]++;
         else if (rbin5(len)) r[4]++;
     }
+    free(it);
 
     FILE *write;
 
@@ -119,8 +121,9 @@ void ratingshst(HashTable usermap, char* fname) {
 
 void dateshst(HashTable usermap, char* fname) {
     int days[] = {0, 0, 0, 0};
-    for (int i = 0; i < ht_size(usermap); i++) {
-        List r = (List)(usermap->entries[i].value);
+    Iterator it = ht_it(usermap);
+    while (ht_next(it)) {
+        List r = (List)(it->value);
         Date min = ((Rating)r->i)->date;
         Date max = ((Rating)r->i)->date;
         Node tmp2 = r;
@@ -136,6 +139,7 @@ void dateshst(HashTable usermap, char* fname) {
         else if (dbin3(diff)) days[2]++;
         else if (dbin4(diff)) days[3]++;
     }
+    free(it);
     
     FILE *write;
 

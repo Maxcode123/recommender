@@ -1,0 +1,15 @@
+reset
+set terminal jpeg
+set output "plot/date_periods.jpg"
+
+set grid ytics linestyle 0
+set style fill solid 0.20 border
+set style data histogram
+set boxwidth 1.8 relative
+show boxwidth
+
+set title "Αξιολογήσεις ανά χρονικό εύρος"
+set xlabel "Χρονικό εύρος (ημέρες)"
+set ylabel "Συχνότητα"
+
+plot "plot/dates.txt" using 2:xtic(1) title ""

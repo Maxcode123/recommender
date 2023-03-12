@@ -25,3 +25,6 @@ ratings-filtered: $(OBJ)/ratings_filtered.o $(OBJ)/filter.o $(OBJ)/histogram.o $
 dates: $(OBJ)/dates_filtered.o $(OBJ)/filter.o $(OBJ)/histogram.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/hashset.o $(OBJ)/date.o $(OBJ)/lex.yy.o
 	$(CC) $^ -o $@
 	clear
+	./$@ 0 365 730 1095
+	gnuplot plot/ratings_per_date_period_histogram.txt
+	code plot/date_periods.jpg
