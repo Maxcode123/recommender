@@ -1,5 +1,6 @@
 CC=gcc
 ARGS=-g
+OBJCOMP=$(CC) $(ARGS) -c $< -o $@
 DB=gdb
 OBJ=obj
 SRC=src
@@ -7,10 +8,16 @@ PREPROCESS=$(SRC)/preprocess
 PARSER=$(PREPROCESS)/parser
 SCANNER=$(PARSER)/scanner
 PRESCANNER=$(SCANNER)/prescanner
+SCRIPTS=$(SRC)/scripts
 
 
 all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/date.o test/main.c
 	$(CC) $^ -o test/bin/main
+
+unique: $(OBJ)/unique.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/hashset.o $(OBJ)/date.o $(OBJ)/lex.yy.o
+	$(CC) $^ -o $@
+	clear
+	./$@
 
 histogram: $(OBJ)/histogram.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/hashset.o $(OBJ)/date.o $(OBJ)/lex.yy.o
 	$(CC) $^ -o $@
@@ -37,28 +44,32 @@ pre-process: prescanner
 	./$<
 
 prescanner: obj/lexdriver.o obj/prelex.yy.o obj/preprocessor.o
-	$(CC) $(ARGS) $^ -o $@
+	$(OBJCOMP)
 
 $(OBJ)/%.o: $(SRC)/%.c
-	$(CC) $(ARGS) -c $< -o $@
+	$(OBJCOMP)
 
 $(OBJ)/%.o: $(SRC)/utils/%.c
-	$(CC) $(ARGS) -c $< -o $@
+	$(OBJCOMP)
 
 $(OBJ)/%.o: $(PREPROCESS)/%.c
-	$(CC) $(ARGS) -c $< -o $@
+	$(OBJCOMP)
 
 $(OBJ)/%.o: $(PARSER)/%.c
-	$(CC) $(ARGS) -c $< -o $@
+	$(OBJCOMP)
 
 $(OBJ)/%.o: $(SCANNER)/%.c
-	$(CC) $(ARGS) -c $< -o $@
+	$(OBJCOMP)
 
 $(OBJ)/%.o: $(PRESCANNER)/%.c
-	$(CC) $(ARGS) -c $< -o $@
+	$(OBJCOMP)
+
+$(OBJ)/%.o: $(SCRIPTS)/%.c
+	$(OBJCOMP)
+
 
 clean-preprocessed:
 	rm -r data/preprocessed/*
 
 clean:
-	rm -rf obj/* test/bin/* histogram scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c
+	rm -rf obj/* test/bin/* histogram unique scanner prescanner src/preprocess/parser/scanner/lex.yy.c src/preprocess/parser/scanner/prescanner/prelex.yy.c

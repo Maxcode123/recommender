@@ -104,11 +104,15 @@ void mapusers(HashTable usermap, List rlst) {
 
 void mapmovies(HashTable moviemap, List rlst) {
     Node n = rlst;
-    MapItem i;
+    List i;
     Rating r;
     while (n != NULL) {
         r = (Rating)n->i;
-        if (i = ht_search(moviemap, r->movie)) lst_add(node(r->username, r), (List*)&i);
+        if (i = ht_search(moviemap, r->movie)) 
+        {
+            lst_add(node(r->username, r), &i);
+            ht_insert(moviemap, r->movie, i);
+        }
         else {
             List h = lst_list();
             lst_add(node(r->username, r), &h);
