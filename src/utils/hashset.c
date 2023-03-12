@@ -10,7 +10,7 @@ unsigned long ht_hash(unsigned char *key, int max_size) {
 }
 
 HashTable ht_init(int size) {
-    HashTable hash_table = (HashTable) malloc(sizeof(struct _HashTable));
+    HashTable hash_table = (HashTable) malloc(sizeof(*hash_table));
     hash_table->entries = (Entry) malloc(sizeof(struct _Entry) * size);
     hash_table->max_size = size;
     hash_table->valid_records = 0;
@@ -63,4 +63,24 @@ int ht_delete(HashTable table, char *key) {
 
 int ht_size(HashTable table) {
     return table->valid_records;
+}
+
+Iterator ht_it(HashTable table) {
+    Iterator hti = malloc(sizeof(*hti));
+    hti->_ht = table;
+    hti->_index = 0;
+    return hti;
+}
+
+bool ht_next(Iterator it) {
+    HashTable ht = it->_ht;
+    while (it->_index < ht->valid_records) {
+        size_t i = it->_index;
+        if (ht->entries[i].key != NULL) {
+            it->key = ht->entries[i].key;
+            it->value = ht->entries[i].value;
+            return true;
+        }
+    }
+    return false;
 }
