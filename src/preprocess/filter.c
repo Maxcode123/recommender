@@ -1,13 +1,12 @@
 #include "filter.h"
 
-void filter(Map usermap) {
-    List tmp = usermap->lst;
+void filter(HashTable usermap) {
     List rlst;
     int len;
-    while (tmp != NULL) {
-        rlst = (List)tmp->i;
+    for (int i = 0; i < ht_size(usermap); i++) {
+        rlst = (List)(usermap->entries[i].value);
         len = lst_len(rlst);
-        if (len < RMIN || len > RMAX) map_del(usermap, tmp->k);
-        tmp = tmp->next;
+        if (len == 0) continue;;
+        if (len < RMIN || len > RMAX) ht_delete(usermap, usermap->entries[i].key);
     }
 }
