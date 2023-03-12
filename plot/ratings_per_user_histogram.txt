@@ -8,7 +8,7 @@ set style data histogram
 set boxwidth 1.8 relative
 show boxwidth
 
-set title "Ratings per user histogram"
+set title "Ratings per user"
 set xlabel "Number of ratings per user"
 set ylabel "Frequency"
 
