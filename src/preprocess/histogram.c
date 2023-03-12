@@ -11,7 +11,7 @@ void main() {
 
     printf("unique users: %d\n", ht_size(usermap));
 
-    // ratingshst(usermap, "/home/max/Repos/recommender/plot/ratings_per_user.txt");
+    ratingshst(usermap, "/home/max/Repos/recommender/plot/ratings_per_user.txt");
 }
 
 void allratings() {
@@ -58,7 +58,7 @@ void ratingshst(HashTable usermap, char* fname) {
     int r[] = {0, 0, 0, 0, 0};
     int len;
     for (int i = 0; i < ht_size(usermap); i++) {
-        len = lst_len((List)usermap->entries->value);
+        len = lst_len((List)(usermap->entries[i].value));
         if (N_RATINGS_CLUSTER_1(len)) r[0]++;
         else if (N_RATINGS_CLUSTER_2(len)) r[1]++;
         else if (N_RATINGS_CLUSTER_3(len)) r[2]++;

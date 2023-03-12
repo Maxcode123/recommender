@@ -4,14 +4,14 @@
 #include "../utils/list.h"
 #include "../utils/hashset.h"
 
-// Clusters for number of ratings; used in ratings histogram.
-# define N_RATINGS_CLUSTER_1(r) r > 0 && r < 50
-# define N_RATINGS_CLUSTER_2(r) r >= 50 && r < 100
-# define N_RATINGS_CLUSTER_3(r) r >= 100 && r < 150
-# define N_RATINGS_CLUSTER_4(r) r >= 150 && r <= 200
-# define N_RATINGS_CLUSTER_5(r) r > 200
+// Bins for number of ratings; used in ratings histogram.
+# define N_RATINGS_CLUSTER_1(r) r > 0 && r < 20
+# define N_RATINGS_CLUSTER_2(r) r >= 20 && r < 40
+# define N_RATINGS_CLUSTER_3(r) r >= 40 && r < 60
+# define N_RATINGS_CLUSTER_4(r) r >= 60 && r <= 80
+# define N_RATINGS_CLUSTER_5(r) r > 80
 
-/* Clusters for days between first and last rating of user; used in dates 
+/* Bins for days between first and last rating of user; used in dates 
 histogram. */
 # define N_DAYS_CLUSTER_1(d) d > 0 && d < 365
 # define N_DAYS_CLUSTER_2(d) d >= 365 && d < 2 * 365
