@@ -53,6 +53,7 @@ void parsef(char *fname, List *h) {
                 num = 0;
                 char *movie = malloc(sizeof(*movie)*200);
                 strcpy(movie, fname);
+                if (value == 0) break;
                 r = rating(username, movie, value, parsedate(yylval.sval));
                 lst_add(node("", r), h);
                 break;
