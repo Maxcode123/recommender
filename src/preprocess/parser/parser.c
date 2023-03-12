@@ -89,6 +89,7 @@ void mapusers(HashTable usermap, List rlst) {
     Rating r;
     while (n != NULL) {
         r = (Rating)n->i;
+        if (r->value == 0) {n = n->next; continue;}  // invalidate 0 rating-value records as they denote absense of rating
         if (i = ht_search(usermap, r->username)) {
             lst_add(node(r->movie, r), &i);
             ht_insert(usermap, r->username, i);

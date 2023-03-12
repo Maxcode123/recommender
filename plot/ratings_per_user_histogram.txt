@@ -8,8 +8,8 @@ set style data histogram
 set boxwidth 1.8 relative
 show boxwidth
 
-set title "Ratings per user"
-set xlabel "Number of ratings per user"
-set ylabel "Frequency"
+set title "Αξιολογήσεις ανά χρήστη"
+set xlabel "Πλήθος αξιολογήσεων"
+set ylabel "Συχνότητα"
 
 plot "plot/ratings_per_user.txt" using 2:xtic(1) title ""
