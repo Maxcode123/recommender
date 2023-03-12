@@ -64,10 +64,6 @@ int ht_delete(HashTable table, char *key) {
         table->entries[index].key = NULL;
         table->entries[index].value = NULL;
         table->valid_records--;
-        //todo: n(n) problem
-//    if(search_hashtable(table,key)){
-//        table->valid_records++;
-//    }
         return 1;
     }
     return 0;

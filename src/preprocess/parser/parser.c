@@ -85,11 +85,14 @@ void parseall(List *rlst) {
 
 void mapusers(HashTable usermap, List rlst) {
     Node n = rlst;
-    MapItem i;
+    List i;
     Rating r;
     while (n != NULL) {
         r = (Rating)n->i;
-        if (i = ht_search(usermap, r->username)) lst_add(node(r->movie, r), (List*)&i);
+        if (i = ht_search(usermap, r->username)) {
+            lst_add(node(r->movie, r), &i);
+            ht_insert(usermap, r->username, i);
+        }
         else {
             List h = lst_list();
             lst_add(node(r->movie, r), &h);
