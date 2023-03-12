@@ -1,7 +1,29 @@
 #include "histogram.h"
 
+void defdbins(int d1, int d2, int d3, int d4) {
+    _d1 = d1;
+    _d2 = d2;
+    _d3 = d3;
+    _d4 = d4;
+}
 
-void defbins(int c1, int c2, int c3, int c4, int c5) {
+bool dbin1(int d) {
+    return (d > _d1 && d < _d2);
+}
+
+bool dbin2(int d) {
+    return (d >= _d2 && d < _d3);
+}
+
+bool dbin3(int d) {
+    return (d >= _d3 && d <= _d4);
+}
+
+bool dbin4(int d) {
+    return (d > _d4);
+}
+
+void defrbins(int c1, int c2, int c3, int c4, int c5) {
     _c1 = c1;
     _c2 = c2;
     _c3 = c3;
@@ -95,13 +117,12 @@ void ratingshst(HashTable usermap, char* fname) {
     fprintf(write, "\"%d+\" %d\n",_c5, r[4]);
 }
 
-void dateshst(Map usermap, char* fname) {
+void dateshst(HashTable usermap, char* fname) {
     int days[] = {0, 0, 0, 0};
-    List n = usermap->lst;
-    Node tmp1 = n;
-    while (tmp1 != NULL) {
-        List r = (List)n->i;
-        Date min = ((Rating)r->i)->date, max = ((Rating)r->i)->date;
+    for (int i = 0; i < ht_size(usermap); i++) {
+        List r = (List)(usermap->entries[i].value);
+        Date min = ((Rating)r->i)->date;
+        Date max = ((Rating)r->i)->date;
         Node tmp2 = r;
         while (tmp2 != NULL) {
             Date d = ((Rating)tmp2->i)->date;
@@ -110,11 +131,10 @@ void dateshst(Map usermap, char* fname) {
             tmp2 = tmp2->next;
         }
         int diff = date_diff(min, max);
-        if (N_DAYS_CLUSTER_1(diff)) days[0]++;
-        else if (N_DAYS_CLUSTER_2(diff)) days[1]++;
-        else if (N_DAYS_CLUSTER_3(diff)) days[2]++;
-        else if (N_DAYS_CLUSTER_4(diff)) days[3]++;
-        tmp1 = tmp1->next;
+        if (dbin1(diff)) days[0]++;
+        else if (dbin2(diff)) days[1]++;
+        else if (dbin3(diff)) days[2]++;
+        else if (dbin4(diff)) days[3]++;
     }
     
     FILE *write;
@@ -124,8 +144,8 @@ void dateshst(Map usermap, char* fname) {
         exit(1);
     }
 
-    fprintf(write, "\"1-364 (1yr)\" %d\n", days[0]);
-    fprintf(write, "\"365-729 (1-2yr)\" %d\n", days[1]);
-    fprintf(write, "\"730-1094 (2-3yr)\" %d\n", days[2]);
-    fprintf(write, "\"1095+ (3yr+)\" %d\n", days[3]);
+    fprintf(write, "\"%d-%d\" %d\n",_d1 + 1, _d2 - 1, days[0]);
+    fprintf(write, "\"%d-%d\" %d\n", _d2, _d3 - 1, days[1]);
+    fprintf(write, "\"%d-%d\" %d\n", _d3, _d4, days[2]);
+    fprintf(write, "\"%d+\" %d\n", _d4, days[3]);
 }
