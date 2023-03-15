@@ -1,6 +1,6 @@
 #include "matrix.h"
 
-void matrix(Vector *m, HashTable usermap, HashTable moviemap) {
+void matrix(Vector *R, HashTable usermap, HashTable moviemap) {
     Iterator u_it = ht_it(usermap);
     Node n;
     int i = 0;
@@ -14,6 +14,6 @@ void matrix(Vector *m, HashTable usermap, HashTable moviemap) {
             else vector_push(v, 0);
             c++;
         }
-        m[i++] = v;
+        R[i++] = v;
     }
 }
