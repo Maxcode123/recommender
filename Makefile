@@ -4,6 +4,7 @@ OBJCOMP=$(CC) $(ARGS) -c $< -o $@
 DB=gdb
 OBJ=obj
 SRC=src
+CLUSTERING=$(SRC)/clustering
 PREPROCESS=$(SRC)/preprocess
 PARSER=$(PREPROCESS)/parser
 SCANNER=$(PARSER)/scanner
@@ -14,7 +15,7 @@ UTILSO=$(OBJ)/date.o $(OBJ)/vector.o $(OBJ)/hashset.o $(OBJ)/list.o
 include scripts.mk
 include tests.mk
 
-all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/filter.o $(OBJ)/matrix.o $(UTILSO) test/main.c
+all: $(OBJ)/lex.yy.o $(OBJ)/kmeans.o $(OBJ)/parser.o $(OBJ)/filter.o $(OBJ)/matrix.o $(UTILSO) test/main.c
 	$(CC) $^ -o test/bin/main -lm
 
 debug: all
@@ -51,6 +52,9 @@ $(OBJ)/%.o: $(PRESCANNER)/%.c
 	$(OBJCOMP)
 
 $(OBJ)/%.o: $(SCRIPTS)/%.c
+	$(OBJCOMP)
+
+$(OBJ)/%.o: $(CLUSTERING)/%.c
 	$(OBJCOMP)
 
 

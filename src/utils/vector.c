@@ -90,14 +90,7 @@ Vector vector_init_by_array(int capacity, int *array) {
 Vector vector_init_by_value(int capacity, int value) {
     Vector vec = vector_create(capacity);
     for (int i = 0; i < capacity; i++) {
-        int *val = malloc(sizeof(int));
-        if (val == NULL) {
-            // Out of memory error
-            fprintf(stderr, "Error: Out of memory.\n");
-            exit(EXIT_FAILURE);
-        }
-        *val = value;
-        vector_push(vec, val);
+        vector_push(vec, value);
     }
     return vec;
 }
@@ -153,71 +146,4 @@ double vector_norm(Vector r) {
         sum_of_squares += pow(r->items[i], 2);
     }
     return sqrt(sum_of_squares);
-}
-
-
-int vector_tests() {
-    int arr[] = {1, 2, 3, 4, 5};
-    Vector vec = vector_init_by_array(4, arr);
-    int x1 = 100;
-    int x2 = 200;
-    int x3 = 300;
-    int x4 = 400;
-    int x5 = 500;
-    int x6 = 500;
-    vector_push(vec, &x1);
-    vector_push(vec, &x2);
-    vector_push(vec, &x3);
-    vector_push(vec, &x4);
-    vector_push(vec, &x5);
-    vector_push(vec, &x6);
-
-    printf("Vector capacity: %d, size: %d, elements: ", vec->capacity, vec->size);
-    for (int i = 0; i < vec->size; i++) {
-        printf("%d ", (int *) vec->items[i]);
-    }
-    printf("\n");
-
-    printf("V:capacity -> %d\n", vector_capacity(vec));
-    printf("V:capacity -> %d\n", vector_size(vec));
-    printf("%d\n", (int *) vector_get(vec, 1));
-    int x_5000 = 5000;
-    vector_set(vec, 1, &x_5000);
-    printf("%d\n", (int *) vector_get(vec, 1));
-
-    vector_pop(vec); //500
-    vector_pop(vec); //500
-    vector_pop(vec); //400
-    vector_pop(vec); //300
-
-    printf("Vector capacity: %d, size: %d, elements: ", vec->capacity, vec->size);
-    for (int i = 0; i < vec->size; i++) {
-        printf("%d ", (int *) vec->items[i]);
-    }
-    printf("\n");
-
-
-//    vector_destroy(vec);
-    return 0;
-}
-
-int vector_sub_add_tests() {
-    Vector v1 = vector_init_by_value(10, 5);
-    Vector v2 = vector_init_by_value(10, 1);
-    Vector v3 = vector_add(v1, v2);
-    vector_print(vector_add(v1, v2));
-    vector_print(vector_subtract(v3, v1));
-    return 0;
-}
-
-void test_scale() {
-    Vector myVector = vector_init_by_value(3, 0);
-    vector_scale(myVector, 2);
-    vector_print(myVector);
-}
-
-void test_norm() {
-    Vector myVector = vector_init_by_value(3, 0);
-    double xx = vector_norm(myVector);
-    printf("norm : %f \n", xx);
 }

@@ -17,3 +17,9 @@ $(TEST)/bin/testmatrix: $(UTILSO)
 
 $(TEST)/bin/testmatrix:
 	$(COMPILE) $(MATHLIB)
+
+test-kmeans: $(TEST)/bin/testkmeans
+	$<
+
+$(TEST)/bin/testkmeans: $(TEST)/integration/testkmeans.c $(UTILSO) $(OBJ)/kmeans.o
+	$(COMPILE) $(MATHLIB)
