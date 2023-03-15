@@ -97,7 +97,7 @@ Vector vector_add(Vector r1, Vector r2) {
     Vector result = vector_create(r1->size);
     for (int i = 0; i < r1->size; i++) {
         int x = r1->items[i] + r2->items[i];
-        vector_push(result, &x);
+        vector_push(result, x);
     }
     return result;
 }
@@ -111,7 +111,7 @@ Vector vector_subtract(Vector r1, Vector r2) {
     Vector result = vector_create(r1->size);
     for (int i = 0; i < r1->size; i++) {
         int x = r1->items[i] - r2->items[i];
-        vector_push(result, &x);
+        vector_push(result, x);
     }
     return result;
 }

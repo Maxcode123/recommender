@@ -2,6 +2,12 @@ TEST=test
 COMPILE=$(CC) $^ -o $@ -lcriterion
 MATHLIB=-lm
 
+test-vector: $(TEST)/bin/testvector
+	$<
+
+$(TEST)/bin/testvector: $(TEST)/testvector.c $(OBJ)/vector.o
+	$(COMPILE) $(MATHLIB)
+
 test-date: $(TEST)/bin/testdate
 	$<
 
