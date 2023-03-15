@@ -4,3 +4,4 @@ data/preprocessed/*
 data/raw/*
 src/preprocess/parser/scanner/*yy.c
 src/preprocess/parser/scanner/prescanner/*yy.c
+plot/*.jpg
