@@ -11,6 +11,7 @@ PRESCANNER=$(SCANNER)/prescanner
 SCRIPTS=$(SRC)/scripts
 
 include scripts.mk
+include tests.mk
 
 all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/date.o test/main.c
 	$(CC) $^ -o test/bin/main

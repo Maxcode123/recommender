@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <math.h>
 
-// A dynamic array data structure implemented using a struct
 typedef struct _Vector {
     int *items;         // Pointer to the underlying array of integers
     int capacity;       // Maximum number of elements the vector can hold before resizing
@@ -20,16 +19,16 @@ Vector vector_create(int capacity);
 void vector_destroy(Vector vec);
 
 // Returns a pointer to the element at the specified index in the vector
-void *vector_get(Vector vec, int index);
+int vector_get(Vector vec, int index);
 
 // Replaces the element at the specified index with the given value
-void vector_set(Vector vec, int index, int *value);
+void vector_set(Vector vec, int index, int value);
 
 // Adds a new element to the end of the vector
 void vector_push(Vector vec, int *value);
 
 // Removes and returns the last element in the vector
-void *vector_pop(Vector vec);
+int vector_pop(Vector vec);
 
 // Returns the number of elements in the vector
 int vector_size(Vector vec);

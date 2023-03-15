@@ -22,18 +22,18 @@ void vector_destroy(Vector vec) {
     free(vec);
 }
 
-void *vector_get(Vector vec, int index) {
+int vector_get(Vector vec, int index) {
     if (index < 0 || index >= vec->size) {
         return NULL;
     }
-    return (int *) vec->items[index];
+    return vec->items[index];
 }
 
-void vector_set(Vector vec, int index, int *value) {
+void vector_set(Vector vec, int index, int value) {
     if (index < 0 || index >= vec->size) {
         return;
     }
-    vec->items[index] = *value;
+    vec->items[index] = value;
 }
 
 void vector_push(Vector vec, int *value) {
@@ -44,12 +44,12 @@ void vector_push(Vector vec, int *value) {
     vec->size++;
 }
 
-void *vector_pop(Vector vec) {
+int vector_pop(Vector vec) {
     if (vec->size == 0) {
         return NULL;
     }
     vec->size--;
-    return (int *) vec->items[vec->size];
+    return vec->items[vec->size];
 }
 
 int vector_size(Vector vec) {
