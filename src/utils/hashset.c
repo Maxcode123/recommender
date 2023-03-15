@@ -74,7 +74,7 @@ Iterator ht_it(HashTable table) {
 
 bool ht_next(Iterator it) {
     HashTable ht = it->_ht;
-    while (it->_index < ht->valid_records) {
+    while (it->_index < ht->max_size) {
         size_t i = it->_index;
         it->_index++;
         if (ht->entries[i].key != NULL) {

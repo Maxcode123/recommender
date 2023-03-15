@@ -25,7 +25,7 @@ int vector_get(Vector vec, int index);
 void vector_set(Vector vec, int index, int value);
 
 // Adds a new element to the end of the vector
-void vector_push(Vector vec, int *value);
+void vector_push(Vector vec, int value);
 
 // Removes and returns the last element in the vector
 int vector_pop(Vector vec);

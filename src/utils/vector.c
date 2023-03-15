@@ -8,7 +8,7 @@ Vector vector_create(int capacity) {
     }
     vec->capacity = capacity;
     vec->size = 0;
-    vec->items = malloc(capacity * sizeof(int *));
+    vec->items = malloc(capacity * sizeof(int));
     if (vec->items == NULL) {
         free(vec);
         fprintf(stderr, "Error: Out of memory.\n");
@@ -36,11 +36,11 @@ void vector_set(Vector vec, int index, int value) {
     vec->items[index] = value;
 }
 
-void vector_push(Vector vec, int *value) {
+void vector_push(Vector vec, int value) {
     if (vec->size >= vec->capacity) {
         vector_resize(vec, vec->capacity * 2);
     }
-    vec->items[vec->size] = *value;
+    vec->items[vec->size] = value;
     vec->size++;
 }
 

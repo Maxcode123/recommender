@@ -9,21 +9,16 @@ PARSER=$(PREPROCESS)/parser
 SCANNER=$(PARSER)/scanner
 PRESCANNER=$(SCANNER)/prescanner
 SCRIPTS=$(SRC)/scripts
+UTILSO=$(OBJ)/date.o $(OBJ)/vector.o $(OBJ)/hashset.o $(OBJ)/list.o
 
 include scripts.mk
 include tests.mk
 
-all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/map.o $(OBJ)/date.o test/main.c
-	$(CC) $^ -o test/bin/main
-
-run-file: all
-	test/bin/main data/preprocessed/Troy\ 2004.csv
+all: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/filter.o $(OBJ)/matrix.o $(UTILSO) test/main.c
+	$(CC) $^ -o test/bin/main -lm
 
 debug: all
 	$(DB) test/bin/main
-
-debug-file: all
-	$(DB) --args test/bin/main data/preprocessed/Troy\ 2004.csv
 
 $(SCANNER)/lex.yy.c: $(SCANNER)/scanner.lex
 	lex -o $@ $<
