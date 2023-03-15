@@ -5,6 +5,7 @@ void clustering(Vector *R, int k, int n) {
     initclusters(n);
     initdists(k ,n);
     assignment(R, k, n);
+    flag = true;
     while (flag) {
         calccentroids(R, k, n);
         assignment(R, k, n);        
@@ -15,9 +16,17 @@ int *getclusters() {
     return clusters;
 }
 
+Vector *getcentroids() {
+    return centroids;
+}
+
 void initclusters(int n) {
     clusters = malloc(sizeof(int) *n);
     for (int i = 0; i < n; i++) clusters[i] = 0;
+}
+
+double **getdists() {
+    return dists;
 }
 
 void initdists(int k, int n) {
@@ -51,7 +60,7 @@ void assignment(Vector *R, int k, int n) {
 
 double calcdistance(Vector R1, Vector R2) {
     double sum = 0;
-    for (int i = 0; i < R1->size; i++) {
+    for (int i = 0; i < vector_size(R1); i++) {
         if (vector_get(R1, i) && vector_get(R2, i)) sum += pow(vector_get(R1, i) - vector_get(R2, i), 2);
     }
     sum = sqrt(sum);
@@ -60,10 +69,14 @@ double calcdistance(Vector R1, Vector R2) {
 
 void assignvct(int k, int n) {
     int i, j, min;
-    for (j = 1; j < k; j++) {
-        min = 0;
-        for (i = 0; i < n; i++) {
-            if (dists[j][i] < dists[j-1][i]) min = j;
+    flag = false;
+    for (i = 0; i < n; i++) {
+        min = clusters[i];
+        for (j = 1; j < k; j++) {
+            if (dists[j][i] < dists[j-1][i]) {
+                min = j;
+                flag = true;
+            }
         }
         clusters[i] = min;
     }
@@ -72,13 +85,13 @@ void assignvct(int k, int n) {
 void calccentroids(Vector *R, int k, int n) {
     Vector *sums = malloc(sizeof(*sums)*k);
     int counts[k];
+    int d = vector_size(R[0]); // dimensions of vectors
     for (int i = 0; i < k; i++) {
         counts[i] = 0;
-        sums[i] = vector_init_by_value(n, 0);
+        sums[i] = vector_init_by_value(d, 0);
     }
     for (int j = 0; j < n; j++) {
         Vector tmp = vector_add(R[j], sums[clusters[j]]);
-        free(&sums[clusters[j]]);
         sums[clusters[j]] = tmp;
         counts[clusters[j]]++;
     }

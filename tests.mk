@@ -21,5 +21,5 @@ $(TEST)/bin/testmatrix:
 test-kmeans: $(TEST)/bin/testkmeans
 	$<
 
-$(TEST)/bin/testkmeans: $(TEST)/integration/testkmeans.c $(UTILSO) $(OBJ)/kmeans.o
+$(TEST)/bin/testkmeans: $(TEST)/testkmeans.c $(UTILSO) $(OBJ)/kmeans.o
 	$(COMPILE) $(MATHLIB)

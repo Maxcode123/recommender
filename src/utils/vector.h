@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <math.h>
+#include <stdbool.h>
 
 typedef struct _Vector {
     int *items;         // Pointer to the underlying array of integers
@@ -56,6 +57,9 @@ void vector_scale(Vector r, double factor);
 
 // Returns the norm of the vector (square root of sum of squared values)
 double vector_norm(Vector r);
+
+// Equality comparison between two vectors.
+bool vector_eq(Vector, Vector);
 
 // Prints the contents of the vector to stdout
 void vector_print(Vector vec);

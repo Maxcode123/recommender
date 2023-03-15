@@ -13,6 +13,9 @@ static int *clusters; // Array of cluster numbers, indexed by array of vectors.
 // Returns mapping of cluster to array of vectors.
 int *getclusters();
 
+// Returns array of centroids.
+Vector *getcentroids();
+
 // Allocates memory for cluster array and initializes all values to 0.
 void initclusters(int);
 
@@ -22,6 +25,9 @@ static bool flag;
 /* Matrix of distances of each vector from centroids. Each row represents a
 vector, each column represents a centroid. */
 static double **dists;
+
+// Returns matrix of distances.
+double **getdists();
 
 // Alloactes memory for distance matrix, initializes all values to 0.
 void initdists(int, int);

@@ -75,14 +75,7 @@ void vector_resize(Vector vec, int new_capacity) {
 Vector vector_init_by_array(int capacity, int *array) {
     Vector vec = vector_create(capacity);
     for (int i = 0; i < capacity; i++) {
-        int *value = malloc(sizeof(int));
-        if (value == NULL) {
-            // Out of memory error
-            fprintf(stderr, "Error: Out of memory.\n");
-            exit(EXIT_FAILURE);
-        }
-        *value = array[i];
-        vector_push(vec, value);
+        vector_push(vec, array[i]);
     }
     return vec;
 }
@@ -146,4 +139,12 @@ double vector_norm(Vector r) {
         sum_of_squares += pow(r->items[i], 2);
     }
     return sqrt(sum_of_squares);
+}
+
+bool vector_eq(Vector r1, Vector r2) {
+    if (vector_size(r1) != vector_size(r2)) return false;
+    for (int i = 0; i < vector_size(r1); i++) {
+        if (vector_get(r1, i) != vector_get(r2, i)) return false;
+    }
+    return true;
 }
