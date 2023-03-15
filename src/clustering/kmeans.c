@@ -1,7 +1,7 @@
 #include "kmeans.h"
 
 void clustering(Vector *R, int k, int n) {
-    initcentroids(R, k, n);
+    initcentroids(R, k);
     initclusters(n);
     initdists(k ,n);
     assignment(R, k, n);
@@ -40,11 +40,11 @@ void initdists(int k, int n) {
     }
 }
 
-void initcentroids(Vector *R, int k, int n) {
+void initcentroids(Vector *R, int k) {
     if (_initcentroids == false) centroids = malloc(sizeof(*centroids)*k);
     srand(time(NULL));
     for (int i = 0; i < k; i++){
-        centroids[i] = R[rand() % n];
+        centroids[i] = R[i];
     }
     _initcentroids = true;
 }
@@ -96,7 +96,8 @@ void calccentroids(Vector *R, int k, int n) {
         counts[clusters[j]]++;
     }
     for (int p = 0; p < k; p++) {
-        vector_scale(sums[p], 1/counts[p]);
+        double factor = 1.0/counts[p];
+        vector_scale(sums[p], factor);
     }
     free(centroids);
     centroids = sums;   

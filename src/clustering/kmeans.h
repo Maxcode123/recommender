@@ -35,8 +35,8 @@ void initdists(int, int);
 // True if centroids have been initialized, i.e. memory has been allocated.
 static bool _initcentroids = false;
 
-// Initializes centroids, chooses random vectors as initial centroids.
-void initcentroids(Vector*, int, int);
+// Initializes centroids, chooses k first vectors as initial centroids.
+void initcentroids(Vector*, int);
 
 // Performs assignment step. Calculates distances and assigns vectors to clusters.
 void assignment(Vector*, int, int);
