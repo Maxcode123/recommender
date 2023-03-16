@@ -19,8 +19,11 @@ Vector *getcentroids();
 // Allocates memory for cluster array and initializes all values to 0.
 void initclusters(int);
 
-// repeat-assignment flag
+// repeat-assignment flag.
 static bool flag;
+
+// return repeat-assignment flag
+bool getflag();
 
 /* Matrix of distances of each vector from centroids. Each column represents a
 vector, each row represents a centroid. */
@@ -56,4 +59,4 @@ void calccentroids(Vector*, int, int);
 
 /* Applies k-means clustering to given array of vectors. Second argument is the
 number of clusters, third argument is the length of the vector array. */ 
-void clustering(Vector*, int, int);
+void clustering(Vector*, int, int, int);
