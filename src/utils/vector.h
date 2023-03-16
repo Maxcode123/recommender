@@ -46,8 +46,8 @@ Vector vector_init_by_array(int capacity, int *array);
 // Initializes a vector with all elements set to a given value
 Vector vector_init_by_value(int capacity, int value);
 
-// Adds two vectors element-wise and returns the resulting vector
-Vector vector_add(Vector r1, Vector r2);
+// Adds two vectors element-wise, the second vector is added to the first.
+void vector_add(Vector r1, Vector r2);
 
 // Subtracts two vectors element-wise and returns the resulting vector
 Vector vector_subtract(Vector r1, Vector r2);

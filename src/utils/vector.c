@@ -88,18 +88,15 @@ Vector vector_init_by_value(int capacity, int value) {
     return vec;
 }
 
-Vector vector_add(Vector r1, Vector r2) {
+void vector_add(Vector r1, Vector r2) {
     if (r1->size != r2->size) {
         printf("Error: Vectors are not of the same size.\n");
         exit(EXIT_FAILURE);
     }
 
-    Vector result = vector_create(r1->size);
     for (int i = 0; i < r1->size; i++) {
-        int x = r1->items[i] + r2->items[i];
-        vector_push(result, x);
+        r1->items[i] = r1->items[i] + r2->items[i]; 
     }
-    return result;
 }
 
 Vector vector_subtract(Vector r1, Vector r2) {

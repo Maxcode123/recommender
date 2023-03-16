@@ -7,10 +7,11 @@ void clustering(Vector *R, int k, int n, int it) {
     assignment(R, k, n);
     flag = true;
     int c = 0;
-    while (flag && c < it) {
+    while (flag && c++ < it) {
+        printf("%d\n", c);
         calccentroids(R, k, n);
         assignment(R, k, n);
-}
+    }
 }
 
 int *getclusters() {
@@ -79,7 +80,9 @@ void assignment(Vector *R, int k, int n) {
 double calcdistance(Vector R1, Vector R2) {
     double sum = 0;
     for (int i = 0; i < vector_size(R1); i++) {
-        if (vector_get(R1, i) && vector_get(R2, i)) sum += pow(vector_get(R1, i) - vector_get(R2, i), 2);
+        if (vector_get(R1, i) && vector_get(R2, i)) {
+            sum += pow(vector_get(R1, i) - vector_get(R2, i), 2);
+        }
     }
     sum = sqrt(sum);
     return sum;
@@ -114,8 +117,7 @@ void calccentroids(Vector *R, int k, int n) {
         sums[i] = vector_init_by_value(d, 0);
     }
     for (int j = 0; j < n; j++) {
-        Vector tmp = vector_add(R[j], sums[clusters[j]]);
-        sums[clusters[j]] = tmp;
+        vector_add(sums[clusters[j]], R[j]);
         counts[clusters[j]]++;
     }
     for (int p = 0; p < k; p++) {
