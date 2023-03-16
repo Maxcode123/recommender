@@ -14,14 +14,14 @@ test-date: $(TEST)/bin/testdate
 $(TEST)/bin/testdate: $(TEST)/testdate.c $(OBJ)/date.o
 	$(COMPILE)
 
-test-matrix: $(TEST)/bin/testmatrix
+test-vectorization: $(TEST)/bin/testvectorization
 	$<
 
-$(TEST)/bin/testmatrix: $(TEST)/integration/testmatrix.c $(OBJ)/lex.yy.o $(OBJ)/parser.o
-$(TEST)/bin/testmatrix: $(OBJ)/filter.o $(OBJ)/matrix.o
-$(TEST)/bin/testmatrix: $(UTILSO)
+$(TEST)/bin/testvectorization: $(TEST)/integration/testvectorization.c
+$(TEST)/bin/testvectorization: $(OBJ)/lex.yy.o $(OBJ)/parser.o $(OBJ)/filter.o
+$(TEST)/bin/testvectorization: $(UTILSO) $(OBJ)/vectorization.o
 
-$(TEST)/bin/testmatrix:
+$(TEST)/bin/testvectorization:
 	$(COMPILE) $(MATHLIB)
 
 test-kmeans: $(TEST)/bin/testkmeans

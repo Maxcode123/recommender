@@ -7,5 +7,5 @@
 #include "filter.h"
 
 // Creates data matrix, i.e. an array of vectors.
-void matrix(Vector*, HashTable, HashTable);
+void vectorization(Vector*, HashTable, HashTable);
 

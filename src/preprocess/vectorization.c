@@ -1,6 +1,6 @@
-#include "matrix.h"
+#include "vectorization.h"
 
-void matrix(Vector *R, HashTable usermap, HashTable moviemap) {
+void vectorization(Vector *R, HashTable usermap, HashTable moviemap) {
     Iterator u_it = ht_it(usermap);
     Node n;
     int i = 0;

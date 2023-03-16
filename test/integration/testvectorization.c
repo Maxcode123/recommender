@@ -1,6 +1,6 @@
 #include <criterion/criterion.h>
 
-#include "../../src/preprocess/matrix.h"
+#include "../../src/preprocess/vectorization.h"
 
 Test(testmatrix, test) {
     List rlst = lst_list();
@@ -14,7 +14,7 @@ Test(testmatrix, test) {
     mapmovies(moviemap, fltr);
 
     Vector *v = malloc(sizeof(*v) * ht_size(usermap));
-    matrix(v, usermap, moviemap);
+    vectorization(v, usermap, moviemap);
     for (int i = 0; i < ht_size(usermap); i++) {
         cr_assert(vector_size(v[i]) == ht_size(moviemap),
                   "Vector has not length (%d) equal to number of movies (%d)",

@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
     printf("mapped movies\n");
 
     Vector *R = malloc(sizeof(*R) * ht_size(usermap));
-    matrix(R, usermap, moviemap);
+    vectorization(R, usermap, moviemap);
     printf("created vector array\n");
 
     clustering(R, 3, ht_size(usermap), 20);
