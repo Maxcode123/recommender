@@ -22,12 +22,15 @@ void initclusters(int);
 // repeat-assignment flag
 static bool flag;
 
-/* Matrix of distances of each vector from centroids. Each row represents a
-vector, each column represents a centroid. */
+/* Matrix of distances of each vector from centroids. Each column represents a
+vector, each row represents a centroid. */
 static double **dists;
 
 // Returns matrix of distances.
 double **getdists();
+
+// Prints distance matrix in nice format
+void printdists(int, int);
 
 // Alloactes memory for distance matrix, initializes all values to 0.
 void initdists(int, int);

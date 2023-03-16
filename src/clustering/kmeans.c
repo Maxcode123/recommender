@@ -40,6 +40,19 @@ void initdists(int k, int n) {
     }
 }
 
+void printdists(int k, int n) {
+    printf("    R1");
+    for (int j = 1; j < n; j++) printf("     R%d", j + 1);
+    printf("\n");
+    for (int i = 0; i <k; i++) {
+        printf("k%d  ", i + 1);
+        for (int j = 0; j < n; j++) {
+            printf("%.3f  ", dists[i][j]);
+        }
+        printf("\n");
+    }
+}
+
 void initcentroids(Vector *R, int k) {
     if (_initcentroids == false) centroids = malloc(sizeof(*centroids)*k);
     srand(time(NULL));
@@ -73,7 +86,7 @@ void assignvct(int k, int n) {
     for (i = 0; i < n; i++) {
         min = clusters[i];
         for (j = 1; j < k; j++) {
-            if (dists[j][i] < dists[j-1][i]) {
+            if (dists[j][i] < dists[j-1][i] && clusters[i] != j) {
                 min = j;
                 flag = true;
             }

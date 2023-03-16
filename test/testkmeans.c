@@ -130,23 +130,23 @@ Test(testkmeans, test2dclustering) {
 
 
 
-// Test(testkmeans, test3dclustering) {
-//     int k = 2;
-//     int n = 4;
-//     int d = 3;
-//     Vector *R = malloc(sizeof(*R) * n);
-//     int r1[] = {3, 3, 3};
-//     int r2[] = {4, 4, 4};
-//     int r3[] = {-3, -3, -3};
-//     int r4[] = {-4, -4, -4};
-//     R[0] = vector_init_by_array(d, r1);
-//     R[1] = vector_init_by_array(d, r2);
-//     R[2] = vector_init_by_array(d, r3);
-//     R[3] = vector_init_by_array(d, r4);
+Test(testkmeans, test3dclustering) {
+    int k = 2;
+    int n = 4;
+    int d = 3;
+    Vector *R = malloc(sizeof(*R) * n);
+    int r1[] = {3, 3, 3};
+    int r2[] = {4, 4, 4};
+    int r3[] = {-3, -3, -3};
+    int r4[] = {-4, -4, -4};
+    R[0] = vector_init_by_array(d, r1);
+    R[1] = vector_init_by_array(d, r2);
+    R[2] = vector_init_by_array(d, r3);
+    R[3] = vector_init_by_array(d, r4);
 
-//     clustering(R, k, n);
-//     int *c = getclusters();
-//     cr_assert(c[0] == c[1], "R1 cluster: %d != R2 cluster: %d", c[0], c[1]);
-//     cr_assert(c[0] != c[3], "R1 cluster: %d == R4 cluster: %d", c[0], c[3]);
-//     cr_assert(c[2] == c[3], "R3 cluster: %d != R4 cluster: %d", c[2], c[3]);
-// }
+    clustering(R, k, n);
+    int *c = getclusters();
+    cr_assert(c[0] == c[1], "R1 cluster: %d != R2 cluster: %d", c[0], c[1]);
+    cr_assert(c[0] != c[3], "R1 cluster: %d == R4 cluster: %d", c[0], c[3]);
+    cr_assert(c[2] == c[3], "R3 cluster: %d != R4 cluster: %d", c[2], c[3]);
+}
