@@ -9,8 +9,8 @@ void clustering(Vector *R, int k, int n, int it) {
     int c = 0;
     while (flag && c < it) {
         calccentroids(R, k, n);
-        assignment(R, k, n);        
-    }
+        assignment(R, k, n);
+}
 }
 
 int *getclusters() {
