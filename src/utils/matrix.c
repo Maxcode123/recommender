@@ -1,5 +1,13 @@
 #include "matrix.h"
 
+void transpose(Matrix A, Matrix B) {
+    for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < A->cols; j++) {
+            B->matrix[j][i] = A->matrix[i][j];
+        }
+    }
+}
+
 void multpl(Matrix A, Matrix B, Matrix C) {
     if (A->cols != B->rows) {
         fprintf(stderr, "Invalid dimensions for matrix multiplication A(%dx%d) B(%dx%d)",
