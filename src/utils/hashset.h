@@ -35,11 +35,6 @@ void ht_insert(HashTable table, char *key, void *value);
 //Gets the record by "key"
 void *ht_search(HashTable table, char *key);
 
-//Deletes a record of ht.
-// Success: 1
-// Fail: 0
-int ht_delete(HashTable table, char *key);
-
 //Gets the size of the valid records
 int ht_size(HashTable table);
 

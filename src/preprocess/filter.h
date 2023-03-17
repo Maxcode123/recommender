@@ -4,10 +4,10 @@
 #include "../utils/hashset.h"
 
 
-# define RMIN 5
+# define RMIN 10
 # define RMAX 50
 
 /* Filters map based on minimum and maximum allowed number of ratings per
 user. Returns list with filtered records.*/
-List filter(HashTable, List);
+void filter(HashTable*, List*);
 

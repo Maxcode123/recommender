@@ -45,22 +45,6 @@ void *ht_search(HashTable table, char *key) {
     return NULL;
 }
 
-
-int ht_delete(HashTable table, char *key) {
-    unsigned long index = ht_hash((unsigned char *) key, table->max_size);
-    while (table->entries[index].key != NULL && strcmp(table->entries[index].key, key) != 0) {
-        index = (index + 1) % table->max_size;
-    }
-    if (table->entries[index].key != NULL) {
-        table->entries[index].key = NULL;
-        table->entries[index].value = NULL;
-        table->valid_records--;
-        return 1;
-    }
-    return 0;
-}
-
-
 int ht_size(HashTable table) {
     return table->valid_records;
 }
