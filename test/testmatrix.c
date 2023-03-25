@@ -138,3 +138,33 @@ Test(testmatrix, testfromvectors) {
     cr_assert(m->matrix[2][0] == -2);
     cr_assert(m->matrix[2][1] == -2);
 }
+
+Test(testmatrix, testeigenvals) {
+    /*
+    M
+    2.3 1.1 5.2
+    1.1 1.2 0.9
+    5.2 0.9 4.6
+
+    λ1 = -1.905
+    λ2 = 0.982
+    λ3 = 9.023
+    */
+   Matrix M = matrix(3, 3);
+   double _m0[] = {2.3, 1.1, 5.2};
+   double _m1[] = {1.1, 1.2, 0.9};
+   double _m2[] = {5.2, 0.9, 4.6};
+   M->matrix[0] = _m0;
+   M->matrix[1] = _m1;
+   M->matrix[2] = _m2;
+   
+   double *eigvals = malloc(sizeof(double)*3);
+   eigen(eigvals, NULL, M);
+   cr_assert(fabs(eigvals[0] - (-1.905)) < 0.001, "%f != %f", eigvals[0], -1.905);
+   cr_assert(fabs(eigvals[1] - 0.982) < 0.001);
+   cr_assert(fabs(eigvals[2] - 9.023) < 0.001);
+}
+
+Test(testmatrix, testeigenvectors) {
+    
+}

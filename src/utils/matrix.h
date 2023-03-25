@@ -3,6 +3,7 @@
 #include "vector.h"
 
 #include <math.h>
+#include <float.h>  
 #include <stdio.h>
 
 typedef struct _Matrix {
@@ -25,4 +26,4 @@ void multpl(Matrix, Matrix, Matrix, int, int);
 Matrix fromvectors(Vector*, int);
 
 // Calculate eigenvalues and eigenvectors of symmetric matrix.
-void eigen(double *, double *, double*, int);
+void eigen(double *, Vector*, Matrix);
