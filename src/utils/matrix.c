@@ -60,6 +60,22 @@ Matrix fromvectors(Vector *R, int n) {
     return m;
 }
 
+Matrix rowvec(Vector R) {
+    Matrix m = matrix(1, vector_size(R));
+    for (int i = 0; i < m->cols; i++) {
+        m->matrix[0][i] = R->items[i];
+    }
+    return m;
+}
+
+Matrix colvec(Vector R) {
+    Matrix m = matrix(vector_size(R), 1);
+    for (int i = 0; i < m->rows; i++) {
+        m->matrix[i][0] = R->items[i];
+    }
+    return m;
+}
+
 void eigen(double *eigvals, Vector *eigvecs, Matrix M) {
     double *eigenvectors = malloc(sizeof(double)*M->rows*M->cols);
     int n = M->cols;
@@ -161,5 +177,13 @@ void eigen(double *eigvals, Vector *eigvecs, Matrix M) {
       }
    }
    for (pAk = A, k = 0; k < n; pAk += n, k++) eigvals[k] = *(pAk + k);
-    
+
+   for (int i = 0; i < n; i++) {
+    Vector v = vector_create(n);
+    for (int j = 0; j < n; j++, eigenvectors++) {
+        vector_push(v, *eigenvectors);
+    }
+    eigvecs[i] = v;
+   }
+//    free(eigenvectors);
 }

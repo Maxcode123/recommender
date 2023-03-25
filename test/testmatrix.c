@@ -139,6 +139,22 @@ Test(testmatrix, testfromvectors) {
     cr_assert(m->matrix[2][1] == -2);
 }
 
+Test(testmatrix, testrowvec) {
+    Vector R = vector_init_by_value(3, 3.14);
+    Matrix m = rowvec(R);
+    cr_assert(m->matrix[0][0] == 3.14);
+    cr_assert(m->matrix[0][1] == 3.14);
+    cr_assert(m->matrix[0][2] == 3.14);
+}
+
+Test(testmatrix, testcolvec) {
+    Vector R = vector_init_by_value(3, 6.17);
+    Matrix m = colvec(R);
+    cr_assert(m->matrix[0][0] == 6.17);
+    cr_assert(m->matrix[1][0] == 6.17);
+    cr_assert(m->matrix[2][0] == 6.17);
+}
+
 Test(testmatrix, testeigenvals) {
     /*
     M
@@ -159,12 +175,32 @@ Test(testmatrix, testeigenvals) {
    M->matrix[2] = _m2;
    
    double *eigvals = malloc(sizeof(double)*3);
-   eigen(eigvals, NULL, M);
+   Vector *E = malloc(sizeof(*E)*3);
+   eigen(eigvals, E, M);
    cr_assert(fabs(eigvals[0] - (-1.905)) < 0.001, "%f != %f", eigvals[0], -1.905);
    cr_assert(fabs(eigvals[1] - 0.982) < 0.001);
    cr_assert(fabs(eigvals[2] - 9.023) < 0.001);
 }
 
-Test(testmatrix, testeigenvectors) {
-    
-}
+// Test(testmatrix, testeigenvectors) {
+//    /*
+//    M
+//    2.3 2.1 5.2 9.8
+//    2.1 1.2 0.9 5.5
+//    5.2 0.9 4.6 5.9
+//    9.8 5.5 5.9 7.1
+//    */
+//    Matrix M = matrix(4, 4);
+//    double _m0[] = {2.3, 2.1, 5.2, 9.8};
+//    double _m1[] = {2.1, 1.2, 0.9, 5.5};
+//    double _m2[] = {5.2, 0.9, 4.6, 5.9};
+//    double _m3[] = {9.8, 5.5, 5.9, 7.1};
+//    M->matrix[0] = _m0;
+//    M->matrix[1] = _m1;
+//    M->matrix[2] = _m2;
+//    M->matrix[3] = _m3;
+   
+//    double *eigvals = malloc(sizeof(double)*4);
+//    Vector *E = malloc(sizeof(*E)*4);
+//    eigen(eigvals, E, M);
+// }

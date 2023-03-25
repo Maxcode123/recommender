@@ -25,5 +25,11 @@ void multpl(Matrix, Matrix, Matrix, int, int);
 // Creates matrix from vector array.
 Matrix fromvectors(Vector*, int);
 
+// Creates a 1xn matrix where n is the size of the given vector.
+Matrix rowvec(Vector);
+
+// Creates a nx1 matrixwhere n is the size of the given vector.
+Matrix colvec(Vector);
+
 // Calculate eigenvalues and eigenvectors of symmetric matrix.
 void eigen(double *, Vector*, Matrix);
