@@ -28,17 +28,11 @@ void vector_set(Vector vec, int index, int value);
 // Adds a new element to the end of the vector
 void vector_push(Vector vec, int value);
 
-// Removes and returns the last element in the vector
-int vector_pop(Vector vec);
-
 // Returns the number of elements in the vector
 int vector_size(Vector vec);
 
 // Returns the maximum number of elements the vector can hold before resizing
 int vector_capacity(Vector vec);
-
-// Resizes the vector to have the specified new capacity
-void vector_resize(Vector vec, int new_capacity);
 
 // Initializes a vector with the contents of an array of integers
 Vector vector_init_by_array(int capacity, int *array);

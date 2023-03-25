@@ -24,3 +24,10 @@ Test(testvector, testadd) {
     cr_assert(vector_get(R1, 1) == 18, "%d != 28", vector_get(R1, 1));
     cr_assert(vector_get(R1, 2) == 15, "%d != 15", vector_get(R1, 2));       
 }
+
+Test(testvector, testinitbyvalue) {
+    Vector R = vector_init_by_value(3, 5);
+    cr_assert(R->items[0] == 5);
+    cr_assert(R->items[1] == 5);
+    cr_assert(R->items[2] == 5);
+}

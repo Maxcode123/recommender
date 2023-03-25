@@ -2,6 +2,12 @@ TEST=test
 COMPILE=$(CC) $^ -o $@ -lcriterion
 MATHLIB=-lm
 
+test-matrix: $(TEST)/bin/testmatrix
+	$<
+
+$(TEST)/bin/testmatrix: $(TEST)/testmatrix.c $(OBJ)/matrix.o $(OBJ)/vector.o
+	$(COMPILE) $(MATHLIB)
+
 test-vector: $(TEST)/bin/testvector
 	$<
 

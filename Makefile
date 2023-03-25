@@ -15,7 +15,7 @@ UTILSO=$(OBJ)/date.o $(OBJ)/vector.o $(OBJ)/hashset.o $(OBJ)/list.o
 include scripts.mk
 include tests.mk
 
-all: $(OBJ)/lex.yy.o $(OBJ)/kmeans.o $(OBJ)/parser.o $(OBJ)/filter.o $(OBJ)/matrix.o $(UTILSO) test/main.c
+all: $(OBJ)/lex.yy.o $(OBJ)/vectorization.o $(OBJ)/kmeans.o $(OBJ)/parser.o $(OBJ)/filter.o $(OBJ)/matrix.o $(UTILSO) test/main.c
 	$(CC) $^ -o test/bin/main -lm
 
 debug: all

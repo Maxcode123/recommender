@@ -24,7 +24,7 @@ void vector_destroy(Vector vec) {
 
 int vector_get(Vector vec, int index) {
     if (index < 0 || index >= vec->size) {
-        return NULL;
+        fprintf(stderr, "invalid index %d in vector_get", index);
     }
     return vec->items[index];
 }
@@ -38,18 +38,9 @@ void vector_set(Vector vec, int index, int value) {
 
 void vector_push(Vector vec, int value) {
     if (vec->size >= vec->capacity) {
-        vector_resize(vec, vec->capacity * 2);
+        fprintf(stderr, "Cannot push to vector. Capacity if full.");
     }
-    vec->items[vec->size] = value;
-    vec->size++;
-}
-
-int vector_pop(Vector vec) {
-    if (vec->size == 0) {
-        return NULL;
-    }
-    vec->size--;
-    return vec->items[vec->size];
+    vec->items[vec->size++] = value;
 }
 
 int vector_size(Vector vec) {
@@ -58,18 +49,6 @@ int vector_size(Vector vec) {
 
 int vector_capacity(Vector vec) {
     return vec->capacity;
-}
-
-void vector_resize(Vector vec, int new_capacity) {
-    void **new_items = malloc(new_capacity * sizeof(int *));
-    if (new_items == NULL) {
-        fprintf(stderr, "Error: Out of memory.\n");
-        exit(EXIT_FAILURE);
-    }
-    memcpy(new_items, vec->items, vec->size * sizeof(int *));
-    free(vec->items);
-    vec->items = new_items;
-    vec->capacity = new_capacity;
 }
 
 Vector vector_init_by_array(int capacity, int *array) {
