@@ -1,14 +1,14 @@
 #include "vector.h"
 
 Vector vector_create(int capacity) {
-    Vector vec = malloc(sizeof(struct _Vector));
+    Vector vec = malloc(sizeof(*vec));
     if (vec == NULL) {
         fprintf(stderr, "Error: Out of memory.\n");
         exit(EXIT_FAILURE);
     }
     vec->capacity = capacity;
     vec->size = 0;
-    vec->items = malloc(capacity * sizeof(int));
+    vec->items = malloc(capacity * sizeof(double));
     if (vec->items == NULL) {
         free(vec);
         fprintf(stderr, "Error: Out of memory.\n");
@@ -95,7 +95,7 @@ Vector vector_subtract(Vector r1, Vector r2) {
 void vector_print(Vector vec) {
     printf("[");
     for (int i = 0; i < vec->size; i++) {
-        printf("%d", vec->items[i]);
+        printf("%f", vec->items[i]);
         if (i < vec->size - 1) {
             printf(", ");
         }
@@ -105,7 +105,7 @@ void vector_print(Vector vec) {
 
 void vector_scale(Vector r, double factor) {
     for (int i = 0; i < r->size; i++) {
-        r->items[i] = (int) (r->items[i] * factor);
+        r->items[i] = (r->items[i] * factor);
     }
 }
 
