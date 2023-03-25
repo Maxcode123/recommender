@@ -4,7 +4,7 @@
 
 
 Test(testvector, testscale) {
-    int r[] = {2, 4, 6};
+    double r[] = {2, 4, 6};
     Vector R = vector_init_by_array(3, r);
     vector_scale(R, 0.5);
     cr_assert(vector_get(R, 0) == 1);
@@ -13,10 +13,10 @@ Test(testvector, testscale) {
 }
 
 Test(testvector, testadd) {
-    int r1[] = {2, 4, 6};
+    double r1[] = {2, 4, 6};
     Vector R1 = vector_init_by_array(3, r1);
 
-    int r2[] = {0, 14, 9};
+    double r2[] = {0, 14, 9};
     Vector R2 = vector_init_by_array(3, r2);
 
     vector_add(R1, R2);
@@ -26,8 +26,8 @@ Test(testvector, testadd) {
 }
 
 Test(testvector, testinitbyvalue) {
-    Vector R = vector_init_by_value(3, 5);
-    cr_assert(R->items[0] == 5);
-    cr_assert(R->items[1] == 5);
-    cr_assert(R->items[2] == 5);
+    Vector R = vector_init_by_value(3, 5.7);
+    cr_assert(R->items[0] == 5.7);
+    cr_assert(R->items[1] == 5.7);
+    cr_assert(R->items[2] == 5.7);
 }

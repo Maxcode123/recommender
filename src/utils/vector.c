@@ -29,14 +29,14 @@ int vector_get(Vector vec, int index) {
     return vec->items[index];
 }
 
-void vector_set(Vector vec, int index, int value) {
+void vector_set(Vector vec, int index, double value) {
     if (index < 0 || index >= vec->size) {
         return;
     }
     vec->items[index] = value;
 }
 
-void vector_push(Vector vec, int value) {
+void vector_push(Vector vec, double value) {
     if (vec->size >= vec->capacity) {
         fprintf(stderr, "Cannot push to vector. Capacity if full.");
     }
@@ -51,7 +51,7 @@ int vector_capacity(Vector vec) {
     return vec->capacity;
 }
 
-Vector vector_init_by_array(int capacity, int *array) {
+Vector vector_init_by_array(int capacity, double *array) {
     Vector vec = vector_create(capacity);
     for (int i = 0; i < capacity; i++) {
         vector_push(vec, array[i]);
@@ -59,7 +59,7 @@ Vector vector_init_by_array(int capacity, int *array) {
     return vec;
 }
 
-Vector vector_init_by_value(int capacity, int value) {
+Vector vector_init_by_value(int capacity, double value) {
     Vector vec = vector_create(capacity);
     for (int i = 0; i < capacity; i++) {
         vector_push(vec, value);

@@ -4,8 +4,8 @@
 
 
 Test(testkmeans, testzerodist) {
-    int r1[] = {3, 3};
-    int r2[] = {3, 3};
+    double r1[] = {3, 3};
+    double r2[] = {3, 3};
     Vector R1 = vector_init_by_array(2, r1);
     Vector R2 = vector_init_by_array(2, r2);
     double d = calcdistance(R1, R2);
@@ -14,8 +14,8 @@ Test(testkmeans, testzerodist) {
 
 
 Test(testkmeans, testdist) {
-    int r1[] = {3, 3};
-    int r2[] = {6, 7};
+    double r1[] = {3, 3};
+    double r2[] = {6, 7};
     Vector R1 = vector_init_by_array(2, r1);
     Vector R2 = vector_init_by_array(2, r2);
     double d = calcdistance(R1, R2);
@@ -36,10 +36,10 @@ Test(testkmeans, testinitdists) {
 
 Test(testkmeans, testinitcentroids) {
     Vector *R = malloc(sizeof(*R) * 4);
-    int r1[] = {3, 3};
-    int r2[] = {4, 4};
-    int r3[] = {-3, -3};
-    int r4[] = {-4, -4};
+    double r1[] = {3, 3};
+    double r2[] = {4, 4};
+    double r3[] = {-3, -3};
+    double r4[] = {-4, -4};
     R[0] = vector_init_by_array(2, r1);
     R[1] = vector_init_by_array(2, r2);
     R[2] = vector_init_by_array(2, r3);
@@ -60,10 +60,10 @@ Test(testkmeans, testcalccentroids) {
     int d = 2;
 
     Vector *R = malloc(sizeof(*R) * n);
-    int r1[] = {2, 7};
-    int r2[] = {8, 3};
-    int r3[] = {-3, -3};
-    int r4[] = {-5, -12};
+    double r1[] = {2, 7};
+    double r2[] = {8, 3};
+    double r3[] = {-3, -3};
+    double r4[] = {-5, -12};
     R[0] = vector_init_by_array(d, r1);
     R[1] = vector_init_by_array(d, r2);
     R[2] = vector_init_by_array(d, r3);
@@ -170,10 +170,10 @@ Test(testkmeans, test2dclustering2k) {
     int n = 4;
     int d = 2;
     Vector *R = malloc(sizeof(*R) * n);
-    int r1[] = {3, 3};
-    int r2[] = {4, 4};
-    int r3[] = {-3, -3};
-    int r4[] = {-4, -4};
+    double r1[] = {3, 3};
+    double r2[] = {4, 4};
+    double r3[] = {-3, -3};
+    double r4[] = {-4, -4};
     R[0] = vector_init_by_array(d, r1);
     R[1] = vector_init_by_array(d, r2);
     R[2] = vector_init_by_array(d, r3);
@@ -193,10 +193,10 @@ Test(testkmeans, test3dclustering2k) {
     int n = 4;
     int d = 3;
     Vector *R = malloc(sizeof(*R) * n);
-    int r1[] = {3, 3, 3};
-    int r2[] = {4, 4, 4};
-    int r3[] = {-3, -3, -3};
-    int r4[] = {-4, -4, -4};
+    double r1[] = {3, 3, 3};
+    double r2[] = {4, 4, 4};
+    double r3[] = {-3, -3, -3};
+    double r4[] = {-4, -4, -4};
     R[0] = vector_init_by_array(d, r1);
     R[1] = vector_init_by_array(d, r2);
     R[2] = vector_init_by_array(d, r3);
@@ -215,14 +215,14 @@ Test(testkmeans, test2dclustering4k) {
     int n = 8;
     int d = 2;
     Vector *R = malloc(sizeof(*R) * n);
-    int r1[] = {3, 3};
-    int r2[] = {5, 5};
-    int r3[] = {3, -3};
-    int r4[] = {5, -5};
-    int r5[] = {-3, -3};
-    int r6[] = {-5, -5};
-    int r7[] = {-3, 3};
-    int r8[] = {-5, 5};
+    double r1[] = {3, 3};
+    double r2[] = {5, 5};
+    double r3[] = {3, -3};
+    double r4[] = {5, -5};
+    double r5[] = {-3, -3};
+    double r6[] = {-5, -5};
+    double r7[] = {-3, 3};
+    double r8[] = {-5, 5};
     R[0] = vector_init_by_array(d, r1);
     R[1] = vector_init_by_array(d, r2);
     R[2] = vector_init_by_array(d, r3);

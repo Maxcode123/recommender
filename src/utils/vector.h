@@ -8,7 +8,7 @@
 #include <stdbool.h>
 
 typedef struct _Vector {
-    int *items;         // Pointer to the underlying array of integers
+    double *items;      // Pointer to the underlying array of doubles
     int capacity;       // Maximum number of elements the vector can hold before resizing
     int size;           // Current number of elements in the vector
 } *Vector;
@@ -23,10 +23,10 @@ void vector_destroy(Vector vec);
 int vector_get(Vector vec, int index);
 
 // Replaces the element at the specified index with the given value
-void vector_set(Vector vec, int index, int value);
+void vector_set(Vector vec, int index, double value);
 
 // Adds a new element to the end of the vector
-void vector_push(Vector vec, int value);
+void vector_push(Vector vec, double value);
 
 // Returns the number of elements in the vector
 int vector_size(Vector vec);
@@ -35,10 +35,10 @@ int vector_size(Vector vec);
 int vector_capacity(Vector vec);
 
 // Initializes a vector with the contents of an array of integers
-Vector vector_init_by_array(int capacity, int *array);
+Vector vector_init_by_array(int capacity, double *array);
 
 // Initializes a vector with all elements set to a given value
-Vector vector_init_by_value(int capacity, int value);
+Vector vector_init_by_value(int capacity, double value);
 
 // Adds two vectors element-wise, the second vector is added to the first.
 void vector_add(Vector r1, Vector r2);
