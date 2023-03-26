@@ -31,10 +31,13 @@ Matrix rowvec(Vector);
 // Creates a nx1 matrixwhere n is the size of the given vector.
 Matrix colvec(Vector);
 
-// Prints amtrix in nice format.
+// Prints matrix in nice format.
 void matrix_print(Matrix);
 
-// Calculate eigenvalues and eigenvectors of symmetric matrix.
-void eigen(double *, Vector**, Matrix);
+// Creates a copy of the given matrix.
+Matrix matrix_copy(Matrix);
 
-void eigen2(double *, Vector*, Matrix);
+/* Calculates eigenvalues and eigenvectors of symmetric matrix.
+MUTATES GIVEN MATRIX.
+*/
+void eigen(double *, Vector*, Matrix);
