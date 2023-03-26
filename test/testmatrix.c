@@ -176,31 +176,62 @@ Test(testmatrix, testeigenvals) {
    
    double *eigvals = malloc(sizeof(double)*3);
    Vector *E = malloc(sizeof(*E)*3);
-   eigen(eigvals, E, M);
+   E[0] = vector_create(3);
+   E[1] = vector_create(3);
+   E[2] = vector_create(3);
+   eigen2(eigvals, E, M);
    cr_assert(fabs(eigvals[0] - (-1.905)) < 0.001, "%f != %f", eigvals[0], -1.905);
    cr_assert(fabs(eigvals[1] - 0.982) < 0.001);
    cr_assert(fabs(eigvals[2] - 9.023) < 0.001);
 }
 
-// Test(testmatrix, testeigenvectors) {
-//    /*
-//    M
-//    2.3 2.1 5.2 9.8
-//    2.1 1.2 0.9 5.5
-//    5.2 0.9 4.6 5.9
-//    9.8 5.5 5.9 7.1
-//    */
-//    Matrix M = matrix(4, 4);
-//    double _m0[] = {2.3, 2.1, 5.2, 9.8};
-//    double _m1[] = {2.1, 1.2, 0.9, 5.5};
-//    double _m2[] = {5.2, 0.9, 4.6, 5.9};
-//    double _m3[] = {9.8, 5.5, 5.9, 7.1};
-//    M->matrix[0] = _m0;
-//    M->matrix[1] = _m1;
-//    M->matrix[2] = _m2;
-//    M->matrix[3] = _m3;
+Test(testmatrix, testeigenvectors) {
+   /*
+   M
+   2.3 2.1 5.2 9.8
+   2.1 1.2 0.9 5.5
+   5.2 0.9 4.6 5.9
+   9.8 5.5 5.9 7.1
+   */
+   Matrix M = matrix(4, 4);
+   Matrix _M = matrix(4, 4); // to be used once M is mutated
+   double _m0[] = {2.3, 2.1, 5.2, 9.8};
+   double _m1[] = {2.1, 1.2, 0.9, 5.5};
+   double _m2[] = {5.2, 0.9, 4.6, 5.9};
+   double _m3[] = {9.8, 5.5, 5.9, 7.1};
+   M->matrix[0] = _m0;
+   M->matrix[1] = _m1;
+   M->matrix[2] = _m2;
+   M->matrix[3] = _m3;
+   _M->matrix[0] = _m0;
+   _M->matrix[1] = _m1;
+   _M->matrix[2] = _m2;
+   _M->matrix[3] = _m3;
    
-//    double *eigvals = malloc(sizeof(double)*4);
-//    Vector *E = malloc(sizeof(*E)*4);
-//    eigen(eigvals, E, M);
-// }
+   
+   double *eigvals = malloc(sizeof(double)*4);
+   Vector *E = malloc(sizeof(*E)*4);
+   E[0] = vector_create(4);
+   E[1] = vector_create(4);
+   E[2] = vector_create(4);
+   E[3] = vector_create(4);
+   eigen2(eigvals, E, M);
+
+   /*
+   Test that V = _V, where V = M*v1 and _V = λ1*v1, i.e.:
+   M*v1 = λ1*v1 (eigenvalue and eigenvector definition).
+   */
+   Matrix V = matrix(4, 1);
+   Matrix V1 = colvec(E[0]);
+   
+   matrix_print(_M);
+   multpl(_M, V1, V, 1, 1);
+
+//    Vector v1 = E[0];
+//    vector_scale(v1, eigvals[0]);
+//    vector_print(E[0]);
+//    vector_print(v1);
+
+//    cr_assert(V->matrix[0][0] == v1->items[0], "%f != %f", V->matrix[0][0], v1->items[0]);
+//    cr_assert(V->matrix[1][0] == v1->items[1], "%f != %f", V->matrix[1][0], v1->items[1]);
+}

@@ -76,7 +76,16 @@ Matrix colvec(Vector R) {
     return m;
 }
 
-void eigen(double *eigvals, Vector *eigvecs, Matrix M) {
+void matrix_print(Matrix m) {
+    for (int i = 0; i < m->rows; i++) {
+        for (int j = 0; j < m->cols; j++) {
+            printf("%f    ", m->matrix[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void eigen(double *eigvals, Vector **eigvecs, Matrix M) {
     double *eigenvectors = malloc(sizeof(double)*M->rows*M->cols);
     int n = M->cols;
     double _A[n][n];
@@ -183,7 +192,118 @@ void eigen(double *eigvals, Vector *eigvecs, Matrix M) {
     for (int j = 0; j < n; j++, eigenvectors++) {
         vector_push(v, *eigenvectors);
     }
-    eigvecs[i] = v;
+    (*eigvecs)[i] = v;
    }
 //    free(eigenvectors);
+}
+
+void eigen2(double *eigvals, Vector *eigvecs, Matrix A) {
+    
+    int n = A->rows;
+    double Q[n][n];
+    double tolerance = 1e-10; // Tolerance level
+    double max_off_diag = 1.0;
+    int p, q, count = 0;
+
+    // Initialize Q to the identity matrix
+    for(int i=0; i < n; i++)
+    {
+        for(int j=0; j < n; j++)
+        {
+            if(i == j)
+                Q[i][j] = 1.0;
+            else
+                Q[i][j] = 0.0;
+        }
+    }
+
+    while(max_off_diag > tolerance)
+    {
+        // Find the maximum off-diagonal element
+        max_off_diag = 0.0;
+        for(int i=0; i<n; i++)
+        {
+            for(int j=i+1; j<n; j++)
+            {
+                double off_diag = fabs(A->matrix[i][j]);
+                if(off_diag > max_off_diag)
+                {
+                    max_off_diag = off_diag;
+                    p = i;
+                    q = j;
+                }
+            }
+        }
+
+    // Compute the Jacobi rotation matrix
+        double theta = 0.5 * atan2(2*A->matrix[p][q], A->matrix[q][q]-A->matrix[p][p]);
+        double c = cos(theta);
+        double s = sin(theta);
+
+        double P[n][n];
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<n; j++)
+            {
+                if(i == j)
+                    P[i][j] = 1.0;
+                else
+                    P[i][j] = 0.0;
+            }
+        }
+        P[p][p] = c;
+        P[q][q] = c;
+        P[p][q] = -s;
+        P[q][p] = s;
+
+        // Update the matrices A and Q
+        double temp[n][n];
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<n; j++)
+            {
+                temp[i][j] = 0.0;
+                for(int k=0; k<n; k++)
+                {
+                    temp[i][j] += P[i][k] * A->matrix[k][j];
+                }
+            }
+        }
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<n; j++)
+            {
+                A->matrix[i][j] = 0.0;
+                for(int k=0; k<n; k++)
+                {
+                    A->matrix[i][j] += temp[i][k] * P[j][k];
+                }
+            }
+        }
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<n; j++)
+            {
+                temp[i][j] = 0.0;
+                for(int k=0; k<n; k++)
+                {
+                    temp[i][j] += Q[i][k] * P[j][k];
+                }
+            }
+        }
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<n; j++)
+            {
+                Q[i][j] = temp[i][j];
+            }
+        }
+    count++;    
+    }
+    for (int i = 0; i < n; i++) {
+        eigvals[i] = A->matrix[i][i];
+        for (int j = 0; j < n; j++) {
+            vector_push(eigvecs[i], Q[j][i]);
+        }
+    }
 }
