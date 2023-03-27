@@ -9,9 +9,9 @@ Test(testmatrix, test) {
     HashTable usermap = ht_init(900000);
     mapusers(usermap, rlst);
 
-    List fltr = filter(usermap, rlst);
+    filter(&usermap, &rlst);
     HashTable moviemap = ht_init(1500);
-    mapmovies(moviemap, fltr);
+    mapmovies(moviemap, rlst);
 
     Vector *v = malloc(sizeof(*v) * ht_size(usermap));
     vectorization(v, usermap, moviemap);
