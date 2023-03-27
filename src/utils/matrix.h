@@ -38,6 +38,8 @@ void matrix_print(Matrix);
 Matrix matrix_copy(Matrix);
 
 /* Calculates eigenvalues and eigenvectors of symmetric matrix.
+Eigenvalues are inserted in the diagonal of the given matrix.
+Eigenvectors are returned as an array of vectors.
 MUTATES GIVEN MATRIX.
 */
-void eigen(double *, Vector*, Matrix);
+void eigen(Vector*, Matrix);

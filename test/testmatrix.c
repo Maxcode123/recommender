@@ -189,15 +189,14 @@ Test(testmatrix, testeigenvals) {
    M->matrix[1] = _m1;
    M->matrix[2] = _m2;
    
-   double *eigvals = malloc(sizeof(double)*3);
    Vector *E = malloc(sizeof(*E)*3);
    E[0] = vector_create(3);
    E[1] = vector_create(3);
    E[2] = vector_create(3);
-   eigen(eigvals, E, M);
-   cr_assert(fabs(eigvals[0] - (-1.905)) < 0.001, "%f != %f", eigvals[0], -1.905);
-   cr_assert(fabs(eigvals[1] - 0.982) < 0.001);
-   cr_assert(fabs(eigvals[2] - 9.023) < 0.001);
+   eigen(E, M);
+   cr_assert(fabs(M->matrix[0][0] - (-1.905)) < 0.001);
+   cr_assert(fabs(M->matrix[1][1] - 0.982) < 0.001);
+   cr_assert(fabs(M->matrix[2][2] - 9.023) < 0.001);
 }
 
 Test(testmatrix, testeigenvectors) {
@@ -226,7 +225,7 @@ Test(testmatrix, testeigenvectors) {
    E[1] = vector_create(4);
    E[2] = vector_create(4);
    E[3] = vector_create(4);
-   eigen(eigvals, E, M);
+   eigen(E, M);
 
    /*
    Test that V = _V, where V = M*v1 and _V = λ1*v1, i.e.:
@@ -238,7 +237,7 @@ Test(testmatrix, testeigenvectors) {
    multpl(_M, V1, V, 1, 1);
 
    Vector _V = E[0];
-   vector_scale(_V, eigvals[0]);
+   vector_scale(_V, M->matrix[0][0]);
 
    for (int i = 0; i < V->cols; i++) {
     cr_assert(fabs(V->matrix[i][0] - _V->items[i]) < 0.001, "%f != %f", V->matrix[i][0], _V->items[i]);

@@ -95,7 +95,7 @@ Matrix matrix_copy(Matrix m) {
     return new;
 }
 
-void eigen(double *eigvals, Vector *eigvecs, Matrix A) {
+void eigen(Vector *eigvecs, Matrix A) {
     
     int n = A->rows;
     double Q[n][n];
@@ -199,7 +199,6 @@ void eigen(double *eigvals, Vector *eigvecs, Matrix A) {
     count++;    
     }
     for (int i = 0; i < n; i++) {
-        eigvals[i] = A->matrix[i][i];
         for (int j = 0; j < n; j++) {
             vector_push(eigvecs[i], Q[j][i]);
         }

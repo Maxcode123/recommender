@@ -2,6 +2,12 @@ TEST=test
 COMPILE=$(CC) $^ -o $@ -lcriterion
 MATHLIB=-lm
 
+test-pca: $(TEST)/bin/testpca
+	$<
+
+$(TEST)/bin/testpca: $(TEST)/testpca.c $(OBJ)/matrix.o $(OBJ)/vector.o $(OBJ)/PCA.o
+	$(COMPILE) $(MATHLIB)
+
 test-matrix: $(TEST)/bin/testmatrix
 	$<
 
