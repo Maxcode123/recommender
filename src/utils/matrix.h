@@ -5,6 +5,11 @@
 #include <math.h>
 #include <float.h>  
 #include <stdio.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/shm.h>
+
 
 typedef struct _Matrix {
     double **matrix;

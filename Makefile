@@ -10,7 +10,7 @@ PARSER=$(PREPROCESS)/parser
 SCANNER=$(PARSER)/scanner
 PRESCANNER=$(SCANNER)/prescanner
 SCRIPTS=$(SRC)/scripts
-UTILSO=$(OBJ)/date.o $(OBJ)/vector.o $(OBJ)/hashset.o $(OBJ)/list.o
+UTILSO=$(OBJ)/date.o $(OBJ)/vector.o $(OBJ)/hashset.o $(OBJ)/list.o $(OBJ)/matrix.o
 
 include scripts.mk
 include tests.mk

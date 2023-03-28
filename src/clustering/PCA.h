@@ -16,3 +16,7 @@ Matrix reduce(Matrix, int*, int);
 /* Returns the indeces of the n largest elements in the first argument. Second
 argument is size of given array. Result is put in third argument.*/
 void indeces(double*, int, int*, int n);
+
+/* Expects reduced matrix with 2 principal components, writes the x, y coordinates
+in a file to be plotted. Second argument is file name. */
+void write2dvecs(Matrix, char*);

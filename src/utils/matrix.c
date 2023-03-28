@@ -35,13 +35,78 @@ void multpl(Matrix A, Matrix B, Matrix C, int s1, int s2) {
             C->matrix[i][j] = 0;
         }
     }
+
+    // int madd = shmget(IPC_PRIVATE, sizeof(Matrix*), 0666);
+
+    pid_t pid = fork();
+    if (pid < 0) {
+        perror("fork() failed");
+        exit(EXIT_FAILURE);
+    }
+    else if (pid == 0) {
+        // child process
+        // Matrix _C1 = (Matrix)shmat(madd, C, 0);
+        for (int ih = 0; ih < A->rows/2; ih += s1) {
+            for (int jh = 0; jh < A->rows; jh += s1) {
+                for (int kh = 0; kh < A->cols; kh += s2) {
+                    for (int il = 0; il < s1; il++) {
+                        for (int kl = 0; kl < s2; kl++) {
+                            for (int jl = 0; jl < s1; jl++) {
+                                C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[kh+kl][jh+jl];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        exit(EXIT_SUCCESS);
+        // shmdt((void*)_C1);        
+    }
+    else {
+        // parent process
+        // Matrix _C2 = (Matrix)shmat(madd, C, 0);
+        for (int ih = A->rows/2; ih < A->rows; ih += s1) {
+            for (int jh = 0; jh < A->rows; jh += s1) {
+                for (int kh = 0; kh < A->cols; kh += s2) {
+                    for (int il = 0; il < s1; il++) {
+                        for (int kl = 0; kl < s2; kl++) {
+                            for (int jl = 0; jl < s1; jl++) {
+                                C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[kh+kl][jh+jl];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // shmdt((void*)_C2);
+        for (int i = 0; i < 2; i++) {
+            int status;
+            pid_t pid = wait(&status);
+        }
+    }
+
+
+}
+
+
+void multpltransp(Matrix A, Matrix B, Matrix C, int s1, int s2) {
+    if (A->cols != B->rows) {
+        fprintf(stderr, "Invalid dimensions for matrix multiplication A(%dx%d) B(%dx%d)",
+                A->rows, A->cols, B->rows, B->cols);
+        exit(1);
+    }
+    for (int i = 0; i < A->rows; i++) {
+        for (int j = 0; j < B->cols; j++) {
+            C->matrix[i][j] = 0;
+        }
+    }
     for (int ih = 0; ih < A->rows; ih += s1) {
         for (int jh = 0; jh < A->rows; jh += s1) {
             for (int kh = 0; kh < A->cols; kh += s2) {
                 for (int il = 0; il < s1; il++) {
                     for (int kl = 0; kl < s2; kl++) {
                         for (int jl = 0; jl < s1; jl++) {
-                            C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[kh+kl][jh+jl];
+                            C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[jh+jl][kh+kl];
                         }
                     }
                 }
@@ -49,6 +114,7 @@ void multpl(Matrix A, Matrix B, Matrix C, int s1, int s2) {
         }
     }
 }
+
 
 Matrix fromvectors(Vector *R, int n) {
     Matrix m = matrix(n, vector_size(R[0]));
@@ -95,23 +161,38 @@ Matrix matrix_copy(Matrix m) {
     return new;
 }
 
-void eigen(Vector *eigvecs, Matrix A) {
-    
-    int n = A->rows;
-    double Q[n][n];
-    double tolerance = 1e-10; // Tolerance level
-    double max_off_diag = 1.0;
-    int p, q, count = 0;
 
-    // Initialize Q to the identity matrix
+float tdiff(struct timeval *start, struct timeval *end) {
+    return (end->tv_sec - start->tv_sec) + 1e-6*(end->tv_usec - start->tv_usec);
+}
+
+void eigen(Vector *eigvecs, Matrix A) {
+
+    struct timeval start, end;
+    const int N = 50;
+    int n = A->rows;
+    Matrix Q = matrix(n, n);
+    Matrix P = matrix(n, n);
+    Matrix temp = matrix(n, n);
+    double tolerance = 0.0001; // Tolerance level
+    double max_off_diag = 1.0;
+    double off_diag, theta, c, s;
+    int p = 0, q = 1, count = 0;
+
+    // Initialize P and Q to the identity matrix
     for(int i=0; i < n; i++)
     {
         for(int j=0; j < n; j++)
         {
-            if(i == j)
-                Q[i][j] = 1.0;
-            else
-                Q[i][j] = 0.0;
+            if(i == j) {
+                Q->matrix[i][j] = 1.0;
+                P->matrix[i][j] = 1.0;
+            }
+            else {
+                Q->matrix[i][j] = 0.0;
+                P->matrix[i][j] = 0.0;
+            }
+
         }
     }
 
@@ -123,10 +204,14 @@ void eigen(Vector *eigvecs, Matrix A) {
         {
             for(int j=i+1; j<n; j++)
             {
-                double off_diag = fabs(A->matrix[i][j]);
+                off_diag = fabs(A->matrix[i][j]);
                 if(off_diag > max_off_diag)
                 {
                     max_off_diag = off_diag;
+                    P->matrix[p][p] = 1.0;
+                    P->matrix[q][q] = 1.0;
+                    P->matrix[p][q] = 0.0;
+                    P->matrix[q][p] = 0.0;
                     p = i;
                     q = j;
                 }
@@ -134,73 +219,86 @@ void eigen(Vector *eigvecs, Matrix A) {
         }
 
     // Compute the Jacobi rotation matrix
-        double theta = 0.5 * atan2(2*A->matrix[p][q], A->matrix[q][q]-A->matrix[p][p]);
-        double c = cos(theta);
-        double s = sin(theta);
+        theta = 0.5 * atan2(2*A->matrix[p][q], A->matrix[q][q]-A->matrix[p][p]);
+        c = cos(theta);
+        s = sin(theta);
 
-        double P[n][n];
-        for(int i=0; i<n; i++)
-        {
-            for(int j=0; j<n; j++)
-            {
-                if(i == j)
-                    P[i][j] = 1.0;
-                else
-                    P[i][j] = 0.0;
-            }
-        }
-        P[p][p] = c;
-        P[q][q] = c;
-        P[p][q] = -s;
-        P[q][p] = s;
+        // for(int i=0; i<n; i++)
+        // {
+        //     for(int j=0; j<n; j++)
+        //     {
+        //         if(i == j)
+        //             P->matrix[i][j] = 1.0;
+        //         else
+        //             P->matrix[i][j] = 0.0;
+        //     }
+        // }
+        P->matrix[p][p] = c;
+        P->matrix[q][q] = c;
+        P->matrix[p][q] = -s;
+        P->matrix[q][p] = s;
 
         // Update the matrices A and Q
-        double temp[n][n];
+        gettimeofday(&start, NULL);
+        multpl(P, A, temp, N, N);
+        gettimeofday(&end, NULL);
+        printf("T=P*A: %0.6f\n", tdiff(&start, &end));
+        // for(int i=0; i<n; i++)
+        // {
+        //     for(int j=0; j<n; j++)
+        //     {
+        //         temp->matrix[i][j] = 0.0;
+        //         for(int k=0; k<n; k++)
+        //         {
+        //             temp->matrix[i][j] += P->matrix[i][k] * A->matrix[k][j];
+        //         }
+        //     }
+        // }
+        gettimeofday(&start, NULL);
+        multpltransp(temp, P, A, N, N);
+        gettimeofday(&end, NULL);
+        printf("A=P*A': %0.6f\n", tdiff(&start, &end));
+        // for(int i=0; i<n; i++)
+        // {
+        //     for(int j=0; j<n; j++)
+        //     {
+        //         A->matrix[i][j] = 0.0;
+        //         for(int k=0; k<n; k++)
+        //         {
+        //             A->matrix[i][j] += temp->matrix[i][k] * P->matrix[j][k];
+        //         }
+        //     }
+        // }
+        gettimeofday(&start, NULL);
+        multpltransp(Q, P, temp, N, N);
+        gettimeofday(&end, NULL);
+        printf("Q=P*T': %0.6f\n", tdiff(&start, &end));
+        // for(int i=0; i<n; i++)
+        // {
+        //     for(int j=0; j<n; j++)
+        //     {
+        //         temp->matrix[i][j] = 0.0;
+        //         for(int k=0; k<n; k++)
+        //         {
+        //             temp->matrix[i][j] += Q->matrix[i][k] * P->matrix[j][k];
+        //         }
+        //     }
+        // }
         for(int i=0; i<n; i++)
         {
             for(int j=0; j<n; j++)
             {
-                temp[i][j] = 0.0;
-                for(int k=0; k<n; k++)
-                {
-                    temp[i][j] += P[i][k] * A->matrix[k][j];
-                }
+                Q->matrix[i][j] = temp->matrix[i][j];
             }
         }
-        for(int i=0; i<n; i++)
-        {
-            for(int j=0; j<n; j++)
-            {
-                A->matrix[i][j] = 0.0;
-                for(int k=0; k<n; k++)
-                {
-                    A->matrix[i][j] += temp[i][k] * P[j][k];
-                }
-            }
-        }
-        for(int i=0; i<n; i++)
-        {
-            for(int j=0; j<n; j++)
-            {
-                temp[i][j] = 0.0;
-                for(int k=0; k<n; k++)
-                {
-                    temp[i][j] += Q[i][k] * P[j][k];
-                }
-            }
-        }
-        for(int i=0; i<n; i++)
-        {
-            for(int j=0; j<n; j++)
-            {
-                Q[i][j] = temp[i][j];
-            }
-        }
-    count++;    
+    printf("%f %d\n",max_off_diag, count++);    
     }
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
-            vector_push(eigvecs[i], Q[j][i]);
+            vector_push(eigvecs[i], Q->matrix[j][i]);
         }
     }
+    free(Q);
+    free(P);
+    free(temp);
 }

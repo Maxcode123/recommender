@@ -12,7 +12,7 @@ void main(int argc, char **argv) {
     HashTable usermap = ht_init(900000);
     mapusers(usermap, rlst);
 
-    List fltr = filter(usermap, rlst);
+    filter(&usermap, &rlst);
 
     defrbins(5, 10, 20, 30, 40);
     ratingshst(usermap, "/home/max/Repos/recommender/plot/ratings_per_user.txt");
