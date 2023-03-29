@@ -5,13 +5,6 @@
 #include "../utils/hashset.h"
 
 
-/* Bins for days between first and last rating of user; used in dates 
-histogram. */
-# define N_DAYS_CLUSTER_1(d) d > 0 && d < 365
-# define N_DAYS_CLUSTER_2(d) d >= 365 && d < 2 * 365
-# define N_DAYS_CLUSTER_3(d) d >= 2 * 365 && d < 3 * 365
-# define N_DAYS_CLUSTER_4(d) d >= 3 * 365
-
 // Date histogram bin boundaries
 int _d1, _d2, _d3, _d4;
 
@@ -29,9 +22,6 @@ bool dbin3(int);
 
 // Returns true if given value is within date bins 4.
 bool dbin4(int);
-
-// Returns true if given value is within date bins 5.
-bool dbin5(int);
 
 // Rating histogram bin boundaries.
 int _c1, _c2, _c3, _c4, _c5;

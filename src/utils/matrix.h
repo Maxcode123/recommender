@@ -6,9 +6,7 @@
 #include <float.h>  
 #include <stdio.h>
 #include <sys/time.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/shm.h>
+#include <pthread.h>
 
 
 typedef struct _Matrix {
@@ -17,6 +15,19 @@ typedef struct _Matrix {
     int cols;
 } *Matrix;
 
+
+struct arg_struct {
+    Matrix A;
+    Matrix B;
+    Matrix C;
+    int s1;
+    int s2;
+    int i1;
+    int i2;
+};
+
+void _multplthread(Matrix A, Matrix B, Matrix C, int s1, int s2, int i1, int i2);
+void _create_multplthread(void *args);
 
 // Matrix constructor.
 Matrix matrix(int, int);

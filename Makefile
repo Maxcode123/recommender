@@ -4,6 +4,7 @@ OBJCOMP=$(CC) $(ARGS) -c $< -o $@
 DB=gdb
 OBJ=obj
 SRC=src
+UTILS=$(SRC)/utils
 CLUSTERING=$(SRC)/clustering
 PREPROCESS=$(SRC)/preprocess
 PARSER=$(PREPROCESS)/parser
@@ -11,6 +12,7 @@ SCANNER=$(PARSER)/scanner
 PRESCANNER=$(SCANNER)/prescanner
 SCRIPTS=$(SRC)/scripts
 UTILSO=$(OBJ)/date.o $(OBJ)/vector.o $(OBJ)/hashset.o $(OBJ)/list.o $(OBJ)/matrix.o
+THREADLIB=-lpthread
 
 include scripts.mk
 include tests.mk
@@ -36,8 +38,8 @@ prescanner: obj/lexdriver.o obj/prelex.yy.o obj/preprocessor.o
 $(OBJ)/%.o: $(SRC)/%.c
 	$(OBJCOMP)
 
-$(OBJ)/%.o: $(SRC)/utils/%.c
-	$(OBJCOMP)
+$(OBJ)/%.o: $(UTILS)/%.c
+	$(OBJCOMP) $(THREADLIB)
 
 $(OBJ)/%.o: $(PREPROCESS)/%.c
 	$(OBJCOMP)

@@ -12,7 +12,7 @@ void main(int argc, char **argv) {
     HashTable usermap = ht_init(900000);
     mapusers(usermap, rlst);
 
-    // List fltr = filter(usermap, rlst);
+    filter(&usermap, &rlst);
 
     defdbins(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]));
     dateshst(usermap, "/home/max/Repos/recommender/plot/dates.txt");

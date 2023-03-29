@@ -15,14 +15,14 @@ unique-filtered: $(OBJ)/unique_filtered.o $(OBJ)/filter.o $(OBJ)/parser.o $(OBJ)
 ratings: $(OBJ)/ratings.o $(OBJ)/histogram.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/hashset.o $(OBJ)/date.o $(OBJ)/lex.yy.o
 	$(CC) $^ -o $@
 	clear
-	./$@ 0 2 5 10 15
+	./$@ 0 20 40 60 80
 	gnuplot plot/ratings_per_user_histogram.txt
 	code plot/ratings_per_user.jpg
 
 ratings-filtered: $(OBJ)/ratings_filtered.o $(OBJ)/filter.o $(OBJ)/histogram.o $(OBJ)/parser.o $(OBJ)/list.o $(OBJ)/hashset.o $(OBJ)/date.o $(OBJ)/lex.yy.o
 	$(CC) $^ -o $@
 	clear
-	./$@
+	./$@ 10 20 30 40 45
 	gnuplot plot/ratings_per_user_histogram.txt
 	code plot/ratings_per_user.jpg
 

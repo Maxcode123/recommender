@@ -8,7 +8,7 @@ void defdbins(int d1, int d2, int d3, int d4) {
 }
 
 bool dbin1(int d) {
-    return (d > _d1 && d < _d2);
+    return (d >= _d1 && d < _d2);
 }
 
 bool dbin2(int d) {
@@ -32,7 +32,7 @@ void defrbins(int c1, int c2, int c3, int c4, int c5) {
 }
 
 bool rbin1(int r) {
-    return (r > _c1 && r < _c2);
+    return (r >= _c1 && r < _c2);
 }
 
 bool rbin2(int r) {
@@ -134,6 +134,7 @@ void dateshst(HashTable usermap, char* fname) {
             tmp2 = tmp2->next;
         }
         int diff = date_diff(min, max);
+        if (diff < 0) printf("negative diff\n");
         if (dbin1(diff)) days[0]++;
         else if (dbin2(diff)) days[1]++;
         else if (dbin3(diff)) days[2]++;

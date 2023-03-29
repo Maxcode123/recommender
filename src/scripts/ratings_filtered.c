@@ -14,6 +14,6 @@ void main(int argc, char **argv) {
 
     filter(&usermap, &rlst);
 
-    defrbins(5, 10, 20, 30, 40);
+    defrbins(atoi(argv[1]), atoi(argv[2]), atoi(argv[3]), atoi(argv[4]), atoi(argv[5]));
     ratingshst(usermap, "/home/max/Repos/recommender/plot/ratings_per_user.txt");
 }

@@ -35,57 +35,42 @@ void multpl(Matrix A, Matrix B, Matrix C, int s1, int s2) {
             C->matrix[i][j] = 0;
         }
     }
-
-    // int madd = shmget(IPC_PRIVATE, sizeof(Matrix*), 0666);
-
-    pid_t pid = fork();
-    if (pid < 0) {
-        perror("fork() failed");
-        exit(EXIT_FAILURE);
-    }
-    else if (pid == 0) {
-        // child process
-        // Matrix _C1 = (Matrix)shmat(madd, C, 0);
-        for (int ih = 0; ih < A->rows/2; ih += s1) {
-            for (int jh = 0; jh < A->rows; jh += s1) {
-                for (int kh = 0; kh < A->cols; kh += s2) {
-                    for (int il = 0; il < s1; il++) {
-                        for (int kl = 0; kl < s2; kl++) {
-                            for (int jl = 0; jl < s1; jl++) {
-                                C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[kh+kl][jh+jl];
-                            }
+    for (int ih = 0; ih < A->rows; ih += s1) {
+        for (int jh = 0; jh < A->rows; jh += s1) {
+            for (int kh = 0; kh < A->cols; kh += s2) {
+                for (int il = 0; il < s1; il++) {
+                    for (int kl = 0; kl < s2; kl++) {
+                        for (int jl = 0; jl < s1; jl++) {
+                            C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[kh+kl][jh+jl];
                         }
                     }
                 }
             }
         }
-        exit(EXIT_SUCCESS);
-        // shmdt((void*)_C1);        
     }
-    else {
-        // parent process
-        // Matrix _C2 = (Matrix)shmat(madd, C, 0);
-        for (int ih = A->rows/2; ih < A->rows; ih += s1) {
-            for (int jh = 0; jh < A->rows; jh += s1) {
-                for (int kh = 0; kh < A->cols; kh += s2) {
-                    for (int il = 0; il < s1; il++) {
-                        for (int kl = 0; kl < s2; kl++) {
-                            for (int jl = 0; jl < s1; jl++) {
-                                C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[kh+kl][jh+jl];
-                            }
+}
+
+
+void _create_multplthread(void *args) {
+    struct arg_struct *vals = args;
+    _multplthread(vals->A, vals->B, vals->C, vals->s1, vals->s2, vals->i1, vals->i2);
+    pthread_exit(NULL);
+}
+
+void _multplthread(Matrix A, Matrix B, Matrix C, int s1, int s2, int i1, int i2) {
+    for (int ih = i1; ih < i2; ih += s1) {
+        for (int jh = 0; jh < A->rows; jh += s1) {
+            for (int kh = 0; kh < A->cols; kh += s2) {
+                for (int il = 0; il < s1; il++) {
+                    for (int kl = 0; kl < s2; kl++) {
+                        for (int jl = 0; jl < s1; jl++) {
+                            C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[jh+jl][kh+kl];
                         }
                     }
                 }
             }
         }
-        // shmdt((void*)_C2);
-        for (int i = 0; i < 2; i++) {
-            int status;
-            pid_t pid = wait(&status);
-        }
     }
-
-
 }
 
 
@@ -100,19 +85,34 @@ void multpltransp(Matrix A, Matrix B, Matrix C, int s1, int s2) {
             C->matrix[i][j] = 0;
         }
     }
-    for (int ih = 0; ih < A->rows; ih += s1) {
-        for (int jh = 0; jh < A->rows; jh += s1) {
-            for (int kh = 0; kh < A->cols; kh += s2) {
-                for (int il = 0; il < s1; il++) {
-                    for (int kl = 0; kl < s2; kl++) {
-                        for (int jl = 0; jl < s1; jl++) {
-                            C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[jh+jl][kh+kl];
-                        }
-                    }
-                }
-            }
-        }
+    pthread_t threads[23];
+    for (int i = 0; i < 23; i++) {
+        struct arg_struct thread_args;
+        thread_args.A = A;
+        thread_args.B = B;
+        thread_args.C = C;
+        thread_args.s1 = s1;
+        thread_args.s2 = s2;
+        thread_args.i1 = i * 50;
+        thread_args.i2 = (i + 1)*50;
+        int rc = pthread_create(&threads[i], NULL, _create_multplthread, (void*)&thread_args);
+        if (rc) return -1;
     }
+    for (int i = 0; i < 23; i++) pthread_join(threads[i], NULL);
+    
+    // for (int ih = 0; ih < A->rows; ih += s1) {
+    //     for (int jh = 0; jh < A->rows; jh += s1) {
+    //         for (int kh = 0; kh < A->cols; kh += s2) {
+    //             for (int il = 0; il < s1; il++) {
+    //                 for (int kl = 0; kl < s2; kl++) {
+    //                     for (int jl = 0; jl < s1; jl++) {
+    //                         C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[jh+jl][kh+kl];
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 }
 
 
