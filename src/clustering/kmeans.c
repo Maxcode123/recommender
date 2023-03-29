@@ -71,13 +71,13 @@ void initcentroids(Vector *R, int k) {
 void assignment(Vector *R, int k, int n) {
     for (int j = 0; j < k; j++) {
         for (int i = 0; i < n; i++) {
-            dists[j][i] = calcdistance(R[i], centroids[j]);
+            dists[j][i] = calcd_euc(R[i], centroids[j]);
         }
     }
     assignvct(k, n); // makes flag = false if no new assignment is performed.
 }
 
-double calcdistance(Vector R1, Vector R2) {
+double calcd_euc(Vector R1, Vector R2) {
     double sum = 0;
     for (int i = 0; i < vector_size(R1); i++) {
         if (vector_get(R1, i) && vector_get(R2, i)) {

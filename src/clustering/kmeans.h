@@ -59,7 +59,7 @@ void initcentroids(Vector*, int);
 void assignment(Vector*, int, int);
 
 // Calculates the Euclidean distance between two vectors.
-double calcdistance(Vector, Vector);
+double calcd_euc(Vector, Vector);
 
 /* Assigns each vector to a cluster according to distance matrix, 
 makes flag = false if no new assignment is performed. */
