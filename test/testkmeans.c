@@ -8,7 +8,7 @@ Test(testkmeans, testzerodist) {
     double r2[] = {3, 3};
     Vector R1 = vector_init_by_array(2, r1);
     Vector R2 = vector_init_by_array(2, r2);
-    double d = calcdistance(R1, R2);
+    double d = calcd_euc(R1, R2);
     cr_assert(d == 0, "%d != 0", d);
 }
 
@@ -18,7 +18,7 @@ Test(testkmeans, testdist) {
     double r2[] = {6, 7};
     Vector R1 = vector_init_by_array(2, r1);
     Vector R2 = vector_init_by_array(2, r2);
-    double d = calcdistance(R1, R2);
+    double d = calcd_euc(R1, R2);
     cr_assert( d == 5, "%f != 1", d);
 }
 

@@ -61,6 +61,9 @@ void assignment(Vector*, int, int);
 // Calculates the Euclidean distance between two vectors.
 double calcd_euc(Vector, Vector);
 
+// Calculates the cosine distance between two vectors.
+double calcd_cos(Vector, Vector);
+
 /* Assigns each vector to a cluster according to distance matrix, 
 makes flag = false if no new assignment is performed. */
 void assignvct(int, int);

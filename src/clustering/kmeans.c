@@ -88,6 +88,19 @@ double calcd_euc(Vector R1, Vector R2) {
     return sum;
 }
 
+double calcd_cos(Vector R1, Vector R2) {
+    double sum_num = 0, sum_denom1 = 0, sum_denom2 = 0;
+    for (int i = 0; i < vector_size(R1); i++) {
+        if (vector_get(R1, i) && vector_get(R2, i)) {
+            sum_num += vector_get(R1, i) * vector_get(R2, i);
+            sum_denom1 += pow(vector_get(R1, i), 2);
+            sum_denom2 += pow(vector_get(R2, i), 2);
+        }
+    }
+    double d = 1 - (sum_num / sqrt(sum_denom1 * sum_denom2));
+    return d;    
+}
+
 void assignvct(int k, int n) {
     int i, j, c;
     double min;
