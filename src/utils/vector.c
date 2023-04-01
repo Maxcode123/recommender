@@ -22,7 +22,7 @@ void vector_destroy(Vector vec) {
     free(vec);
 }
 
-int vector_get(Vector vec, int index) {
+double vector_get(Vector vec, int index) {
     if (index < 0 || index >= vec->size) {
         fprintf(stderr, "invalid index %d in vector_get", index);
     }

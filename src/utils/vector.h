@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
+#include "macros.h"
 
 typedef struct _Vector {
     double *items;      // Pointer to the underlying array of doubles
@@ -20,7 +21,7 @@ Vector vector_create(int capacity);
 void vector_destroy(Vector vec);
 
 // Returns a pointer to the element at the specified index in the vector
-int vector_get(Vector vec, int index);
+double vector_get(Vector vec, int index);
 
 // Replaces the element at the specified index with the given value
 void vector_set(Vector vec, int index, double value);

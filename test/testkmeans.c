@@ -19,7 +19,7 @@ Test(testkmeans, testdist) {
     Vector R1 = vector_init_by_array(2, r1);
     Vector R2 = vector_init_by_array(2, r2);
     double d = calcd_euc(R1, R2);
-    cr_assert( d == 5, "%f != 1", d);
+    cr_assert( d == 5, "%f != 5", d);
 }
 
 
@@ -80,10 +80,10 @@ Test(testkmeans, testcalccentroids) {
     calccentroids(R, k, n);
 
     Vector *cnr = getcentroids();
-    cr_assert(vector_get(cnr[0], 0) == 5, "%d != 5", vector_get(cnr[0], 0));
-    cr_assert(vector_get(cnr[0], 1) == 5, "%d != 5", vector_get(cnr[0], 1));
-    cr_assert(vector_get(cnr[1], 0) == -4, "%d != -4", vector_get(cnr[1], 0));
-    cr_assert(vector_get(cnr[1], 1) == -7, "%d != -7", vector_get(cnr[1], 1));
+    cr_assert(vector_get(cnr[0], 0) == 5, "%f != 5", vector_get(cnr[0], 0));
+    cr_assert(vector_get(cnr[0], 1) == 5, "%f != 5", vector_get(cnr[0], 1));
+    cr_assert(vector_get(cnr[1], 0) == -4, "%f != -4", vector_get(cnr[1], 0));
+    cr_assert(vector_get(cnr[1], 1) == -7.5, "%f != -7", vector_get(cnr[1], 1));
 }
 
 
