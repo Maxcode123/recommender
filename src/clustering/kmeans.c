@@ -80,7 +80,7 @@ void assignment(Vector *R, int k, int n) {
 double calcd_euc(Vector R1, Vector R2) {
     double sum = 0;
     for (int i = 0; i < vector_size(R1); i++) {
-        if (vector_get(R1, i) && vector_get(R2, i)) {
+        if (!closeto(vector_get(R1, i), 0, 0.0001) && !closeto(vector_get(R2, i), 0, 0.0001)) {
             sum += pow(vector_get(R1, i) - vector_get(R2, i), 2);
         }
     }
@@ -91,7 +91,7 @@ double calcd_euc(Vector R1, Vector R2) {
 double calcd_cos(Vector R1, Vector R2) {
     double sum_num = 0, sum_denom1 = 0, sum_denom2 = 0;
     for (int i = 0; i < vector_size(R1); i++) {
-        if (vector_get(R1, i) && vector_get(R2, i)) {
+        if (!closeto(vector_get(R1, i), 0, 0.0001) && !closeto(vector_get(R2, i), 0, 0.0001)) {
             sum_num += vector_get(R1, i) * vector_get(R2, i);
             sum_denom1 += pow(vector_get(R1, i), 2);
             sum_denom2 += pow(vector_get(R2, i), 2);

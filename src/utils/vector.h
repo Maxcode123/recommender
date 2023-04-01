@@ -20,7 +20,7 @@ Vector vector_create(int capacity);
 // Frees the memory allocated to the vector
 void vector_destroy(Vector vec);
 
-// Returns a pointer to the element at the specified index in the vector
+// Returns element at the specified index in the vector
 double vector_get(Vector vec, int index);
 
 // Replaces the element at the specified index with the given value

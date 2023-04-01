@@ -2,4 +2,4 @@
 
 
 // Predict the output vector y for the given matrix X. 
-Vector predict(NeuralNetwork, Matrix);
+Vector predict(NeuralNetwork, Matrix X);
