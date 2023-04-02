@@ -2,11 +2,26 @@
 
 
 void train(NeuralNetwork NN, Matrix X, Matrix Y, double r, int e) {
-
+    Vector *X_ = tovectors(X);
+    Vector *Y_ = tovectors(Y);
+    for (int i = 0; i < e; i++) singletrain(NN, X_, Y_, X->rows, r);
 }
 
-void singletrain(NeuralNetwork NN, Matrix X, Matrix Y, double r) {
-
+void singletrain(NeuralNetwork NN, Vector *X, Vector *Y, int n, double r) {
+    Vector *d = malloc(sizeof(*d)*(NN->hidden+2)); // Array of error term vectors θE/θw.
+    Vector *d_ = malloc(sizeof(*d)*(NN->hidden+2)); // buffer
+    Vector y_ = forward(NN, X[0]);
+    backward(NN, Y[0], y_, d);
+    for (int i = 0; i < n; i++) {
+        y_ = forward(NN, X[i]);
+        backward(NN, Y[i], y_, d_);
+        for (int j = 0; j < NN->hidden + 2; j++) vector_add(d[j], d_[j]);
+    }
+    double factor = 1.0 / n;
+    for (int k = 0; k < NN->hidden + 2; k++) vector_scale(d[k], factor);
+    updatewb(NN, d, r);
+    free(d);
+    free(d_);
 }
 
 Vector forward(NeuralNetwork NN, Vector x) {
@@ -19,7 +34,7 @@ Vector forward(NeuralNetwork NN, Vector x) {
     }
     Vector y_ = vector_create(NN->output);
     NeuralLayer out = NN->layers[NN->hidden + 1];
-    int in = NN->layers[NN->hidden]->len;
+    int in = NN->layers[NN->hidden]->len; // number of nodes in last hidden layer
     for (int i = 0; out->len; i++) vector_push(y_, calcoutput(out->nodes[i], in));
     return y_;
 }
@@ -50,22 +65,36 @@ double calcoutput(NeuronNode n, int in) {
 
 inline double sigm(double x) {return (1.0 / (1 + exp(-x)));}
 
-inline double sigmderiv(double sigm) {return sigm * (1 - sigm);}
-
-void backward(NeuralNetwork NN, Vector x, Vector y, Vector y_, double r) {
-    Vector *d = malloc(sizeof(*d)*(NN->hidden+2)); // Array of error term vectors.
-    d[NN->hidden + 1] = finalerr(NN, y, y_);
-    for (int i = NN->hidden; i > 0; i--) d[i] = lyrerr(NN, i);
-    assignw(NN, d);
-    assignd(NN, d);
+double sigmderiv(double x) {
+    double s = sigm(x);
+    return s * (1 - s);
 }
 
-Vector finalerr(NeuralNetwork NN, Vector y, Vector y_) {
-
+void backward(NeuralNetwork NN, Vector y, Vector y_, Vector *d) {
+    finalerr(NN, y, y_, d);
+    for (int i = NN->hidden; i > 0; i--) lyrerr(NN, i, d);
+    return d;
 }
 
-Vector lyrerr(NeuralNetwork NN, int lyr) {
+void finalerr(NeuralNetwork NN, Vector y, Vector y_, Vector *d) {
+    NeuralLayer final = NN->layers[NN->hidden + 1];
+    for (int i = 0; i < vector_size(y_); i++) {
+        vector_set(d[NN->hidden + 1], i, (y_ - y)*sigmderiv(final->nodes[i]->activation));
+    }
+}
 
+void lyrerr(NeuralNetwork NN, int i, Vector *d) {
+    NeuralLayer lyr = NN->layers[i];
+    NeuralLayer after = NN->layers[i + 1];
+    for (int k = 0; k < lyr->len; k++) {
+        NeuronNode n = lyr->nodes[k];
+        double g = n->output[0]->value * (1 - n->output[0]->value); // g'(ajk) = σ(x)*(1-σ(x))
+        double sum = 0;
+        for (int j = 0; j < after->len; j++) {
+            sum += n->output[j]->weight * vector_get(d[i + 1], j); // wji(k+1) * δi(k+1)
+        }
+        vector_set(d[i], k, g * sum);        
+    }
 }
 
 void updatewb(NeuralNetwork NN, Vector *d, double r) {
