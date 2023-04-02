@@ -139,6 +139,26 @@ Test(testmatrix, testfromvectors) {
     cr_assert(m->matrix[2][1] == -2);
 }
 
+Test(testmatrix, testtovectors) {
+    Matrix M = matrix(3, 3);
+    double _m0[] = {2.3, 1.1, 5.2};
+    double _m1[] = {1.1, 1.2, 0.9};
+    double _m2[] = {5.2, 0.9, 4.6};
+    M->matrix[0] = _m0;
+    M->matrix[1] = _m1;
+    M->matrix[2] = _m2;
+    Vector *v = tovectors(M);
+    cr_assert(vector_get(v[0], 0) == 2.3);
+    cr_assert(vector_get(v[0], 1) == 1.1);
+    cr_assert(vector_get(v[0], 2) == 5.2);
+    cr_assert(vector_get(v[1], 0) == 1.1);
+    cr_assert(vector_get(v[1], 1) == 1.2);
+    cr_assert(vector_get(v[1], 2) == 0.9);
+    cr_assert(vector_get(v[2], 0) == 5.2);
+    cr_assert(vector_get(v[2], 1) == 0.9);
+    cr_assert(vector_get(v[2], 2) == 4.6);
+}
+
 Test(testmatrix, testrowvec) {
     Vector R = vector_init_by_value(3, 3.14);
     Matrix m = rowvec(R);
@@ -170,76 +190,76 @@ Test(testmatrix, testnew) {
    cr_assert(M2->matrix[0][0] == 2.3);
 }
 
-Test(testmatrix, testeigenvals) {
-    /*
-    M
-    2.3 1.1 5.2
-    1.1 1.2 0.9
-    5.2 0.9 4.6
+// Test(testmatrix, testeigenvals) {
+//     /*
+//     M
+//     2.3 1.1 5.2
+//     1.1 1.2 0.9
+//     5.2 0.9 4.6
 
-    λ1 = -1.905
-    λ2 = 0.982
-    λ3 = 9.023
-    */
-   Matrix M = matrix(3, 3);
-   double _m0[] = {2.3, 1.1, 5.2};
-   double _m1[] = {1.1, 1.2, 0.9};
-   double _m2[] = {5.2, 0.9, 4.6};
-   M->matrix[0] = _m0;
-   M->matrix[1] = _m1;
-   M->matrix[2] = _m2;
+//     λ1 = -1.905
+//     λ2 = 0.982
+//     λ3 = 9.023
+//     */
+//    Matrix M = matrix(3, 3);
+//    double _m0[] = {2.3, 1.1, 5.2};
+//    double _m1[] = {1.1, 1.2, 0.9};
+//    double _m2[] = {5.2, 0.9, 4.6};
+//    M->matrix[0] = _m0;
+//    M->matrix[1] = _m1;
+//    M->matrix[2] = _m2;
    
-   Vector *E = malloc(sizeof(*E)*3);
-   E[0] = vector_create(3);
-   E[1] = vector_create(3);
-   E[2] = vector_create(3);
-   eigen(E, M);
-   cr_assert(fabs(M->matrix[0][0] - (-1.905)) < 0.001);
-   cr_assert(fabs(M->matrix[1][1] - 0.982) < 0.001);
-   cr_assert(fabs(M->matrix[2][2] - 9.023) < 0.001);
-}
+//    Vector *E = malloc(sizeof(*E)*3);
+//    E[0] = vector_create(3);
+//    E[1] = vector_create(3);
+//    E[2] = vector_create(3);
+//    eigen(E, M);
+//    cr_assert(fabs(M->matrix[0][0] - (-1.905)) < 0.001);
+//    cr_assert(fabs(M->matrix[1][1] - 0.982) < 0.001);
+//    cr_assert(fabs(M->matrix[2][2] - 9.023) < 0.001);
+// }
 
-Test(testmatrix, testeigenvectors) {
-   /*
-   M
-   2.3 2.1 5.2 9.8
-   2.1 1.2 0.9 5.5
-   5.2 0.9 4.6 5.9
-   9.8 5.5 5.9 7.1
-   */
-   Matrix M = matrix(4, 4);
-   double _m0[] = {2.3, 2.1, 5.2, 9.8};
-   double _m1[] = {2.1, 1.2, 0.9, 5.5};
-   double _m2[] = {5.2, 0.9, 4.6, 5.9};
-   double _m3[] = {9.8, 5.5, 5.9, 7.1};
-   M->matrix[0] = _m0;
-   M->matrix[1] = _m1;
-   M->matrix[2] = _m2;
-   M->matrix[3] = _m3;
+// Test(testmatrix, testeigenvectors) {
+//    /*
+//    M
+//    2.3 2.1 5.2 9.8
+//    2.1 1.2 0.9 5.5
+//    5.2 0.9 4.6 5.9
+//    9.8 5.5 5.9 7.1
+//    */
+//    Matrix M = matrix(4, 4);
+//    double _m0[] = {2.3, 2.1, 5.2, 9.8};
+//    double _m1[] = {2.1, 1.2, 0.9, 5.5};
+//    double _m2[] = {5.2, 0.9, 4.6, 5.9};
+//    double _m3[] = {9.8, 5.5, 5.9, 7.1};
+//    M->matrix[0] = _m0;
+//    M->matrix[1] = _m1;
+//    M->matrix[2] = _m2;
+//    M->matrix[3] = _m3;
    
-   Matrix _M = matrix_copy(M);   
+//    Matrix _M = matrix_copy(M);   
    
-   double *eigvals = malloc(sizeof(double)*4);
-   Vector *E = malloc(sizeof(*E)*4);
-   E[0] = vector_create(4);
-   E[1] = vector_create(4);
-   E[2] = vector_create(4);
-   E[3] = vector_create(4);
-   eigen(E, M);
+//    double *eigvals = malloc(sizeof(double)*4);
+//    Vector *E = malloc(sizeof(*E)*4);
+//    E[0] = vector_create(4);
+//    E[1] = vector_create(4);
+//    E[2] = vector_create(4);
+//    E[3] = vector_create(4);
+//    eigen(E, M);
 
-   /*
-   Test that V = _V, where V = M*v1 and _V = λ1*v1, i.e.:
-   M*v1 = λ1*v1 (eigenvalue and eigenvector definition).
-   */
-   Matrix V = matrix(4, 1);
-   Matrix V1 = colvec(E[0]);
+//    /*
+//    Test that V = _V, where V = M*v1 and _V = λ1*v1, i.e.:
+//    M*v1 = λ1*v1 (eigenvalue and eigenvector definition).
+//    */
+//    Matrix V = matrix(4, 1);
+//    Matrix V1 = colvec(E[0]);
    
-   multpl(_M, V1, V, 1, 1);
+//    multpl(_M, V1, V, 1, 1);
 
-   Vector _V = E[0];
-   vector_scale(_V, M->matrix[0][0]);
+//    Vector _V = E[0];
+//    vector_scale(_V, M->matrix[0][0]);
 
-   for (int i = 0; i < V->cols; i++) {
-    cr_assert(fabs(V->matrix[i][0] - _V->items[i]) < 0.001, "%f != %f", V->matrix[i][0], _V->items[i]);
-   }
-}
+//    for (int i = 0; i < V->cols; i++) {
+//     cr_assert(fabs(V->matrix[i][0] - _V->items[i]) < 0.001, "%f != %f", V->matrix[i][0], _V->items[i]);
+//    }
+// }

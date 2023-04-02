@@ -96,23 +96,9 @@ void multpltransp(Matrix A, Matrix B, Matrix C, int s1, int s2) {
         thread_args.i1 = i * 50;
         thread_args.i2 = (i + 1)*50;
         int rc = pthread_create(&threads[i], NULL, _create_multplthread, (void*)&thread_args);
-        if (rc) return -1;
+        if (rc) return;
     }
     for (int i = 0; i < 23; i++) pthread_join(threads[i], NULL);
-    
-    // for (int ih = 0; ih < A->rows; ih += s1) {
-    //     for (int jh = 0; jh < A->rows; jh += s1) {
-    //         for (int kh = 0; kh < A->cols; kh += s2) {
-    //             for (int il = 0; il < s1; il++) {
-    //                 for (int kl = 0; kl < s2; kl++) {
-    //                     for (int jl = 0; jl < s1; jl++) {
-    //                         C->matrix[ih+il][jh+jl] += A->matrix[ih+il][kh+kl] * B->matrix[jh+jl][kh+kl];
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 }
 
 
@@ -124,6 +110,17 @@ Matrix fromvectors(Vector *R, int n) {
         }   
     }
     return m;
+}
+
+Vector* tovectors(Matrix m) {
+    Vector *v = malloc(sizeof(*v) * m->rows);
+    for (int i = 0; i < m->rows; i++) {
+        v[i] = vector_create(m->cols);
+        for (int j = 0; j < m->cols; j++) {
+            vector_push(v[i], m->matrix[i][j]);
+        }
+    }
+    return v;
 }
 
 Matrix rowvec(Vector R) {

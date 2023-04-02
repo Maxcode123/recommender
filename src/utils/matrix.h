@@ -41,6 +41,9 @@ void multpl(Matrix, Matrix, Matrix, int, int);
 // Creates matrix from vector array.
 Matrix fromvectors(Vector*, int);
 
+// Creates an array of vectors from given matrix.
+Vector* tovectors(Matrix);
+
 // Creates a 1xn matrix where n is the size of the given vector.
 Matrix rowvec(Vector);
 
