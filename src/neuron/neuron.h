@@ -41,10 +41,10 @@ typedef struct _NeuralNetwork {
 NeuronEdge neuronedge(NeuronNode, NeuronNode);
 
 // Calculates the product of weight and value of given edge.
-double edgeprod(NeuronEdge);
+static inline double edgeprod(NeuronEdge);
 
 // Neuron node constructor.
-NeuronNode neuronnode(NeuronEdge*, NeuronEdge*);
+NeuronNode neuronnode();
 
 // Neuron layer constructor.
 NeuralLayer neurallyr(NeuronNode*, int);
@@ -52,6 +52,9 @@ NeuralLayer neurallyr(NeuronNode*, int);
 /* Neural network constructor. First argument is number of layers, second 
 argument is an array with corresponding number of nodes in each layer. */
 NeuralNetwork neuralnet(int, int*);
+
+// Creates the input layer. Argument is number of nodes.
+NeuralLayer inputlyr(int);
 
 // Initializes weight and bias to random values.
 void netinit(NeuralNetwork);
