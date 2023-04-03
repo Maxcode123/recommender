@@ -5,6 +5,7 @@ DB=gdb
 OBJ=obj
 SRC=src
 UTILS=$(SRC)/utils
+NEURON=$(SRC)/neuron
 CLUSTERING=$(SRC)/clustering
 PREPROCESS=$(SRC)/preprocess
 PARSER=$(PREPROCESS)/parser
@@ -17,7 +18,7 @@ THREADLIB=-lpthread
 include scripts.mk
 include tests.mk
 
-all: $(OBJ)/lex.yy.o $(OBJ)/vectorization.o $(OBJ)/kmeans.o $(OBJ)/parser.o $(OBJ)/filter.o $(OBJ)/matrix.o $(OBJ)/PCA.o $(UTILSO) test/main.c
+all: $(OBJ)/lex.yy.o $(OBJ)/neuron.o $(OBJ)/vectorization.o $(OBJ)/kmeans.o $(OBJ)/parser.o $(OBJ)/filter.o $(OBJ)/matrix.o $(OBJ)/PCA.o $(UTILSO) test/main.c
 	$(CC) $^ -o test/bin/main -lm
 
 debug: all
@@ -57,6 +58,9 @@ $(OBJ)/%.o: $(SCRIPTS)/%.c
 	$(OBJCOMP)
 
 $(OBJ)/%.o: $(CLUSTERING)/%.c
+	$(OBJCOMP)
+
+$(OBJ)/%.o: $(NEURON)/%.c
 	$(OBJCOMP)
 
 

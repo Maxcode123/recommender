@@ -1,14 +1,11 @@
 #include "../utils/matrix.h"
 
-#define new(T, e) T e = malloc(sizeof(*e))
-#define Vector(T) Vector
+typedef struct _NeuronNode *NeuronNode;
 
 // Represents an edge between two neuron nodes.
 typedef struct _NeuronEdge {
     double weight;
     double value;
-    NeuronNode source;
-    NeuronNode destination;
 } *NeuronEdge;
 
 
@@ -38,13 +35,19 @@ typedef struct _NeuralNetwork {
 
 
 // Neuron edge constructor.
-NeuronEdge neuronedge(NeuronNode, NeuronNode);
+NeuronEdge neuronedge();
+
+// Constructs an array of neuron edges.
+NeuronEdge *neuronedges(int);
 
 // Calculates the product of weight and value of given edge.
-static inline double edgeprod(NeuronEdge);
+double edgeprod(NeuronEdge);
 
 // Neuron node constructor.
 NeuronNode neuronnode();
+
+// Constructs an array of neuron nodes.
+NeuronNode *neuronnodes(int);
 
 // Neuron layer constructor.
 NeuralLayer neurallyr(NeuronNode*, int);
@@ -53,8 +56,11 @@ NeuralLayer neurallyr(NeuronNode*, int);
 argument is an array with corresponding number of nodes in each layer. */
 NeuralNetwork neuralnet(int, int*);
 
-// Creates the input layer. Argument is number of nodes.
-NeuralLayer inputlyr(int);
+/* Creates the input layer. First argument is number of nodes in input layer, 
+second argument is number of nodes in first hidden layer. */
+NeuralLayer inputlyr(int, int);
+
+NeuralLayer finallyr(int, int);
 
 // Initializes weight and bias to random values.
 void netinit(NeuralNetwork);
