@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../utils/matrix.h"
 
 typedef struct _NeuronNode *NeuronNode;

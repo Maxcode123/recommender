@@ -1,3 +1,5 @@
+#pragma once
+
 #include "neuron.h"
 
 /* Train the given neural network. Second argument is X matrix, third argument
@@ -28,7 +30,7 @@ void assignoutput(NeuronNode, int in, int out);
 double calcoutput(NeuronNode, int in);
 
 // Sigmoid function. Used as activation function.
-inline double sigm(double);
+double sigm(double);
 
 /* Derivative of sigmoid function. Used in gradient descent to calculate the 
 deltas of weights and biases. Receives as input the output of the sigmoid

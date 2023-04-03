@@ -18,7 +18,7 @@ THREADLIB=-lpthread
 include scripts.mk
 include tests.mk
 
-all: $(OBJ)/lex.yy.o $(OBJ)/neuron.o $(OBJ)/vectorization.o $(OBJ)/kmeans.o $(OBJ)/parser.o $(OBJ)/filter.o $(OBJ)/matrix.o $(OBJ)/PCA.o $(UTILSO) test/main.c
+all: $(OBJ)/lex.yy.o $(OBJ)/train.o $(OBJ)/neuron.o $(OBJ)/vectorization.o $(OBJ)/kmeans.o $(OBJ)/parser.o $(OBJ)/filter.o $(OBJ)/matrix.o $(OBJ)/PCA.o $(UTILSO) test/main.c
 	$(CC) $^ -o test/bin/main -lm
 
 debug: all
