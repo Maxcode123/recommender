@@ -45,3 +45,30 @@ Test(testneuron, testneuralnetin) {
     }
 }
 
+Test(testneuron, testedges) {
+    int n[] = {2, 2, 1};
+    NeuralNetwork NN = neuralnet(3, n);
+
+    NeuronNode first = NN->layers[0]->nodes[0];
+    NeuronNode second = NN->layers[0]->nodes[1];
+    NeuralLayer lyr2 = NN->layers[1];
+
+    cr_assert(first->output[0] == lyr2->nodes[0]->input[0]);
+    cr_assert(first->output[1] == lyr2->nodes[1]->input[0]);
+
+    cr_assert(second->output[0] == lyr2->nodes[0]->input[1]);
+    cr_assert(second->output[1] == lyr2->nodes[1]->input[1]);
+}
+
+Test(testneuron, testmutateedges) {
+    int n[] = {2, 2, 1};
+    NeuralNetwork NN = neuralnet(3, n);
+
+    NeuronEdge e = neuronedge();
+    e->weight = 15;
+
+    *(NN->layers[0]->nodes[0]->output[0]) = *e;
+    cr_assert(NN->layers[0]->nodes[0]->output[0]->weight == 15);
+    cr_assert(NN->layers[1]->nodes[0]->input[0]->weight == 15);
+}
+

@@ -51,6 +51,9 @@ NeuralNetwork neuralnet(int lyrs, int *n) {
         NeuronNode *nodes = neuronnodes(n[i]);
         for (int j = 0; j < n[i]; j++) {
             nodes[j]->input = neuronedges(before->len);
+            for (int k = 0; k < before->len; k++) {
+                nodes[j]->input[k] = before->nodes[k]->output[j];
+            } 
             nodes[j]->output = neuronedges(n[i + 1]);
         }
         NN->layers[i] = neurallyr(nodes, n[i]);
