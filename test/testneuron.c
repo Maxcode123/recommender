@@ -52,12 +52,16 @@ Test(testneuron, testedges) {
     NeuronNode first = NN->layers[0]->nodes[0];
     NeuronNode second = NN->layers[0]->nodes[1];
     NeuralLayer lyr2 = NN->layers[1];
+    NeuralLayer out = NN->layers[2];
 
     cr_assert(first->output[0] == lyr2->nodes[0]->input[0]);
     cr_assert(first->output[1] == lyr2->nodes[1]->input[0]);
 
     cr_assert(second->output[0] == lyr2->nodes[0]->input[1]);
     cr_assert(second->output[1] == lyr2->nodes[1]->input[1]);
+
+    cr_assert(lyr2->nodes[0]->output[0] == out->nodes[0]->input[0]);
+    cr_assert(lyr2->nodes[1]->output[0] == out->nodes[0]->input[1]);
 }
 
 Test(testneuron, testmutateedges) {

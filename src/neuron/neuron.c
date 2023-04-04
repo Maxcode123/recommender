@@ -58,7 +58,7 @@ NeuralNetwork neuralnet(int lyrs, int *n) {
         }
         NN->layers[i] = neurallyr(nodes, n[i]);
     }
-    NN->layers[lyrs - 1] = finallyr(n[lyrs - 1], n[lyrs - 2]);
+    NN->layers[lyrs - 1] = finallyr(n[lyrs - 1], NN->layers[lyrs - 2]);
     return NN;
 }
 
@@ -70,10 +70,14 @@ NeuralLayer inputlyr(int len, int after) {
     return input;
 }
 
-NeuralLayer finallyr(int len, int before) {
-    NeuralLayer output = malloc(sizeof(*output));
-    output->len = len;
-    output->nodes = neuronnodes(len);
-    for (int i = 0; i < len; i++) output->nodes[i]->input = neuronedges(before);
+NeuralLayer finallyr(int len, NeuralLayer before) {
+    NeuronNode *nodes = neuronnodes(len);
+    for (int i = 0; i < len; i++) {
+        nodes[i]->input = neuronedges(before->len);
+        for (int k = 0; k < before->len; k++) {
+            nodes[i]->input[k] = before->nodes[k]->output[i];
+        }
+    }
+    NeuralLayer output = neurallyr(nodes, len);
     return output;
 }

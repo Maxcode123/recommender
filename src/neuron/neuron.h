@@ -62,7 +62,7 @@ NeuralNetwork neuralnet(int, int*);
 second argument is number of nodes in first hidden layer. */
 NeuralLayer inputlyr(int, int);
 
-NeuralLayer finallyr(int, int);
+NeuralLayer finallyr(int, NeuralLayer);
 
 // Initializes weight and bias to random values.
 void netinit(NeuralNetwork);

@@ -2,7 +2,13 @@ TEST=test
 COMPILE=$(CC) $^ -o $@ -lcriterion
 MATHLIB=-lm
 
-test: test-matrix test-vector test-date test-vectorization test-kmeans
+test: test-matrix test-vector test-date test-vectorization test-kmeans test-neuron
+
+test-train: $(TEST)/bin/testtrain
+	$<
+
+$(TEST)/bin/testtrain: $(TEST)/integration/testtrain.c $(OBJ)/train.o $(OBJ)/neuron.o $(OBJ)/matrix.o $(OBJ)/vector.o
+	$(COMPILE) $(MATHLIB)
 
 test-neuron: $(TEST)/bin/testneuron
 	$<
