@@ -31,7 +31,7 @@ Vector forward(NeuralNetwork NN, Vector x) {
     for (int k = 1; k < NN->hidden + 1; k++) {
         NeuralLayer before = NN->layers[k-1], lyr = NN->layers[k], after = NN->layers[k+1];
         for (int i = 0; i < lyr->len; i++) {
-            assignoutput(lyr->nodes[i], before->len, after->len);
+            assignoutput(&(lyr->nodes[i]), before->len, after->len);
         }
     }
     Vector y_ = vector_create(NN->output);
@@ -52,9 +52,15 @@ void initinputlyr(NeuralNetwork NN, Vector x) {
     }
 }
 
-void assignoutput(NeuronNode n, int in, int  out) {
-    double o = calcoutput(n, in);
-    for (int i = 0; i < out; i++) n->output[i]->value = o;
+void assignoutput(NeuronNode *n, int in, int  out) {
+    double o = calcoutput(*n, in);
+    for (int i = 0; i < out; i++) {
+        NeuronEdge tmp = neuronedge();
+        tmp->weight = (*n)->output[i]->weight;
+        tmp->value = o;
+        (*n)->output[i]->value = o;
+        free(tmp);
+    }
 }
 
 double calcoutput(NeuronNode n, int in) {

@@ -24,7 +24,7 @@ void initinputlyr(NeuralNetwork, Vector x);
 /* Calculates the output values of given node and assigns them to the 
 corresponding output edges. Second argument is number of inputs and third is
 number of outputs of currrent node. */
-void assignoutput(NeuronNode, int in, int out);
+void assignoutput(NeuronNode*, int in, int out);
 
 // Calculates the output values of given node.
 double calcoutput(NeuronNode, int in);

@@ -38,7 +38,7 @@ void vector_set(Vector vec, int index, double value) {
 
 void vector_push(Vector vec, double value) {
     if (vec->size >= vec->capacity) {
-        fprintf(stderr, "Cannot push to vector. Capacity if full.");
+        fprintf(stderr, "Cannot push to vector. Capacity is full.");
     }
     vec->items[vec->size++] = value;
 }
