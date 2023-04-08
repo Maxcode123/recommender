@@ -76,3 +76,39 @@ Test(testneuron, testmutateedges) {
     cr_assert(NN->layers[1]->nodes[0]->input[0]->weight == 15);
 }
 
+Test(testneuron, testnetinitbias) {
+    int n[] = {3, 3, 2};
+    NeuralNetwork NN = neuralnet(3, n);
+    netinit(NN);
+    
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < n[i]; j++) cr_assert(NN->layers[i]->nodes[j]->bias == 1);
+    }
+}
+
+Test(testneuron, testinitweight) {
+    int n[] = {3, 3, 2};
+    NeuralNetwork NN = neuralnet(3, n);
+    netinit(NN);
+
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < n[i]; j++) {
+            for (int k = 0; k < n[i + 1]; k ++) {
+                double w = NN->layers[i]->nodes[j]->output[k]->weight;
+                cr_assert(w < 1 & w > 0);
+            }
+        }
+    }
+}
+
+Test(testneuron, testrandinit) {
+    int n[] = {3, 3, 2};
+    NeuralNetwork NN = neuralnet(3, n);
+    
+    cr_assert(!getrandinit());
+    netinit(NN);
+    cr_assert(getrandinit());
+    
+    netinit(NN);
+    cr_assert(getrandinit());
+}

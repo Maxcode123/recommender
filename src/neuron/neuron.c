@@ -81,3 +81,25 @@ NeuralLayer finallyr(int len, NeuralLayer before) {
     NeuralLayer output = neurallyr(nodes, len);
     return output;
 }
+
+bool getrandinit() {return randinit;}
+
+void netinit(NeuralNetwork NN) {
+    if (!randinit) {
+        srand(time(NULL));
+        randinit = true;
+    }
+    for (int i = 0; i < NN->hidden + 1; i++) {
+        NeuralLayer lyr = NN->layers[i];
+        NeuralLayer after = NN->layers[i + 1];
+        for (int j = 0; j < lyr->len; j++) {
+            lyr->nodes[j]->bias = 1;
+            for (int k = 0; k < after->len; k++) {
+                lyr->nodes[j]->output[k]->weight = ((double)rand()) / RAND_MAX;
+            }
+        }
+    }
+    for (int i = 0; i < NN->layers[NN->hidden + 1]->len; i++) {
+        NN->layers[NN->hidden + 1]->nodes[i]->bias = 1;
+    }
+}

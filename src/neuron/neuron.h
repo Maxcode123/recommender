@@ -64,5 +64,11 @@ NeuralLayer inputlyr(int, int);
 
 NeuralLayer finallyr(int, NeuralLayer);
 
-// Initializes weight and bias to random values.
+// True if srand has been called
+static bool randinit = false;
+
+// Returns randinit flag
+bool getrandinit();
+
+// Initializes biases to 1 and weights to random values between 0 and 1.
 void netinit(NeuralNetwork);
