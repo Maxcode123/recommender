@@ -101,6 +101,20 @@ double calcd_cos(Vector R1, Vector R2) {
     return d;    
 }
 
+double calcd_perc(Vector R1, Vector R2) {
+    double sum_num = 0, sum_denom = 0, r1 = 0, r2 = 0;
+    for (int i = 0; i < vector_size(R1); i++) {
+        r1 = vector_get(R1, i);
+        r2 = vector_get(R2, i);
+        if (!closeto(r1, 0, 0.0001) || !closeto(r2, 0, 0.0001)) {
+            sum_denom++;
+            if (!closeto(r1, 0, 0.0001) && !closeto(r2, 0, 0.0001)) sum_num++;            
+        }
+    }
+    double d = 1 - (sum_num / sum_denom);
+    return d;
+}
+
 void assignvct(int k, int n) {
     int i, j, c;
     double min;

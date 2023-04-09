@@ -64,6 +64,10 @@ double calcd_euc(Vector, Vector);
 // Calculates the cosine distance between two vectors.
 double calcd_cos(Vector, Vector);
 
+/* Calculates the distance between two vectors as the percentage of common 
+movies rated. */
+double calcd_perc(Vector, Vector);
+
 /* Assigns each vector to a cluster according to distance matrix, 
 makes flag = false if no new assignment is performed. */
 void assignvct(int, int);
