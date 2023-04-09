@@ -56,7 +56,7 @@ static bool _initcentroids = false;
 void initcentroids(Vector*, int);
 
 // Performs assignment step. Calculates distances and assigns vectors to clusters.
-void assignment(Vector*, int, int);
+void assignment(Vector*, int, int, double (*calcd)(Vector, Vector));
 
 // Calculates the Euclidean distance between two vectors.
 double calcd_euc(Vector, Vector);
@@ -74,4 +74,4 @@ void calccentroids(Vector*, int, int);
 /* Applies k-means clustering to given array of vectors. Second argument is the
 number of clusters, third argument is the length of the vector array and fourth
 argument is the maximum iterations. */ 
-void clustering(Vector*, int, int, int);
+void clustering(Vector*, int, int, int, double (*calcd)(Vector, Vector));

@@ -1,16 +1,16 @@
 #include "kmeans.h"
 
-void clustering(Vector *R, int k, int n, int it) {
+void clustering(Vector *R, int k, int n, int it, double (*calcd)(Vector, Vector)) {
     initcentroids(R, k);
     initclusters(n);
     initdists(k ,n);
-    assignment(R, k, n);
+    assignment(R, k, n, calcd);
     flag = true;
     int c = 0;
     while (flag && c++ < it) {
         printf("%d\n", c);
         calccentroids(R, k, n);
-        assignment(R, k, n);
+        assignment(R, k, n, calcd);
     }
 }
 
@@ -68,10 +68,10 @@ void initcentroids(Vector *R, int k) {
     _initcentroids = true;
 }
 
-void assignment(Vector *R, int k, int n) {
+void assignment(Vector *R, int k, int n, double (*calcd)(Vector, Vector)) {
     for (int j = 0; j < k; j++) {
         for (int i = 0; i < n; i++) {
-            dists[j][i] = calcd_euc(R[i], centroids[j]);
+            dists[j][i] = (*calcd)(R[i], centroids[j]);
         }
     }
     assignvct(k, n); // makes flag = false if no new assignment is performed.

@@ -179,7 +179,7 @@ Test(testkmeans, test2dclustering2k) {
     R[2] = vector_init_by_array(d, r3);
     R[3] = vector_init_by_array(d, r4);
 
-    clustering(R, k, n, 10);
+    clustering(R, k, n, 10, &calcd_euc);
     int *c = getclusters();
     cr_assert(c[0] == c[1], "R1 cluster: %d != R2 cluster: %d", c[0], c[1]);
     cr_assert(c[0] != c[3], "R1 cluster: %d == R4 cluster: %d", c[0], c[3]);
@@ -202,7 +202,7 @@ Test(testkmeans, test3dclustering2k) {
     R[2] = vector_init_by_array(d, r3);
     R[3] = vector_init_by_array(d, r4);
 
-    clustering(R, k, n, 10);
+    clustering(R, k, n, 10, &calcd_euc);
     int *c = getclusters();
     cr_assert(c[0] == c[1], "R1 cluster: %d != R2 cluster: %d", c[0], c[1]);
     cr_assert(c[0] != c[3], "R1 cluster: %d == R4 cluster: %d", c[0], c[3]);
@@ -232,7 +232,7 @@ Test(testkmeans, test2dclustering4k) {
     R[6] = vector_init_by_array(d, r7);
     R[7] = vector_init_by_array(d, r8);
 
-    clustering(R, k, n, 10);
+    clustering(R, k, n, 10, &calcd_euc);
     int *c = getclusters();
     cr_assert(c[0] == c[1]);
 }
