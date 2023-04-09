@@ -5,10 +5,10 @@
 /* Train the given neural network. Second argument is X matrix, third argument
 is Y matrix, fourth argument is learning rate, fifth argument is number of
 epochs to train. */
-void train(NeuralNetwork, Matrix X, Vector Y, double r, int e);
+void train(NeuralNetwork, Matrix X, Matrix Y, double r, int e);
 
 // Trains the neural network for one epoch.
-void singletrain(NeuralNetwork, Vector *X, Vector Y, int n, double r);
+void singletrain(NeuralNetwork, Vector *X, Vector *Y, int n, double r);
 
 /* Performs the forward step of training. Calculates h[i][k] and o[i][k] for 
 the given vector. h[i][k] is the product sum plus bias for perceptron i in 

@@ -1,20 +1,21 @@
 #include "train.h"
 
 
-void train(NeuralNetwork NN, Matrix X, Vector Y, double r, int e) {
+void train(NeuralNetwork NN, Matrix X, Matrix Y, double r, int e) {
     int n = X->rows;
     Vector *X_ = tovectors(X);
-    for (int i = 0; i < e; i++) singletrain(NN, X_, Y, n, r);
+    Vector *Y_ = tovectors(Y);
+    for (int i = 0; i < e; i++) singletrain(NN, X_, Y_, n, r);
 }
 
-void singletrain(NeuralNetwork NN, Vector *X, Vector Y, int n, double r) {
+void singletrain(NeuralNetwork NN, Vector *X, Vector *Y, int n, double r) {
     Vector *d = initerr(NN); // Array of error term vectors θE/θw.
     Vector *d_ = initerr(NN); // buffer
     Vector y_ = forward(NN, X[0]);
-    backward(NN, Y, y_, d);
-    for (int i = 0; i < n; i++) {
+    backward(NN, Y[0], y_, d);
+    for (int i = 1; i < n; i++) {
         y_ = forward(NN, X[i]);
-        backward(NN, Y, y_, d_);
+        backward(NN, Y[i], y_, d_);
         for (int j = 0; j < NN->hidden + 2; j++) vector_add(d[j], d_[j]);
     }
     double factor = 1.0 / n;
