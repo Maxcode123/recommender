@@ -36,7 +36,7 @@ Vector forward(NeuralNetwork NN, Vector x) {
     Vector y_ = vector_create(NN->output);
     NeuralLayer out = NN->layers[NN->hidden + 1];
     int in = NN->layers[NN->hidden]->len; // number of nodes in last hidden layer
-    for (int i = 0; i < out->len; i++) vector_push(y_, calcoutput(out->nodes[i], in));
+    for (int i = 0; i < out->len; i++) vector_push(y_, calcoutput(out->nodes[i], in, true));
     return y_;
 }
 
@@ -52,7 +52,7 @@ void initinputlyr(NeuralNetwork NN, Vector x) {
 }
 
 void assignoutput(NeuronNode *n, int in, int  out) {
-    double o = calcoutput(*n, in);
+    double o = calcoutput(*n, in, false);
     for (int i = 0; i < out; i++) {
         NeuronEdge tmp = neuronedge();
         tmp->weight = (*n)->output[i]->weight;
@@ -62,12 +62,13 @@ void assignoutput(NeuronNode *n, int in, int  out) {
     }
 }
 
-double calcoutput(NeuronNode n, int in) {
+double calcoutput(NeuronNode n, int in, bool final) {
     double h = 0;
     for (int i = 0; i < in; i++) h += edgeprod(n->input[i]);
     h += n->bias;
     n->activation = h;
-    return sigm(h);
+    if (final) return h; // g(x) = x, final layer
+    return sigm(h); // g(x) = σ(x), hidden layers
 }
 
 double sigm(double x) {return (1.0 / (1 + exp(-x)));}
@@ -79,13 +80,13 @@ double sigmderiv(double x) {
 
 void backward(NeuralNetwork NN, Vector y, Vector y_, Vector *d) {
     finalerr(NN, y, y_, d);
-    for (int i = NN->hidden; i > 0; i--) lyrerr(NN, i, d);
+    for (int i = NN->hidden; i >= 0; i--) lyrerr(NN, i, d);
 }
 
 void finalerr(NeuralNetwork NN, Vector y, Vector y_, Vector *d) {
     NeuralLayer final = NN->layers[NN->hidden + 1];
     for (int i = 0; i < vector_size(y_); i++) {
-        vector_set(d[NN->hidden + 1], i, (y_ - y)*sigmderiv(final->nodes[i]->activation));
+        vector_set(d[NN->hidden + 1], i, (vector_get(y_, i) - vector_get(y, i)));
     }
 }
 
@@ -94,7 +95,7 @@ void lyrerr(NeuralNetwork NN, int i, Vector *d) {
     NeuralLayer after = NN->layers[i + 1];
     for (int k = 0; k < lyr->len; k++) {
         NeuronNode n = lyr->nodes[k];
-        double g = n->output[0]->value * (1 - n->output[0]->value); // g'(ajk) = σ(x)*(1-σ(x))
+        double g = sigmderiv(n->activation); // g'(ajk) = σ(x)*(1-σ(x))
         double sum = 0;
         for (int j = 0; j < after->len; j++) {
             sum += n->output[j]->weight * vector_get(d[i + 1], j); // wji(k+1) * δi(k+1)
@@ -117,10 +118,10 @@ void updatewb(NeuralNetwork NN, Vector *d, double r) {
         NeuralLayer after = NN->layers[i + 1];
         for (int j = 0; j < lyr->len; j++) {
             NeuronNode n = lyr->nodes[j];
-            n->bias += -r * vector_get(d[i], j);
+            NN->layers[i]->nodes[j]->bias += -r * vector_get(d[i], j);
             for (int k = 0; k < after->len; k++) {
                 NeuronEdge e = n->output[k];
-                e->weight += -r * vector_get(d[i], j) * e->value; 
+                NN->layers[i]->nodes[j]->output[k]->weight += -r * vector_get(d[i], j) * e->value; 
             }
         }
     }

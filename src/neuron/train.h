@@ -26,8 +26,10 @@ corresponding output edges. Second argument is number of inputs and third is
 number of outputs of currrent node. */
 void assignoutput(NeuronNode*, int in, int out);
 
-// Calculates the output values of given node.
-double calcoutput(NeuronNode, int in);
+/* Calculates the output values of given node. The boolean argument denotes
+if the given node is in the final layer (a different activation function is
+used for the final layer). */
+double calcoutput(NeuronNode, int in, bool final);
 
 // Sigmoid function. Used as activation function.
 double sigm(double);
