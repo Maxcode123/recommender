@@ -1,43 +1,82 @@
 #include "../src/preprocess/parser/parser.h"
 #include "../src/preprocess/filter.h"
 #include "../src/clustering/kmeans.h"
+#include "../src/clustering/PCA.h"
 #include "../src/preprocess/vectorization.h"
 #include "../src/utils/matrix.h"
+#include "../src/neuron/neuron.h"
+#include "../src/neuron/train.h"
 
 
 int main(int argc, char **argv) {
-//    M
-//    2.3 2.1 5.2 9.8
-//    2.1 1.2 0.9 5.5
-//    5.2 0.9 4.6 5.9
-//    9.8 5.5 5.9 7.1
-//    */
-   Matrix M = matrix(4, 4);
-   double _m0[] = {2.3, 2.1, 5.2, 9.8};
-   double _m1[] = {2.1, 1.2, 0.9, 5.5};
-   double _m2[] = {5.2, 0.9, 4.6, 5.9};
-   double _m3[] = {9.8, 5.5, 5.9, 7.1};
-   M->matrix[0] = _m0;
-   M->matrix[1] = _m1;
-   M->matrix[2] = _m2;
-   M->matrix[3] = _m3;
-   
-   double *eigvals = malloc(sizeof(double)*4);
-   Vector *E = malloc(sizeof(*E)*4);
-   E[0] = vector_create(4);
-   E[1] = vector_create(4);
-   E[2] = vector_create(4);
-   E[3] = vector_create(4);
-   eigen(eigvals, E, M);
+    int n[] = {9, 3, 3};
+    NeuralNetwork NN = neuralnet(3, n);
+    netinit(NN);
 
-   /*
-   Test that V = _V, where V = M*v1 and _V = λ1*v1, i.e.:
-   M*v1 = λ1*v1 (eigenvalue and eigenvector definition).
-   */
-   Matrix V = matrix(4, 1);
-   multpl(M, colvec(E[0]), V, 1, 1);
-   
-   Vector v1 = E[0];
-   vector_scale(v1, eigvals[0]);
+    netprint(NN);
 
+    Matrix X = matrix(3, 9);
+    
+    X->matrix[0][0] = 6;
+    X->matrix[0][1] = 9;
+    X->matrix[0][2] = 5.5;
+    X->matrix[0][3] = 7.2;
+    X->matrix[0][4] = 8.4;
+    X->matrix[0][5] = 4;
+    X->matrix[0][6] = 6.5;
+    X->matrix[0][7] = 9.1;
+    X->matrix[0][8] = 6.5;
+
+    X->matrix[1][0] = 7;
+    X->matrix[1][1] = 8;
+    X->matrix[1][2] = 9.3;
+    X->matrix[1][3] = 6.5;
+    X->matrix[1][4] = 7.1;
+    X->matrix[1][5] = 9.8;
+    X->matrix[1][6] = 5;
+    X->matrix[1][7] = 7.7;
+    X->matrix[1][8] = 8.4;
+
+    X->matrix[2][0] = 3;
+    X->matrix[2][1] = 4;
+    X->matrix[2][2] = 4.3;
+    X->matrix[2][3] = 3.5;
+    X->matrix[2][4] = 3.9;
+    X->matrix[2][5] = 4.5;
+    X->matrix[2][6] = 3.2;
+    X->matrix[2][7] = 4;
+    X->matrix[2][8] = 4;
+
+    Matrix Y = matrix(3, 3);
+    
+    Y->matrix[0][0] = 6.4;
+    Y->matrix[0][1] = 8.6;
+    Y->matrix[0][2] = 5.5;
+    Y->matrix[1][0] = 7;
+    Y->matrix[1][1] = 8;
+    Y->matrix[1][2] = 9;
+    Y->matrix[2][0] = 3;
+    Y->matrix[2][1] = 4;
+    Y->matrix[2][2] = 3; 
+
+
+    train(NN, X, Y, 0.0001, 10000);
+
+    netprint(NN);
+
+    Vector x = vector_create(9);
+    vector_push(x, 6);
+    vector_push(x, 9);
+    vector_push(x, 5.5);
+    vector_push(x, 7.2);
+    vector_push(x, 8.4);
+    vector_push(x, 4);
+    vector_push(x, 6.5);
+    vector_push(x, 9.1);
+    vector_push(x, 6.5);
+
+    
+    Vector y_ = forward(NN, x);
+
+    vector_print(y_);
 }
