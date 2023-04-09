@@ -1,5 +1,7 @@
-#include "neuron.h"
+#pragma once
+
+#include "train.h"
 
 
-// Predict the output vector y for the given matrix X. 
-Vector predict(NeuralNetwork, Matrix X);
+// Predict the output vector y for the given vector x. 
+Vector predict(NeuralNetwork, Vector x);

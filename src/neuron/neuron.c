@@ -86,7 +86,7 @@ bool getrandinit() {return randinit;}
 
 void netinit(NeuralNetwork NN) {
     if (!randinit) {
-        srand(time(NULL));
+        srand(101010);
         randinit = true;
     }
     for (int i = 0; i < NN->hidden + 1; i++) {
