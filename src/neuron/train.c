@@ -1,21 +1,20 @@
 #include "train.h"
 
 
-void train(NeuralNetwork NN, Matrix X, Matrix Y, double r, int e) {
+void train(NeuralNetwork NN, Matrix X, Vector Y, double r, int e) {
     int n = X->rows;
     Vector *X_ = tovectors(X);
-    Vector *Y_ = tovectors(Y);
-    for (int i = 0; i < e; i++) singletrain(NN, X_, Y_, n, r);
+    for (int i = 0; i < e; i++) singletrain(NN, X_, Y, n, r);
 }
 
-void singletrain(NeuralNetwork NN, Vector *X, Vector *Y, int n, double r) {
-    Vector *d = malloc(sizeof(*d)*(NN->hidden+2)); // Array of error term vectors θE/θw.
-    Vector *d_ = malloc(sizeof(*d)*(NN->hidden+2)); // buffer
+void singletrain(NeuralNetwork NN, Vector *X, Vector Y, int n, double r) {
+    Vector *d = initerr(NN); // Array of error term vectors θE/θw.
+    Vector *d_ = initerr(NN); // buffer
     Vector y_ = forward(NN, X[0]);
-    backward(NN, Y[0], y_, d);
+    backward(NN, Y, y_, d);
     for (int i = 0; i < n; i++) {
         y_ = forward(NN, X[i]);
-        backward(NN, Y[i], y_, d_);
+        backward(NN, Y, y_, d_);
         for (int j = 0; j < NN->hidden + 2; j++) vector_add(d[j], d_[j]);
     }
     double factor = 1.0 / n;
@@ -102,6 +101,14 @@ void lyrerr(NeuralNetwork NN, int i, Vector *d) {
         }
         vector_set(d[i], k, g * sum);        
     }
+}
+
+Vector *initerr(NeuralNetwork NN) {
+    Vector *d = malloc(sizeof(*d) * (NN->hidden + 2));
+    for (int i = 0; i < (NN->hidden + 2); i++) {
+        d[i] = vector_init_by_value(NN->layers[i]->len, 0);
+    }
+    return d;
 }
 
 void updatewb(NeuralNetwork NN, Vector *d, double r) {
