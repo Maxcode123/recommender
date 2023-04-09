@@ -103,3 +103,26 @@ void netinit(NeuralNetwork NN) {
         NN->layers[NN->hidden + 1]->nodes[i]->bias = 1;
     }
 }
+
+void netprint(NeuralNetwork NN) {
+    for (int i = 0; i < NN->hidden + 1; i++) {
+        NeuralLayer lyr = NN->layers[i];
+        NeuralLayer after = NN->layers[i + 1];
+        printf("------  LAYER %d  ---------------\n", i);
+        for (int j = 0 ; j < lyr->len; j++) {
+            printf("    NODE %d:\n", j);
+            printf("        bias: %f\n", lyr->nodes[j]->bias);
+            for (int k = 0; k < after->len; k++) {
+                printf("        output %d weight: %f\n", k, lyr->nodes[j]->output[k]->weight);
+            }
+        }
+        printf("---------------------------------\n");
+    }
+    NeuralLayer final = NN->layers[NN->hidden + 1];
+    printf("----- FINAL LAYER ----------------\n");
+    for (int i = 0; i < final->len; i++) {
+        printf("    NODE %d:\n", i);
+        printf("        bias: %f\n", final->nodes[i]->bias);
+    }
+    printf("-------------------------------------\n");
+}

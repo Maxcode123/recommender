@@ -72,3 +72,6 @@ bool getrandinit();
 
 // Initializes biases to 1 and weights to random values between 0 and 1.
 void netinit(NeuralNetwork);
+
+// Prints in nice format the neural network.
+void netprint(NeuralNetwork);
