@@ -71,4 +71,4 @@ clean:
 	rm -rf obj/* test/bin/* dates ratings filtered ratings-filtered unique-filtered \
 	unique scanner prescanner src/preprocess/parser/scanner/lex.yy.c \
 	src/preprocess/parser/scanner/prescanner/prelex.yy.c plot/ratings_per_user.txt \
-	plot/dates.txt
+	plot/dates.txt predict

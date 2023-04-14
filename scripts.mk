@@ -1,3 +1,7 @@
+predict: $(OBJ)/predict_ratings.o $(OBJ)/filter.o $(OBJ)/parser.o $(UTILSO) $(OBJ)/lex.yy.o $(OBJ)/vectorization.o $(OBJ)/kmeans.o
+	$(CC) $^ -o $@ -lm
+	clear
+
 scatter: $(OBJ)/scatter.o $(OBJ)/filter.o $(OBJ)/parser.o $(UTILSO) $(OBJ)/PCA.o $(OBJ)/lex.yy.o $(OBJ)/vectorization.o
 	$(CC) $^ -o $@ -lm
 	clear
