@@ -6,6 +6,7 @@
 #include <math.h>
 
 #include "../utils/vector.h"
+#include "../utils/hashset.h"
 
 static Vector *centroids; // Array of centroids
 static int *clusters; // Array of cluster numbers, indexed by array of vectors.

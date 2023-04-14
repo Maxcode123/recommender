@@ -58,3 +58,6 @@ bool vector_eq(Vector, Vector);
 
 // Prints the contents of the vector to stdout
 void vector_print(Vector vec);
+
+// Merges the given vectors in the array into a single vector.
+Vector vector_merge(Vector*);
