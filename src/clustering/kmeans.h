@@ -53,7 +53,7 @@ void initdists(int, int);
 static bool _initcentroids = false;
 
 // Initializes centroids, chooses k first vectors as initial centroids.
-void initcentroids(Vector*, int);
+void initcentroids(Vector*, int, double (*calcd)(Vector, Vector));
 
 // Performs assignment step. Calculates distances and assigns vectors to clusters.
 void assignment(Vector*, int, int, double (*calcd)(Vector, Vector));

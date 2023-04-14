@@ -1,14 +1,13 @@
 #include "kmeans.h"
 
 void clustering(Vector *R, int k, int n, int it, double (*calcd)(Vector, Vector)) {
-    initcentroids(R, k);
+    initcentroids(R, k, calcd);
     initclusters(n);
     initdists(k ,n);
     assignment(R, k, n, calcd);
     flag = true;
     int c = 0;
     while (flag && c++ < it) {
-        printf("%d\n", c);
         calccentroids(R, k, n);
         assignment(R, k, n, calcd);
     }
@@ -59,11 +58,18 @@ void printdists(int k, int n) {
     }
 }
 
-void initcentroids(Vector *R, int k) {
+void initcentroids(Vector *R, int k, double (*calcd)(Vector, Vector)) {
     if (_initcentroids == false) centroids = malloc(sizeof(*centroids)*k);
     srand(time(NULL));
-    for (int i = 0; i < k; i++){
-        centroids[i] = R[i];
+    int c  = 0, i = 1;
+    double d;
+    centroids[c++] = R[0];
+    while (c < k) {
+        if (closeto((*calcd)(R[i], R[i-1]), 0, 0.0001)) {
+            i++;
+            continue;
+        }
+        centroids[c++] = R[i++];
     }
     _initcentroids = true;
 }
