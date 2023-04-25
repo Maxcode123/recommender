@@ -16,18 +16,18 @@ void PCA(Matrix *m, int n) {
     eigen(E, Z);
     printf("calculated eigenvalues\n");
     
-    // double eigenvals[Z->cols]; // = malloc(sizeof(double)*Z->cols);
-    // int *ind = malloc(sizeof(int)*n);
-    // for (int i = 0; i < Z->cols; i++) eigenvals[i] = Z->matrix[i][i];
-    // indeces(eigenvals, Z->cols, ind, n);
+    double *eigenvals = malloc(sizeof(double)*Z->cols);
+    int *ind = malloc(sizeof(int)*n);
+    for (int i = 0; i < Z->cols; i++) eigenvals[i] = Z->matrix[i][i];
+    indeces(eigenvals, Z->cols, ind, n);
 
-    // Matrix E2 = reduce(fromvectors(E, Z->rows), ind, n);
+    Matrix E2 = reduce(fromvectors(E, Z->rows), ind, n);
 
-    // Matrix tmp = matrix((*m)->rows, E2->cols);
-    // multpl(*m, E2, tmp, 876, 1);
-    // free(*m);
-    // free(ind);
-    // *m = tmp;
+    Matrix tmp = matrix((*m)->rows, E2->cols);
+    multpl(*m, E2, tmp, 876, 1);
+    free(*m);
+    free(ind);
+    *m = tmp;
 }
 
 int compare(const void *a, const void *b) {
